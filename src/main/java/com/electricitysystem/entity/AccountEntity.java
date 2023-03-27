@@ -12,5 +12,9 @@ public class AccountEntity {
     private Integer id;
     private String username;
     private String password;
-    private Enum role;
+    private AccountRole role;
+}
+
+enum AccountRole {
+
 }

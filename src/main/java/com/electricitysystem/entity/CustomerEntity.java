@@ -12,9 +12,10 @@ public class CustomerEntity {
     private Integer id;
     private String name;
     private String address;
+    @Column(name = "phone_number")
     private String phoneNumber;
     private String email;
     private String gender;
-    private String meterCode;
+    @Column(name = "verification_code")
     private String verificationCode;
 }

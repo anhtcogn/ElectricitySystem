@@ -12,6 +12,7 @@ public class StaffEntity {
     private Integer id;
     private String name;
     private String address;
+    @Column(name = "phone_number")
     private String phoneNumber;
     private String email;
     private String gender;

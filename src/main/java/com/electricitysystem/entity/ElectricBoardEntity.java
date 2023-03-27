@@ -12,6 +12,8 @@ public class ElectricBoardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "meter_code")
+    private String meterCode;
     @Column(name = "old_number")
     private int oldNumber;
     @Column(name = "new_number")
@@ -22,6 +24,7 @@ public class ElectricBoardEntity {
     private Date timeReadMeter;
     @Column(name = "time_update")
     private Date timeUpdate;
-    private Integer customer_id;
+    @Column(name = "customer_id")
+    private Integer customerId;
 
 }
