@@ -1,11 +1,14 @@
 package com.electricitysystem.repository;
 
-import ch.qos.logback.core.model.INamedModel;
 import com.electricitysystem.entity.AccountEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface AccountRepository extends JpaRepository<AccountEntity, Integer> {
+    public AccountEntity getAccountEntityByUsername(String username);
 
+    public List<AccountEntity> getAccountEntitiesByRole(int role);
 }

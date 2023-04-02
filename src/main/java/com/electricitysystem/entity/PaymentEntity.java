@@ -1,6 +1,6 @@
 package com.electricitysystem.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import jdk.jfr.Enabled;
 import lombok.Data;
 

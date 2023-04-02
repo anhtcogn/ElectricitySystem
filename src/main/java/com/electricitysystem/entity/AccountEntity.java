@@ -1,7 +1,10 @@
 package com.electricitysystem.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.security.SecureRandom;
 
 @Entity
 @Data
@@ -12,9 +15,12 @@ public class AccountEntity {
     private Integer id;
     private String username;
     private String password;
-    private AccountRole role;
+    private int role;
+
+    public String hashPassword(String password){
+        int salt=10;
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(salt, new SecureRandom());
+        return bCryptPasswordEncoder.encode(password);
+    }
 }
 
-enum AccountRole {
-
-}
