@@ -1,50 +1,29 @@
 package com.electricitysystem.jwt;
 
-import org.springframework.http.HttpStatus;
+import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class JwtResponse {
-    private int id;
     private String token;
-    private String type = "Bearer";
+    private String type = "Bearer ";
+    private Integer id;
     private String username;
+    private List<String> roles;
 
-    public JwtResponse(String accessToken, int id, String username) {
-        this.token = accessToken;
-        this.username = username;
+    public JwtResponse(String token, Integer id, String username,
+                       List<String> roles) {
+        super();
+        this.token = token;
         this.id = id;
-    }
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getAccessToken() {
-        return token;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.token = accessToken;
-    }
-
-    public String getTokenType() {
-        return type;
-    }
-
-    public void setTokenType(String tokenType) {
-        this.type = tokenType;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
         this.username = username;
+        this.roles = roles;
     }
+
 
 }

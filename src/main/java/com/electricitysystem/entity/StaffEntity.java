@@ -1,6 +1,8 @@
 package com.electricitysystem.entity;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 @Entity
@@ -16,4 +18,5 @@ public class StaffEntity {
     private String phoneNumber;
     private String email;
     private String gender;
+
 }

@@ -40,6 +40,8 @@ public class AccountServiceImpl implements AccountService {
         return null;
     }
 
+
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AccountEntity account = this.getAccountEntityByUserName(username);
