@@ -1,7 +1,6 @@
 package com.electricitysystem.service.impl;
 
 
-import com.electricitysystem.dto.AccountDetails;
 import com.electricitysystem.entity.AccountEntity;
 import com.electricitysystem.repository.AccountRepository;
 

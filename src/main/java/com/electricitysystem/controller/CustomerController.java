@@ -1,7 +1,6 @@
 package com.electricitysystem.controller;
 
 import com.electricitysystem.dto.CustomerDto;
-import com.electricitysystem.dto.RegisterDto;
 import com.electricitysystem.entity.CustomerEntity;
 import com.electricitysystem.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,19 +13,18 @@ public class CustomerController {
     @Autowired
     CustomerService customerService;
 
-//    @PostMapping(value = "addCustomer", consumes = {"multipart/form-data"})
-//    public ResponseEntity<?> addCustomer(@ModelAttribute CustomerDto customerDto){
-//        CustomerEntity customer = new CustomerEntity();
-//        customer.setUsername(customerDto.getUsername());
-//        customer.setName(customerDto.getName());
-//        customer.setAddress(customerDto.getAddress());
-//        customer.setPhoneNumber(customerDto.getPhoneNumber());
-//        customer.setEmail(customerDto.getEmail());
-//        customer.setGender(customerDto.getGender());
-//        customer.setVerificationCode(customerDto.getVerification_code());
-//        customerService.addCustomer(customer);
-//        return ResponseEntity.ok(customer);
-//    }
+    @PostMapping(value = "addCustomer", consumes = {"multipart/form-data"})
+    public ResponseEntity<?> addCustomer(@ModelAttribute CustomerDto customerDto){
+        CustomerEntity customer = new CustomerEntity();
+        customer.setUsername(customerDto.getUsername());
+        customer.setName(customerDto.getName());
+        customer.setAddress(customerDto.getAddress());
+        customer.setPhoneNumber(customerDto.getPhoneNumber());
+        customer.setEmail(customerDto.getEmail());
+        customer.setGender(customerDto.getGender());
+        customerService.addCustomer(customer);
+        return ResponseEntity.ok(customer);
+    }
     @GetMapping("")
     public ResponseEntity<?> allCustomer(){
         return ResponseEntity.ok(customerService.findAll());

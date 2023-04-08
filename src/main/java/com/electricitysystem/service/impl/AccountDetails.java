@@ -1,4 +1,4 @@
-package com.electricitysystem.dto;
+package com.electricitysystem.service.impl;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,6 +20,7 @@ public class AccountDetails implements UserDetails {
 
     @JsonIgnore
     private String password;
+
     List<GrantedAuthority> authorities = null;
 
     public AccountDetails(Integer id, String username, String password,

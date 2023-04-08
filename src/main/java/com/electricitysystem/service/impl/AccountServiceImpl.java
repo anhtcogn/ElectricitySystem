@@ -32,6 +32,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountEntity createAccount(AccountEntity account) {
         account.setPassword(account.hashPassword(account.getPassword()));
+        accountRepository.save(account);
         return null;
     }
 
