@@ -14,9 +14,12 @@ public class PaymentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private double totalAmount;
-    private PaymentMethod paymentMode;
+    private String paymentMode;
     private Date paymentDate;
     private Integer customerId;
+    private String intent;
+    private String currency;
+    private String description;
 }
 
 enum PaymentMethod {
