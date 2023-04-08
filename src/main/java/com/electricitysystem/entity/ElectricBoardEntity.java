@@ -3,6 +3,7 @@ package com.electricitysystem.entity;
 import javax.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -21,10 +22,11 @@ public class ElectricBoardEntity {
     @Column(name = "total_number")
     private int totalNumber;
     @Column(name = "time_read")
-    private Date timeReadMeter;
+    private String timeReadMeter;
     @Column(name = "time_update")
-    private Date timeUpdate;
+    private LocalDateTime timeUpdate;
     @Column(name = "customer_id")
     private Integer customerId;
-
+    @Column(name = "total_payment")
+    private double totalPayment;
 }

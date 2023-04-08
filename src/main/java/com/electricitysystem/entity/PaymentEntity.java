@@ -21,8 +21,3 @@ public class PaymentEntity {
     private String currency;
     private String description;
 }
-
-enum PaymentMethod {
-    CASH,
-    ONLINE,
-}
