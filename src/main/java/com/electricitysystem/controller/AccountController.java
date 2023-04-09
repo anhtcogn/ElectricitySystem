@@ -1,6 +1,7 @@
 package com.electricitysystem.controller;
 
 import com.electricitysystem.dto.LoginRequest;
+import com.electricitysystem.entity.CustomerEntity;
 import com.electricitysystem.service.impl.AccountDetails;
 import com.electricitysystem.dto.AccountDto;
 import com.electricitysystem.entity.AccountEntity;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @RestController
@@ -40,6 +43,9 @@ public class AccountController {
 
     @PostMapping(value = "/signin", consumes = {"multipart/form-data"})
     public ResponseEntity<?> authenticateUser(@ModelAttribute AccountDto accountDto) {
+        String regexLength = "^.{8,20}$";
+        if (!isValidPassword(accountDto.getUsername(), regexLength))
+            return ResponseEntity.ok("Tên đăng nhập có độ dài từ 8 đến 20 ký tự");
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(accountDto.getUsername(), accountDto.getPassword()));
 
@@ -58,15 +64,43 @@ public class AccountController {
         return jwtUtility.validateJwtToken(token);
     }
 
-    @PutMapping(value = "/changepassword",  produces = "application/json")
-    public String changePassword(@RequestBody AccountDto accountDto, @RequestParam("newpassword")String password){
-        AccountEntity account = accountRepository.getAccountEntityByUsername(accountDto.getUsername());
-        if(!bCryptPasswordEncoder.matches(accountDto.getPassword(), account.getPassword())){
-            return  "Mật khẩu cũ không đúng";
+    @PutMapping(value = "/changepassword/{username}",  produces = "application/json")
+    public String changePassword(@PathVariable String username,
+                                 @RequestParam("oldpassword")String oldpassword,@RequestParam("newpassword")String password){
+
+        //validate password : ít nhất 1 số, 1 ký tự viết thường, 1 viết hoa, từ 8-20
+        String regexNumber = "^(.*[0-9].*)$";
+        String regexLowerCharacter = "^(.*[a-z].*)$";
+        String regexUpperCharacter = "^(.*[A-Z].*)$";
+        String regexSpecialChars = "^(.*[@,#,$,%,.,,,!,*,&,^,?].*$)";
+        String regexLength = "^.{8,20}$";
+        if ( !isValidPassword(password, regexLength))
+            return "Mật khẩu phải có độ dài từ 8 đến 20 ký tự";
+        if ( !isValidPassword(password,regexUpperCharacter))
+            return "Mật khẩu phải có ít nhất một chữ hoa";
+        if ( !isValidPassword(password, regexNumber))
+            return "Mật khẩu phải có ít nhất một ký tự số";
+        if ( !isValidPassword(password, regexLowerCharacter))
+            return "Mật khẩu phải có ít nhất một chữ thường";
+        if (isValidPassword(password, regexSpecialChars))
+            return "Mật khẩu không chứa các ký tự đặc biệt";
+
+        AccountEntity account = accountRepository.getAccountEntityByUsername(username);
+        if ( account != null){
+            if(!bCryptPasswordEncoder.matches(oldpassword, account.getPassword())){
+                return  "Mật khẩu cũ không đúng";
+            }
+            account.setPassword(bCryptPasswordEncoder.encode(password));
+            accountRepository.save(account);
+            return "Đổi mật khẩu thành công";
         }
-        account.setPassword(bCryptPasswordEncoder.encode(password));
-        accountRepository.save(account);
-        return "Đổi mật khẩu thành công";
+        return "Không tìm thấy người dùng";
+    }
+
+    private boolean isValidPassword(String password, String regex){
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
     }
 
 
