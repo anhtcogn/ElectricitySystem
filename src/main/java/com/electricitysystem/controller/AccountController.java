@@ -44,8 +44,10 @@ public class AccountController {
     @PostMapping(value = "/signin", consumes = {"multipart/form-data"})
     public ResponseEntity<?> authenticateUser(@ModelAttribute AccountDto accountDto) {
         String regexLength = "^.{8,20}$";
-        if (!isValidPassword(accountDto.getUsername(), regexLength))
-            return ResponseEntity.ok("Tên đăng nhập có độ dài từ 8 đến 20 ký tự");
+        if (accountDto.getUsername().trim() == null)
+            return ResponseEntity.ok("Vui lòng nhập tên đăng nhập");
+        if (accountDto.getPassword().trim() == null)
+            return ResponseEntity.ok("Vui lòng nhập mật khẩu");
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(accountDto.getUsername(), accountDto.getPassword()));
 
@@ -68,6 +70,10 @@ public class AccountController {
     public String changePassword(@PathVariable String username,
                                  @RequestParam("oldpassword")String oldpassword,@RequestParam("newpassword")String password){
 
+        if (oldpassword.trim() == null)
+            return "Vui lòng nhập mật khẩu cũ";
+        if (password.trim() ==null)
+            return "Vui lòng nhập mật khẩu mới";
         //validate password : ít nhất 1 số, 1 ký tự viết thường, 1 viết hoa, từ 8-20
         String regexNumber = "^(.*[0-9].*)$";
         String regexLowerCharacter = "^(.*[a-z].*)$";
