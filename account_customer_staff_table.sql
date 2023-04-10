@@ -1,4 +1,4 @@
-use electricsystem;
+-- use electricsystem;
 INSERT INTO staff (`id`,`address`,`email`,`gender`,`name`,`phone_number`) VALUES (1,'Trần Phú, Mộ Lao,Hà Đông, Hà Nội','ngochoai@gmai.com','1','Trần Thị Ngọc Hoài','0866994382');
 INSERT INTO staff (`id`,`address`,`email`,`gender`,`name`,`phone_number`) VALUES (2,'Khương Điình, Thanh Xuân, Hà Nội','daobichdiep@gmail.com','1','Đào Bích Diệp','0673491211');
 INSERT INTO staff (`id`,`address`,`email`,`gender`,`name`,`phone_number`) VALUES (3,'Lê Lai, Quang Trung, Hà Đông, Hà Nội','hoangminhduc@gmail.com','0','Hoàng Minh Đức','0392486754');

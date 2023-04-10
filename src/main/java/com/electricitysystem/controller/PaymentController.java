@@ -1,7 +1,10 @@
 package com.electricitysystem.controller;
 
+import com.electricitysystem.entity.ElectricBoardEntity;
 import com.electricitysystem.entity.PaymentEntity;
-import com.electricitysystem.service.PaymentService;
+import com.electricitysystem.service.ElectricBoardService;
+import com.electricitysystem.service.PayWithCashService;
+import com.electricitysystem.service.PaypalService;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
@@ -16,14 +19,17 @@ public class PaymentController {
 
 
     @Autowired
-    private PaymentService paymentService;
-
-
+    private PaypalService paymentService;
+    @Autowired
+    private ElectricBoardService electricBoardService;
+    @Autowired
+    private PayWithCashService payWithCashService;
     @PostMapping("/pay")
-    public String payment(@ModelAttribute PaymentEntity pay) {
+    public String payment(@RequestParam int electricBoardId) {
         try {
-            Payment payment = paymentService.createPayment(pay.getTotalAmount(), pay.getCurrency(), pay.getPaymentMode(),
-                    pay.getIntent(), pay.getDescription(), "http://localhost:9090/" + PAYPAL_CANCEL_URL,
+            ElectricBoardEntity electricBoard = electricBoardService.getOneById(electricBoardId);
+            Payment payment = paymentService.createPayment(electricBoard.getTotalPayment() / 23447, "USD", "paypal",
+                    "sale", "thanh toan tien dien", "http://localhost:9090/" + PAYPAL_CANCEL_URL,
                     "http://localhost:9090/" + PAYPAL_SUCCESS_URL);
             for(Links link:payment.getLinks()) {
                 if(link.getRel().equals("approval_url")) {
@@ -39,7 +45,7 @@ public class PaymentController {
 
     @GetMapping(value = PAYPAL_CANCEL_URL)
     public String cancelPay() {
-        return "payment err";
+        return "payment failed";
     }
 
     @GetMapping(value = PAYPAL_SUCCESS_URL)
@@ -54,5 +60,12 @@ public class PaymentController {
             System.out.println(e.getMessage());
         }
         return "";
+    }
+
+    @PostMapping("payWithCash")
+    public String payWithCash(
+            @RequestParam int electricBoardId
+    ) {
+        return payWithCashService.pay(electricBoardId);
     }
 }

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PaymentService {
+public class PaypalService {
 
     @Autowired
     private APIContext apiContext;

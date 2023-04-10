@@ -69,11 +69,4 @@ public class AccountController {
         return "Đổi mật khẩu thành công";
     }
 
-
-
-
-
-
-
-
 }

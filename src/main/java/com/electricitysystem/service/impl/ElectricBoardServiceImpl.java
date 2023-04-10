@@ -31,7 +31,7 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
         electricBoardRepository.save(entity);
         entity.setTotalNumber(entity.getNewNumber() - entity.getOldNumber());
         entity.setTotalPayment(calculatorService.calculator(entity.getTotalNumber()));
-        return electricBoardRepository.save(electricBoard);
+        return electricBoardRepository.save(entity);
     }
 
     @Override
