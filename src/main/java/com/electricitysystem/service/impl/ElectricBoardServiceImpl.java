@@ -41,11 +41,11 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
 
     @Override
     public List<ElectricBoardEntity> getAllByCustomerId(Integer customerId) {
-        return electricBoardRepository.getAllByCustomerId(customerId);
+        return electricBoardRepository.findAllByCustomerId(customerId);
     }
 
     @Override
     public ElectricBoardEntity getOneById(Integer electricBoardId) {
-        return electricBoardRepository.getById(electricBoardId);
+        return electricBoardRepository.findElectricBoardById(electricBoardId);
     }
 }

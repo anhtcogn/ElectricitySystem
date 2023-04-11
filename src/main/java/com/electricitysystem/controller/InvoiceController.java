@@ -14,9 +14,16 @@ public class InvoiceController {
     @Autowired
     private InvoiceService invoiceService;
 
-    @GetMapping("/getAllByCustomerId/{customerId}")
+    @GetMapping("/getAllByCustomerId")
     public List<InvoiceEntity> getAllByCustomerId(
-            @RequestParam("customerId") int customerId) {
+            @RequestParam int customerId) {
         return invoiceService.getByCustomerId(customerId);
     }
+
+    @GetMapping("/getAll")
+    public List<InvoiceEntity> getAll() {
+        return invoiceService.getAll();
+    }
+
 }
+

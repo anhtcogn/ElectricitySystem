@@ -25,7 +25,7 @@ public class ElectricBoardController {
     public ElectricBoardEntity update(
             @ModelAttribute ElectricBoardEntity electricBoard
     ) {
-        return electricBoardService.update(electricBoard);
+        return electricBoardService.create(electricBoard);
     }
 
     @GetMapping("/getOneById")

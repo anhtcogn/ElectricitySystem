@@ -23,4 +23,5 @@ public class InvoiceEntity {
     private Integer customerId;
     @Column(name = "electric_board_id")
     private Integer electricBoardId;
+    private String token;
 }
