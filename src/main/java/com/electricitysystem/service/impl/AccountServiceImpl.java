@@ -1,7 +1,10 @@
 package com.electricitysystem.service.impl;
 
 import com.electricitysystem.entity.AccountEntity;
+import com.electricitysystem.entity.CustomerEntity;
+import com.electricitysystem.entity.StaffEntity;
 import com.electricitysystem.repository.AccountRepository;
+import com.electricitysystem.repository.CustomerRepository;
 import com.electricitysystem.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,15 +22,14 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     AccountRepository accountRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
+
     @Override
     public AccountEntity getAccountEntityByUserName(String username) {
         return accountRepository.getAccountEntityByUsername(username);
     }
 
-    @Override
-    public List<AccountEntity> getAccountEntityByRole(int role) {
-        return accountRepository.getAccountEntitiesByRole(role);
-    }
 
     @Override
     public AccountEntity createAccount(AccountEntity account) {
@@ -36,11 +38,20 @@ public class AccountServiceImpl implements AccountService {
         return null;
     }
 
+
     @Override
-    public AccountEntity updateAccount(AccountEntity account) {
+    public CustomerEntity getCustomerbyAccount(AccountEntity account) {
+        if(account.getCustomer()!=null)
+            return account.getCustomer();
         return null;
     }
 
+    @Override
+    public StaffEntity getStaffbyAccount(AccountEntity account) {
+        if(account.getStaff()!=null)
+            return account.getStaff();
+        return null;
+    }
 
 
     @Override

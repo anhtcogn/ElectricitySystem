@@ -26,7 +26,6 @@ public class AccountEntity implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "customer_id")
-    @JsonBackReference
     private CustomerEntity customer;
 
     @OneToOne
