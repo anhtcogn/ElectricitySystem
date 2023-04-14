@@ -1,22 +1,30 @@
-package com.electricitysystem.controller;
+package com.electricitysystem.dto;
 
-import com.electricitysystem.entity.StaffEntity;
-import com.electricitysystem.service.StaffService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@RestController
-public class StaffController {
-    @Autowired
-    private StaffService staffService;
-    @GetMapping("getStaffInfo/{username}")
-    public ResponseEntity<?> getStaffByUsername(@PathVariable String username){
-        StaffEntity staff = staffService.getStaffByUsername(username);
-        if (staff==null)
-            return ResponseEntity.ok("Không tìm thấy nhân viên");
-        return ResponseEntity.ok(staffService.getStaffByUsername(username));
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class LoginRequest {
+
+    private String username;
+    private String password;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
