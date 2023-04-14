@@ -1,9 +1,11 @@
 package com.electricitysystem.entity;
 
 import javax.persistence.*;
-import lombok.Data;
 
-import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.util.Date;
 
 @Entity
@@ -13,20 +15,23 @@ public class ElectricBoardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "meter_code")
+    @Column(name = "meter_code", nullable = false)
     private String meterCode;
-    @Column(name = "old_number")
+    @Column(name = "old_number", nullable = false)
     private int oldNumber;
-    @Column(name = "new_number")
+    @Column(name = "new_number", nullable = false)
     private int newNumber;
-    @Column(name = "total_number")
+    @Column(name = "total_number", nullable = false)
     private int totalNumber;
-    @Column(name = "time_read")
-    private String timeReadMeter;
-    @Column(name = "time_update")
-    private LocalDateTime timeUpdate;
+    @Column(name = "time_read", nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @CreationTimestamp
+    private Date timeReadMeter;
+    @Column(name = "time_update", nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @CreationTimestamp
+    private Date timeUpdate;
     @Column(name = "customer_code")
-    private String customerId;
-    @Column(name = "total_payment")
-    private double totalPayment;
+    private String customerCode;
+
 }

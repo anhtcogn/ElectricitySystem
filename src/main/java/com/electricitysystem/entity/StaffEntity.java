@@ -15,6 +15,9 @@ public class StaffEntity {
     @Column(nullable = false, unique = true, length = 10)
     private String username;
     private Integer id;
+
+    @Column(nullable = false, unique = true, length = 10)
+    private String username;
     private String name;
     private String address;
     @Column(name = "phone_number")
