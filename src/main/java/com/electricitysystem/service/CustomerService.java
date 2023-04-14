@@ -5,7 +5,7 @@ import com.electricitysystem.entity.CustomerEntity;
 import java.util.List;
 
 public interface CustomerService {
-    CustomerEntity getCustomerById(int id);
+    CustomerEntity getCustomerById(String id);
 
     CustomerEntity getCustomerByUsername(String username);
 

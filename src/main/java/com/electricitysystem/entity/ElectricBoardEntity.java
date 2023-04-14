@@ -25,8 +25,8 @@ public class ElectricBoardEntity {
     private String timeReadMeter;
     @Column(name = "time_update")
     private LocalDateTime timeUpdate;
-    @Column(name = "customer_id")
-    private Integer customerId;
+    @Column(name = "customer_code")
+    private String customerId;
     @Column(name = "total_payment")
     private double totalPayment;
 }

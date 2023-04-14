@@ -9,7 +9,7 @@ public interface ElectricBoardService {
     ElectricBoardEntity create(ElectricBoardEntity electricBoard);
     ElectricBoardEntity update(ElectricBoardEntity electricBoard);
 
-    List<ElectricBoardEntity> getAllByCustomerId(Integer customerId);
+    List<ElectricBoardEntity> getAllByCustomerId(String customerId);
     ElectricBoardEntity getOneById(Integer electricBoardId);
 
 }

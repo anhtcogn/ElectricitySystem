@@ -8,11 +8,12 @@ import org.springframework.data.annotation.ReadOnlyProperty;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerDto {
-
+    String id;
     String username;
     String name;
     String address;
     String phoneNumber;
     String email;
+    String meterCode;
     int gender;
 }

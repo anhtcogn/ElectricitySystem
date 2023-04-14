@@ -16,7 +16,7 @@ public class InvoiceController {
 
     @GetMapping("/getAllByCustomerId")
     public List<InvoiceEntity> getAllByCustomerId(
-            @RequestParam int customerId) {
+            @RequestParam String customerId) {
         return invoiceService.getByCustomerId(customerId);
     }
 

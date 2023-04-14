@@ -40,7 +40,7 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
     }
 
     @Override
-    public List<ElectricBoardEntity> getAllByCustomerId(Integer customerId) {
+    public List<ElectricBoardEntity> getAllByCustomerId(String customerId) {
         return electricBoardRepository.findAllByCustomerId(customerId);
     }
 

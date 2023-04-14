@@ -11,8 +11,8 @@ import org.springframework.lang.Nullable;
 @Table(name = "customer")
 public class CustomerEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "code", nullable = false, unique = true)
+    private String id;
     @Column(nullable = false, unique = true, length = 10)
     private String username;
     @Column(nullable = false)
@@ -25,6 +25,6 @@ public class CustomerEntity {
     private String email;
     @Column(nullable = false)
     private int gender;
-
-
+    @Column(name = "meter_code", unique = true)
+    private String meterCode;
 }

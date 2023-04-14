@@ -6,7 +6,7 @@ import com.electricitysystem.repository.InvoiceRepository;
 import com.electricitysystem.service.ElectricBoardService;
 import com.electricitysystem.service.InvoiceService;
 import com.electricitysystem.service.PayWithCashService;
-import com.electricitysystem.service.PaypalService;
+import com.electricitysystem.service.PayWithPaypalService;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
@@ -28,7 +28,7 @@ public class PaymentController {
     @Autowired
     private InvoiceService invoiceService;
     @Autowired
-    private PaypalService paypalService;
+    private PayWithPaypalService payWithPaypalService;
     @Autowired
     private ElectricBoardService electricBoardService;
     @Autowired
@@ -38,7 +38,7 @@ public class PaymentController {
         String token = "";
         try {
             ElectricBoardEntity electricBoard = electricBoardService.getOneById(electricBoardId);
-            Payment payment = paypalService.createPayment(electricBoard.getTotalPayment() / 23447, "USD", "paypal",
+            Payment payment = payWithPaypalService.createPayment(electricBoard.getTotalPayment() / 23447, "USD", "paypal",
                     "sale", "thanh toan tien dien"
                     , "http://localhost:9090/" + PAYPAL_CANCEL_URL,
                     "http://localhost:9090/" + PAYPAL_SUCCESS_URL);
@@ -75,7 +75,7 @@ public class PaymentController {
     ) {
         InvoiceEntity invoice = invoiceService.getByToken(token);
         invoice.setPaymentDate(LocalDateTime.now());
-        invoice.setStatus("PAYMENT CANCELLED");
+        invoice.setStatus("UNPAID");
         invoiceRepository.save(invoice);
         return "payment failed";
     }
@@ -85,12 +85,12 @@ public class PaymentController {
             @RequestParam("token") String token,
             @RequestParam("PayerID") String payerId) {
         try {
-            Payment payment = paypalService.executePayment(paymentId, payerId);
+            Payment payment = payWithPaypalService.executePayment(paymentId, payerId);
             System.out.println(payment.toJSON());
             if (payment.getState().equals("approved")) {
                 InvoiceEntity invoice = invoiceService.getByToken(token);
                 invoice.setPaymentDate(LocalDateTime.now());
-                invoice.setStatus("PAYMENT SUCCESS");
+                invoice.setStatus("PAID");
                 invoiceRepository.save(invoice);
                 return "success";
             }
