@@ -1,5 +1,7 @@
 package com.electricitysystem.controller;
 
+import com.electricitysystem.dto.LoginRequest;
+import com.electricitysystem.entity.CustomerEntity;
 import com.electricitysystem.service.impl.AccountDetails;
 import com.electricitysystem.dto.AccountDto;
 import com.electricitysystem.entity.AccountEntity;
@@ -18,6 +20,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -105,5 +108,4 @@ public class AccountController {
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
     }
-
 }
