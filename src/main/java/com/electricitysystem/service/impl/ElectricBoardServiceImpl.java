@@ -26,7 +26,7 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
         entity.setOldNumber(electricBoard.getOldNumber());
         entity.setNewNumber(electricBoard.getNewNumber());
         entity.setTimeReadMeter(electricBoard.getTimeReadMeter());
-        entity.setCustomerId(electricBoard.getCustomerId());
+        entity.setCustomerCode(electricBoard.getCustomerCode());
         entity.setTimeUpdate(LocalDateTime.now());
         electricBoardRepository.save(entity);
         entity.setTotalNumber(entity.getNewNumber() - entity.getOldNumber());
@@ -40,8 +40,8 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
     }
 
     @Override
-    public List<ElectricBoardEntity> getAllByCustomerId(String customerId) {
-        return electricBoardRepository.findAllByCustomerId(customerId);
+    public List<ElectricBoardEntity> getAllByCustomerCode(String customerCode) {
+        return electricBoardRepository.findAllByCustomerCode(customerCode);
     }
 
     @Override

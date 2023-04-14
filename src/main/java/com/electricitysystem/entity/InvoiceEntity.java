@@ -20,7 +20,7 @@ public class InvoiceEntity {
     @Column(name = "status")
     private String status;
     @Column(name = "customer_code")
-    private String customerId;
+    private String customerCode;
     @Column(name = "electric_board_id")
     private Integer electricBoardId;
     private String token;

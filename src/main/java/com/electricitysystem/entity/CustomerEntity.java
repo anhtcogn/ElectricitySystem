@@ -11,7 +11,7 @@ import org.springframework.lang.Nullable;
 @Table(name = "customer")
 public class CustomerEntity {
     @Id
-    @Column(name = "code", nullable = false, unique = true)
+    @Column(name = "customer_code", nullable = false, unique = true)
     private String id;
     @Column(nullable = false, unique = true, length = 10)
     private String username;

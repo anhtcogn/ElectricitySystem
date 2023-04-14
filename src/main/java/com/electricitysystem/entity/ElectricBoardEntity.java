@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -30,8 +31,10 @@ public class ElectricBoardEntity {
     @Column(name = "time_update", nullable = false)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @CreationTimestamp
-    private Date timeUpdate;
+    private LocalDateTime timeUpdate;
     @Column(name = "customer_code")
     private String customerCode;
+    @Column(name = "total_payment")
+    private Double totalPayment;
 
 }

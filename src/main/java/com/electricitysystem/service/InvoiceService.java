@@ -13,8 +13,8 @@ public class InvoiceService {
     @Autowired
     private InvoiceRepository invoiceRepository;
 
-    public List<InvoiceEntity> getByCustomerId(String customerId) {
-        return invoiceRepository.findAllByCustomerId(customerId);
+    public List<InvoiceEntity> getByCustomerCode(String customerCode) {
+        return invoiceRepository.findAllByCustomerCode(customerCode);
     }
     public InvoiceEntity getByToken(String token) {
         return invoiceRepository.findByToken(token);

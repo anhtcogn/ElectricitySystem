@@ -47,7 +47,7 @@ public class PaymentController {
             invoice.setId(electricBoard.getId());
             invoice.setElectricBoardId(electricBoardId);
             invoice.setElectricNumber(electricBoard.getTotalNumber());
-            invoice.setCustomerId(electricBoard.getCustomerId());
+            invoice.setCustomerCode(electricBoard.getCustomerCode());
             invoice.setTotalPayment(electricBoard.getTotalPayment());
             invoice.setStatus("PAYMENT PENDING");
             invoice.setId(electricBoardId);

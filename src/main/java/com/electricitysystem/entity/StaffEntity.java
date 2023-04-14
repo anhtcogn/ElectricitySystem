@@ -11,9 +11,6 @@ import lombok.Data;
 public class StaffEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    @Column(nullable = false, unique = true, length = 10)
-    private String username;
     private Integer id;
 
     @Column(nullable = false, unique = true, length = 10)
