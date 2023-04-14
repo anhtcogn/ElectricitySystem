@@ -7,5 +7,5 @@ public interface StaffService {
     StaffEntity getStaffById(int id);
 
     StaffEntity getStaffByUsername(String username);
-
 }
+

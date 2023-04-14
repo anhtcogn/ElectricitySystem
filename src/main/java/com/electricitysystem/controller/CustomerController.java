@@ -6,31 +6,32 @@ import com.electricitysystem.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.w3c.dom.stylesheets.LinkStyle;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
+@RequestMapping("customer")
 public class CustomerController {
     @Autowired
     CustomerService customerService;
 
-
-    @GetMapping("getListCustomersInfo")
+//    @PostMapping(value = "addCustomer", consumes = {"multipart/form-data"})
+//    public ResponseEntity<?> addCustomer(@ModelAttribute CustomerDto customerDto){
+//        CustomerEntity customer = new CustomerEntity();
+//        customer.setUsername(customerDto.getUsername());
+//        customer.setName(customerDto.getName());
+//        customer.setAddress(customerDto.getAddress());
+//        customer.setPhoneNumber(customerDto.getPhoneNumber());
+//        customer.setEmail(customerDto.getEmail());
+//        customer.setGender(customerDto.getGender());
+//        customerService.addCustomer(customer);
+//        return ResponseEntity.ok(customer);
+//    }
+    @GetMapping("")
     public ResponseEntity<?> allCustomer(){
-        List<CustomerEntity> list = new ArrayList<>();
-        list=customerService.findAll();
-        if (list.isEmpty())
-            return ResponseEntity.ok("Không có khách hàng nào");
-        else return ResponseEntity.ok(customerService.findAll());
+        return ResponseEntity.ok(customerService.findAll());
     }
 
-    @GetMapping("getCustomerInfo/{username}")
+    @GetMapping("{username}")
     public ResponseEntity<?> findOneByUsername(@PathVariable String username){
-        CustomerEntity customer = customerService.getCustomerByUsername(username);
-        if (customer==null)
-            return ResponseEntity.ok("Không tìm thấy khách hàng");
         return ResponseEntity.ok(customerService.getCustomerByUsername(username));
     }
 }
