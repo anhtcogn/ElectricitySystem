@@ -15,5 +15,4 @@ public interface AccountService extends UserDetailsService {
 
     StaffEntity getStaffbyAccount(AccountEntity account);
 
-
 }
