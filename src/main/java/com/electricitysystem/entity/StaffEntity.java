@@ -12,6 +12,9 @@ public class StaffEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(nullable = false, unique = true, length = 10)
+    private String username;
     private String name;
     private String address;
     @Column(name = "phone_number")
