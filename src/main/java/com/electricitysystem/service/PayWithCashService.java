@@ -25,7 +25,7 @@ public class PayWithCashService {
         invoice.setCustomerCode(electricBoard.getCustomerCode());
         invoice.setTotalPayment(electricBoard.getTotalPayment());
         invoice.setStatus("PAID");
-        invoice.setId(electricBoardId);
+        invoice.setElectricBoardId(electricBoardId);
         invoice.setPaymentDate(LocalDateTime.now());
         invoiceRepository.save(invoice);
         return "Success";
