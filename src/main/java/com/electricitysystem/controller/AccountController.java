@@ -47,16 +47,19 @@ public class AccountController {
             return ResponseEntity.ok("Vui lòng nhập mật khẩu");
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(accountDto.getUsername(), accountDto.getPassword()));
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtility.generateJwtToken(accountDto.getUsername());
         AccountDetails userDetails = (AccountDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
+        AccountEntity account = accountRepository.getAccountEntityByUsername(accountDto.getUsername());
+        if ( account.getRole() == 0){
+            return ResponseEntity.ok(
+                    new JwtResponse(jwt,userDetails.getId(),userDetails.getUsername(), roles, account.getStaff().getId().toString()));
+        }
         return ResponseEntity.ok(
-                new JwtResponse(jwt,userDetails.getId(),userDetails.getUsername(),roles)
-        );
+                new JwtResponse(jwt,userDetails.getId(),userDetails.getUsername(), roles, account.getCustomer().getId()));
     }
     @GetMapping(value="/authenticate", produces = "application/json")
     public boolean authenticate(@RequestHeader("Authorization") String token) {
