@@ -22,6 +22,7 @@ public class PayWithCashService {
         ElectricBoardEntity electricBoard = electricBoardRepository.getById(electricBoardId);
         InvoiceEntity invoice = new InvoiceEntity();
         invoice.setId(electricBoard.getId());
+        invoice.setElectricNumber(electricBoard.getTotalNumber());
         invoice.setCustomerCode(electricBoard.getCustomerCode());
         invoice.setTotalPayment(electricBoard.getTotalPayment());
         invoice.setStatus("PAID");

@@ -1,6 +1,7 @@
 package com.electricitysystem.service.impl;
 
 import com.electricitysystem.entity.ElectricBoardEntity;
+import com.electricitysystem.repository.CustomerRepository;
 import com.electricitysystem.repository.ElectricBoardRepository;
 import com.electricitysystem.service.CalculatorService;
 import com.electricitysystem.service.ElectricBoardService;
@@ -18,15 +19,17 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
     private ElectricBoardRepository electricBoardRepository;
 
     @Autowired
+    private CustomerRepository customerRepository;
+    @Autowired
     protected CalculatorService calculatorService;
     @Override
     public ElectricBoardEntity create(ElectricBoardEntity electricBoard) {
         ElectricBoardEntity entity = new ElectricBoardEntity();
-        entity.setMeterCode(electricBoard.getMeterCode());
+        entity.setCustomerCode(electricBoard.getCustomerCode());
+        entity.setMeterCode(customerRepository.getCustomerEntityById(electricBoard.getCustomerCode()).getMeterCode());
         entity.setOldNumber(electricBoard.getOldNumber());
         entity.setNewNumber(electricBoard.getNewNumber());
         entity.setTimeReadMeter(electricBoard.getTimeReadMeter());
-        entity.setCustomerCode(electricBoard.getCustomerCode());
         entity.setTimeUpdate(LocalDateTime.now());
         electricBoardRepository.save(entity);
         entity.setTotalNumber(entity.getNewNumber() - entity.getOldNumber());
