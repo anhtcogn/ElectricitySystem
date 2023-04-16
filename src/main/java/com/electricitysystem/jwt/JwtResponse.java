@@ -16,13 +16,16 @@ public class JwtResponse {
     private String username;
     private List<String> roles;
 
+    private String code;
+
     public JwtResponse(String token, Integer id, String username,
-                       List<String> roles) {
+                       List<String> roles, String code) {
         super();
         this.token = token;
         this.id = id;
         this.username = username;
         this.roles = roles;
+        this.code=code;
     }
 
 

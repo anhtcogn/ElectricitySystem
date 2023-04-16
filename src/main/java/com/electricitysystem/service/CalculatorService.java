@@ -41,6 +41,8 @@ public class CalculatorService {
                 + calculatorEntity.getNumLevel3() * 2014 + calculatorEntity.getNumLevel4() * 2536
                 + calculatorEntity.getNumLevel5() * 2834 + calculatorEntity.getNumLevel6() * 2927;
 
+        //caculatorRepository.save()
+
         double vatAmount = totalAmount * 0.1;
         return totalAmount + vatAmount;
     }
