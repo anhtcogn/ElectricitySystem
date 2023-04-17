@@ -31,6 +31,7 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
         entity.setNewNumber(electricBoard.getNewNumber());
         entity.setTimeReadMeter(electricBoard.getTimeReadMeter());
         entity.setTimeUpdate(LocalDateTime.now());
+        entity.setPeriod(electricBoard.getPeriod());
         electricBoardRepository.save(entity);
         entity.setTotalNumber(entity.getNewNumber() - entity.getOldNumber());
         entity.setTotalPayment(calculatorService.calculator(entity.getTotalNumber()));

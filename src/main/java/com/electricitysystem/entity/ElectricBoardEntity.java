@@ -25,9 +25,7 @@ public class ElectricBoardEntity {
     @Column(name = "total_number", nullable = false)
     private int totalNumber;
     @Column(name = "time_read", nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @CreationTimestamp
-    private Date timeReadMeter;
+    private String timeReadMeter;
     @Column(name = "time_update", nullable = false)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @CreationTimestamp
@@ -36,5 +34,5 @@ public class ElectricBoardEntity {
     private String customerCode;
     @Column(name = "total_payment")
     private Double totalPayment;
-
+    private String period;
 }
