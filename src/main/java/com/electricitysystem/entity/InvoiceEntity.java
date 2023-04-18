@@ -21,6 +21,8 @@ public class InvoiceEntity {
     private String status;
     @Column(name = "customer_code")
     private String customerCode;
+    @Column(name = "customer_name")
+    private String customerName;
     @Column(name = "electric_board_id")
     private Integer electricBoardId;
     private String token;
