@@ -13,15 +13,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     CustomerRepository customerRepository;
 
-
-    @Override
-    public CustomerEntity getCustomerById(String id) {
-        return customerRepository.getCustomerEntityById(id);
-    }
-
     @Override
     public CustomerEntity getCustomerByUsername(String username) {
-        return customerRepository.getCustomerEntityByUsername(username);
+        return customerRepository.getByUsername(username);
     }
 
     @Override

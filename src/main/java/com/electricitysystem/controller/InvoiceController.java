@@ -14,15 +14,35 @@ public class InvoiceController {
     @Autowired
     private InvoiceService invoiceService;
 
-    @GetMapping("/getAllByCustomerCode")
-    public List<InvoiceEntity> getAllByCustomerCode(
-            @RequestParam String customerCode) {
-        return invoiceService.getByCustomerCode(customerCode);
+    @GetMapping("/getAllByUsername")
+    public List<InvoiceEntity> getAllByUsername(
+            @RequestParam String username) {
+        return invoiceService.getAllByUsername(username);
     }
 
+    @GetMapping("/getByStatus")
+    public List<InvoiceEntity>  getByStatus(
+            @RequestParam String status
+    ) {
+        return invoiceService.getAllByStatus(status);
+    }
     @GetMapping("/getAll")
     public List<InvoiceEntity> getAll() {
         return invoiceService.getAll();
+    }
+
+    @GetMapping("/getById")
+    public InvoiceEntity getById(
+            @RequestParam int id
+    ) {
+        return invoiceService.getById(id);
+    }
+    @PostMapping("/updateStatus")
+    public InvoiceEntity updateStatus(
+            @RequestParam int id,
+            @RequestParam String status
+    ) {
+        return invoiceService.updateStatus(id, status);
     }
 
 }

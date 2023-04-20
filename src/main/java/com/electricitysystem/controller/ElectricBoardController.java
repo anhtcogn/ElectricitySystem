@@ -35,11 +35,11 @@ public class ElectricBoardController {
         return electricBoardService.getOneById(electricBoardId);
     }
 
-    @GetMapping("/getAllByCustomerCode")
-    public List<ElectricBoardEntity> getAllByCustomerCode(
-            @RequestParam String customerCode
+    @GetMapping("/getAllByUsername")
+    public List<ElectricBoardEntity> getAllByUsername(
+            @RequestParam String username
     ) {
-        return electricBoardService.getAllByCustomerCode(customerCode);
+        return electricBoardService.getAllByCustomerUserName(username);
     }
 
 }

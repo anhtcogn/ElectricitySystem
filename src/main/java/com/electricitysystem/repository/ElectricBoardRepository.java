@@ -8,7 +8,8 @@ import java.util.List;
 
 @Repository
 public interface ElectricBoardRepository extends JpaRepository<ElectricBoardEntity, Integer> {
-    List<ElectricBoardEntity> findAllByCustomerCode(String customerCode);
+    List<ElectricBoardEntity> findAllByUsername(String customerCode);
+    ElectricBoardEntity findByUsername(String username);
     ElectricBoardEntity findElectricBoardById(Integer electricBoardId);
 }
 

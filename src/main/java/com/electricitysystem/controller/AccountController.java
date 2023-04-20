@@ -59,7 +59,7 @@ public class AccountController {
                     new JwtResponse(jwt,userDetails.getId(),userDetails.getUsername(), roles, account.getStaff().getId().toString()));
         }
         return ResponseEntity.ok(
-                new JwtResponse(jwt,userDetails.getId(),userDetails.getUsername(), roles, account.getCustomer().getId()));
+                new JwtResponse(jwt,userDetails.getId(),userDetails.getUsername(), roles, account.getCustomer().getUsername()));
     }
     @GetMapping(value="/authenticate", produces = "application/json")
     public boolean authenticate(@RequestHeader("Authorization") String token) {

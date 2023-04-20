@@ -1,8 +1,10 @@
 package com.electricitysystem.service.impl;
 
 import com.electricitysystem.entity.ElectricBoardEntity;
+import com.electricitysystem.entity.InvoiceEntity;
 import com.electricitysystem.repository.CustomerRepository;
 import com.electricitysystem.repository.ElectricBoardRepository;
+import com.electricitysystem.repository.InvoiceRepository;
 import com.electricitysystem.service.CalculatorService;
 import com.electricitysystem.service.ElectricBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +21,16 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
     private ElectricBoardRepository electricBoardRepository;
 
     @Autowired
+    private InvoiceRepository invoiceRepository;
+    @Autowired
     private CustomerRepository customerRepository;
     @Autowired
     protected CalculatorService calculatorService;
     @Override
     public ElectricBoardEntity create(ElectricBoardEntity electricBoard) {
         ElectricBoardEntity entity = new ElectricBoardEntity();
-        entity.setCustomerCode(electricBoard.getCustomerCode());
-        entity.setMeterCode(customerRepository.getCustomerEntityById(electricBoard.getCustomerCode()).getMeterCode());
+        entity.setUsername(electricBoard.getUsername());
+        entity.setMeterCode(customerRepository.getByUsername(electricBoard.getUsername()).getMeterCode());
         entity.setOldNumber(electricBoard.getOldNumber());
         entity.setNewNumber(electricBoard.getNewNumber());
         entity.setTimeReadMeter(electricBoard.getTimeReadMeter());
@@ -35,6 +39,18 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
         electricBoardRepository.save(entity);
         entity.setTotalNumber(entity.getNewNumber() - entity.getOldNumber());
         entity.setTotalPayment(calculatorService.calculator(entity.getTotalNumber()));
+        electricBoardRepository.save(entity);
+        InvoiceEntity invoice = new InvoiceEntity();
+        invoice.setId(entity.getId());
+        invoice.setElectricNumber(entity.getTotalNumber());
+        invoice.setUsername(entity.getUsername());
+        invoice.setCustomerName(entity.getUsername());
+        invoice.setTotalPayment(entity.getTotalPayment());
+        invoice.setStatus("UNPAID");
+        invoice.setElectricNumber(entity.getTotalNumber());
+        invoice.setElectricBoardId(entity.getId());
+        invoiceRepository.save(invoice);
+
         return electricBoardRepository.save(entity);
     }
 
@@ -44,8 +60,8 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
     }
 
     @Override
-    public List<ElectricBoardEntity> getAllByCustomerCode(String customerCode) {
-        return electricBoardRepository.findAllByCustomerCode(customerCode);
+    public List<ElectricBoardEntity> getAllByCustomerUserName(String username) {
+        return electricBoardRepository.findAllByUsername(username);
     }
 
     @Override

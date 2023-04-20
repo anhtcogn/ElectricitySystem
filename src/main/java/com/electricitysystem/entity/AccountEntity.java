@@ -25,7 +25,7 @@ public class AccountEntity implements Serializable {
     private int role;
 
     @OneToOne
-    @JoinColumn(name = "customer_code")
+    @JoinColumn(name = "customer_id")
     private CustomerEntity customer;
 
     @OneToOne

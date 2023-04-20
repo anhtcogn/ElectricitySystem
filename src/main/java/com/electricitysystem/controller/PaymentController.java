@@ -34,23 +34,17 @@ public class PaymentController {
     @Autowired
     private PayWithCashService payWithCashService;
     @PostMapping("/pay")
-    public String payment(@RequestParam int electricBoardId) {
+    public String payment(@RequestParam int id) {
         String token = "";
         try {
-            ElectricBoardEntity electricBoard = electricBoardService.getOneById(electricBoardId);
+            ElectricBoardEntity electricBoard = electricBoardService.getOneById(id);
             Payment payment = payWithPaypalService.createPayment(electricBoard.getTotalPayment() / 23447, "USD", "paypal",
                     "sale", "thanh toan tien dien"
                     , "http://localhost:9090/" + PAYPAL_CANCEL_URL,
                     "http://localhost:9090/" + PAYPAL_SUCCESS_URL);
             System.out.println(payment);
-            InvoiceEntity invoice = new InvoiceEntity();
-            invoice.setId(electricBoard.getId());
-            invoice.setElectricBoardId(electricBoardId);
-            invoice.setElectricNumber(electricBoard.getTotalNumber());
-            invoice.setCustomerCode(electricBoard.getCustomerCode());
-            invoice.setTotalPayment(electricBoard.getTotalPayment());
+            InvoiceEntity invoice = invoiceService.getById(id);
             invoice.setStatus("PAYMENT PENDING");
-            invoice.setId(electricBoardId);
 //            invoiceRepository.save(invoice);
 
             for(Links link:payment.getLinks()) {
@@ -66,7 +60,7 @@ public class PaymentController {
         } catch (PayPalRESTException e) {
             e.printStackTrace();
         }
-        return token;
+        return "payment pending";
     }
 
     @GetMapping(value = PAYPAL_CANCEL_URL)
@@ -92,18 +86,18 @@ public class PaymentController {
                 invoice.setPaymentDate(LocalDateTime.now());
                 invoice.setStatus("PAID");
                 invoiceRepository.save(invoice);
-                return "success";
+                return "payment success";
             }
         } catch (PayPalRESTException e) {
             System.out.println(e.getMessage());
         }
-        return "";
+        return "payment success";
     }
 
     @PostMapping("payWithCash")
     public String payWithCash(
-            @RequestParam int electricBoardId
+            @RequestParam int id
     ) {
-        return payWithCashService.pay(electricBoardId);
+        return payWithCashService.payWithCash(id);
     }
 }

@@ -7,20 +7,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class InvoiceService {
+public interface InvoiceService {
 
-    @Autowired
-    private InvoiceRepository invoiceRepository;
+    List<InvoiceEntity> getAllByUsername(String username);
 
-    public List<InvoiceEntity> getByCustomerCode(String customerCode) {
-        return invoiceRepository.findAllByCustomerCode(customerCode);
-    }
-    public InvoiceEntity getByToken(String token) {
-        return invoiceRepository.findByToken(token);
-    }
-    public List<InvoiceEntity> getAll() {
-        return invoiceRepository.findAll();
-    }
+    InvoiceEntity getByToken(String token);
 
+    InvoiceEntity getById(int id);
+
+    List<InvoiceEntity> getAll();
+
+    List<InvoiceEntity> getAllByStatus(String status);
+
+    InvoiceEntity updateStatus(int id, String status);
 }

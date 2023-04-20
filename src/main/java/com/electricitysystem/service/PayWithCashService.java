@@ -22,20 +22,9 @@ public class PayWithCashService {
 
     @Autowired
     private InvoiceRepository invoiceRepository;
-    public String pay(int electricBoardId) {
-        ElectricBoardEntity electricBoard = electricBoardRepository.getById(electricBoardId);
-        InvoiceEntity invoice = new InvoiceEntity();
-        invoice.setId(electricBoard.getId());
-        invoice.setElectricNumber(electricBoard.getTotalNumber());
-        invoice.setCustomerCode(customerRepository.getCustomerEntityById(
-                electricBoard.getCustomerCode()).getName());
-        invoice.setCustomerName(electricBoard.getCustomerCode());
-        invoice.setTotalPayment(electricBoard.getTotalPayment());
-        invoice.setStatus("PAID");
-        invoice.setElectricNumber(electricBoard.getTotalNumber());
-        invoice.setElectricBoardId(electricBoardId);
-        invoice.setPaymentDate(LocalDateTime.now());
-        invoiceRepository.save(invoice);
-        return "Success";
+
+    public String payWithCash(int id) {
+        InvoiceEntity invoice = invoiceRepository.getById(id);
+        return "Vui long den diem thanh toan gan nhat de dong tien dien.";
     }
 }

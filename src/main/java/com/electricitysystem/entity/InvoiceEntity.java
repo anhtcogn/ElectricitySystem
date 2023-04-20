@@ -19,8 +19,8 @@ public class InvoiceEntity {
     private int electricNumber;
     @Column(name = "status")
     private String status;
-    @Column(name = "customer_code")
-    private String customerCode;
+    @Column(name = "username")
+    private String username;
     @Column(name = "customer_name")
     private String customerName;
     @Column(name = "electric_board_id")

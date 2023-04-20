@@ -21,7 +21,6 @@ public class ElectricBoardEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "meter_code", nullable = false)
-
     private String meterCode;
     @Column(name = "old_number", nullable = false)
     @Min(0)
@@ -32,16 +31,16 @@ public class ElectricBoardEntity {
     @Column(name = "total_number", nullable = false)
     @Min(0)
     private int totalNumber;
-    @Column(name = "time_read", nullable = false)
+    @Column(name = "time_read", nullable = true)
     private String timeReadMeter;
-    @Column(name = "time_update", nullable = false)
+    @Column(name = "time_update", nullable = true)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @CreationTimestamp
     private LocalDateTime timeUpdate;
-    @Column(name = "customer_code")
-    private String customerCode;
+    @Column(name = "username")
+    private String username;
     @Column(name = "total_payment")
     private Double totalPayment;
-    @NotEmpty(message = "Ky hoa don khong duoc de trong")
+//    @NotEmpty(message = "Ky hoa don khong duoc de trong")
     private String period;
 }
