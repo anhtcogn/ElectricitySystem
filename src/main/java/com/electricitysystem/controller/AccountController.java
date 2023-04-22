@@ -1,5 +1,6 @@
 package com.electricitysystem.controller;
 
+import com.electricitysystem.service.CustomerService;
 import com.electricitysystem.service.impl.AccountDetails;
 import com.electricitysystem.dto.AccountDto;
 import com.electricitysystem.entity.AccountEntity;
@@ -34,6 +35,8 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
     @Autowired
+    private CustomerService customerService;
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private CustomerRepository customerRepository;
@@ -58,6 +61,9 @@ public class AccountController {
             return ResponseEntity.ok(
                     new JwtResponse(jwt,userDetails.getId(),userDetails.getUsername(), roles, account.getStaff().getId().toString()));
         }
+
+        customerService.updateStatus(userDetails.getUsername(), "UNPAID");
+
         return ResponseEntity.ok(
                 new JwtResponse(jwt,userDetails.getId(),userDetails.getUsername(), roles, account.getCustomer().getUsername()));
     }

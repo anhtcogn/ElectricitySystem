@@ -2,6 +2,8 @@ package com.electricitysystem.entity;
 
 import javax.persistence.*;
 import lombok.Data;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -26,4 +28,7 @@ public class InvoiceEntity {
     @Column(name = "electric_board_id")
     private Integer electricBoardId;
     private String token;
+
+    @Column(name = "last_time_pay")
+    private String lastTimePay;
 }

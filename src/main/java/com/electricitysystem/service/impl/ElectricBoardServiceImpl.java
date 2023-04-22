@@ -7,9 +7,15 @@ import com.electricitysystem.repository.ElectricBoardRepository;
 import com.electricitysystem.repository.InvoiceRepository;
 import com.electricitysystem.service.CalculatorService;
 import com.electricitysystem.service.ElectricBoardService;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -44,9 +50,15 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
         invoice.setId(entity.getId());
         invoice.setElectricNumber(entity.getTotalNumber());
         invoice.setUsername(entity.getUsername());
-        invoice.setCustomerName(entity.getUsername());
+        invoice.setCustomerName(customerRepository.getByUsername(electricBoard.getUsername()).getName());
         invoice.setTotalPayment(entity.getTotalPayment());
         invoice.setStatus("UNPAID");
+
+        LocalDate nextWeek = new LocalDate().minusDays(1);
+        Date date = nextWeek.toDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        invoice.setLastTimePay(sdf.format(date));
+
         invoice.setElectricNumber(entity.getTotalNumber());
         invoice.setElectricBoardId(entity.getId());
         invoiceRepository.save(invoice);

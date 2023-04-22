@@ -16,7 +16,6 @@ public class CustomerController {
     @Autowired
     CustomerService customerService;
 
-
     @GetMapping("getListCustomersInfo")
     public ResponseEntity<?> allCustomer(){
         List<CustomerEntity> list = new ArrayList<>();
@@ -33,4 +32,5 @@ public class CustomerController {
             return ResponseEntity.ok("Không tìm thấy khách hàng");
         return ResponseEntity.ok(customerService.getCustomerByUsername(username));
     }
+
 }

@@ -12,4 +12,6 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
     List<InvoiceEntity> getAllByStatus(String status);
     InvoiceEntity getById(Integer id);
     InvoiceEntity findByToken(String token);
+
+    InvoiceEntity findByUsernameAndStatus(String username, String status);
 }

@@ -11,4 +11,6 @@ public interface CustomerService {
     CustomerEntity addCustomer(CustomerEntity customer);
 
     List<CustomerEntity> findAll();
+
+    CustomerEntity updateStatus(String username, String status);
 }
