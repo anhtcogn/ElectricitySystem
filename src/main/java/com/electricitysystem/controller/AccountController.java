@@ -1,5 +1,6 @@
 package com.electricitysystem.controller;
 
+import com.electricitysystem.entity.CustomerEntity;
 import com.electricitysystem.service.CustomerService;
 import com.electricitysystem.service.impl.AccountDetails;
 import com.electricitysystem.dto.AccountDto;
@@ -57,15 +58,20 @@ public class AccountController {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
         AccountEntity account = accountRepository.getAccountEntityByUsername(accountDto.getUsername());
-        if ( account.getRole() == 0){
-            return ResponseEntity.ok(
-                    new JwtResponse(jwt,userDetails.getId(),userDetails.getUsername(), roles, account.getStaff().getId().toString()));
+        String status = "admin";
+        if (!accountDto.getUsername().trim().equals("admin123")) {
+            CustomerEntity customer = customerService.updateStatus(userDetails.getUsername(), "UNPAID");
+            status = customer.getStatus();
         }
 
-        customerService.updateStatus(userDetails.getUsername(), "UNPAID");
+        if ( account.getRole() == 0){
+            return ResponseEntity.ok(
+                    new JwtResponse(jwt,userDetails.getId(),userDetails.getUsername(), roles, account.getStaff().getId().toString(),
+                            status));
+        }
 
         return ResponseEntity.ok(
-                new JwtResponse(jwt,userDetails.getId(),userDetails.getUsername(), roles, account.getCustomer().getUsername()));
+                new JwtResponse(jwt,userDetails.getId(),userDetails.getUsername(), roles, account.getCustomer().getUsername(), status));
     }
     @GetMapping(value="/authenticate", produces = "application/json")
     public boolean authenticate(@RequestHeader("Authorization") String token) {

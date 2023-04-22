@@ -17,15 +17,17 @@ public class JwtResponse {
     private List<String> roles;
 
     private String code;
+    private String status;
 
     public JwtResponse(String token, Integer id, String username,
-                       List<String> roles, String code) {
+                       List<String> roles, String code, String status) {
         super();
         this.token = token;
         this.id = id;
         this.username = username;
         this.roles = roles;
         this.code=code;
+        this.status=status;
     }
 
 
