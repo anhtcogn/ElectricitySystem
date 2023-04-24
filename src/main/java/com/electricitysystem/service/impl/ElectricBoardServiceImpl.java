@@ -53,8 +53,8 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
         invoice.setCustomerName(customerRepository.getByUsername(electricBoard.getUsername()).getName());
         invoice.setTotalPayment(entity.getTotalPayment());
         invoice.setStatus("UNPAID");
-
-        LocalDate nextWeek = new LocalDate().minusDays(1);
+        invoice.setAddress(customerRepository.getByUsername(electricBoard.getUsername()).getAddress());
+        LocalDate nextWeek = new LocalDate().plusDays(7);
         Date date = nextWeek.toDate();
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         invoice.setLastTimePay(sdf.format(date));
