@@ -1,5 +1,6 @@
 package com.electricitysystem.service.impl;
 
+import com.electricitysystem.dto.AccountDto;
 import com.electricitysystem.entity.AccountEntity;
 import com.electricitysystem.entity.CustomerEntity;
 import com.electricitysystem.entity.StaffEntity;
@@ -51,6 +52,11 @@ public class AccountServiceImpl implements AccountService {
         if(account.getStaff()!=null)
             return account.getStaff();
         return null;
+    }
+
+    @Override
+    public AccountEntity login(AccountDto accountDto) {
+        return accountRepository.getAccountEntityByUsername(accountDto.getUsername());
     }
 
 

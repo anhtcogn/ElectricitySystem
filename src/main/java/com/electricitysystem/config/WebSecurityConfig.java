@@ -45,10 +45,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .httpBasic().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/login", "/register","/","/userInfo").permitAll()
-                .antMatchers(HttpMethod.GET,"/admin").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/**").permitAll()
                 .and()
-                .formLogin().loginPage("/login").permitAll().and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

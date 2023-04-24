@@ -38,5 +38,6 @@ public class AccountEntity implements Serializable {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(salt, new SecureRandom());
         return bCryptPasswordEncoder.encode(password);
     }
+
 }
 

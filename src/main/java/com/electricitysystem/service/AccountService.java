@@ -1,5 +1,6 @@
 package com.electricitysystem.service;
 
+import com.electricitysystem.dto.AccountDto;
 import com.electricitysystem.entity.AccountEntity;
 import com.electricitysystem.entity.CustomerEntity;
 import com.electricitysystem.entity.StaffEntity;
@@ -14,5 +15,7 @@ public interface AccountService extends UserDetailsService {
     CustomerEntity getCustomerbyAccount(AccountEntity account);
 
     StaffEntity getStaffbyAccount(AccountEntity account);
+
+    AccountEntity login(AccountDto accountDto);
 
 }

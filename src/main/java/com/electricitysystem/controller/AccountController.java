@@ -49,29 +49,24 @@ public class AccountController {
             return ResponseEntity.ok("Vui lòng nhập tên đăng nhập");
         if (accountDto.getPassword().trim() == null)
             return ResponseEntity.ok("Vui lòng nhập mật khẩu");
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(accountDto.getUsername(), accountDto.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtility.generateJwtToken(accountDto.getUsername());
-        AccountDetails userDetails = (AccountDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-        AccountEntity account = accountRepository.getAccountEntityByUsername(accountDto.getUsername());
+        AccountEntity account = accountService.login(accountDto);
+        if (account == null)
+            return ResponseEntity.ok("Thông tin đăng nhập không chính xác");
+        String jwt = jwtUtility.generateJwtToken(account.getUsername());
         String status = "admin";
         if (!accountDto.getUsername().trim().equals("admin123")) {
-            CustomerEntity customer = customerService.updateStatus(userDetails.getUsername(), "UNPAID");
+            CustomerEntity customer = customerService.updateStatus(account.getUsername(), "UNPAID");
             status = customer.getStatus();
         }
 
         if ( account.getRole() == 0){
             return ResponseEntity.ok(
-                    new JwtResponse(jwt,userDetails.getId(),userDetails.getUsername(), roles, account.getStaff().getId().toString(),
+                    new JwtResponse(jwt,account.getId(),account.getUsername(), "ROLE_ADMIN", account.getStaff().getId().toString(),
                             status));
         }
 
         return ResponseEntity.ok(
-                new JwtResponse(jwt,userDetails.getId(),userDetails.getUsername(), roles, account.getCustomer().getUsername(), status));
+                new JwtResponse(jwt,account.getId(),account.getUsername(), "ROLE_USER", account.getCustomer().getUsername(), status));
     }
     @GetMapping(value="/authenticate", produces = "application/json")
     public boolean authenticate(@RequestHeader("Authorization") String token) {
