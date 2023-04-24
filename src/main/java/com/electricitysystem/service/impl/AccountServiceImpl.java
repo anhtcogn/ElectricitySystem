@@ -12,6 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -25,6 +26,9 @@ public class AccountServiceImpl implements AccountService {
     AccountRepository accountRepository;
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public AccountEntity getAccountEntityByUserName(String username) {
@@ -56,7 +60,11 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountEntity login(AccountDto accountDto) {
-        return accountRepository.getAccountEntityByUsername(accountDto.getUsername());
+        AccountEntity account =getAccountEntityByUserName(accountDto.getUsername());
+        if (bCryptPasswordEncoder.matches(accountDto.getPassword(), account.getPassword()))
+            return account;
+        else return null;
+
     }
 
 

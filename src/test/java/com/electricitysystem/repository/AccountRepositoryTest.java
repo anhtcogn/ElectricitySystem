@@ -6,16 +6,23 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 
+import javax.transaction.Transactional;
+
 @SpringBootTest
+@Transactional
 @DisplayName("AccountRepository Tests")
-@Rollback
+//@Transactional
 public class AccountRepositoryTest {
 
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
     @Test
@@ -33,6 +40,15 @@ public class AccountRepositoryTest {
         Assertions.assertThat(account).isNull();
     }
 
+    @Test
+    public void updateAccount_changePassword(){
+        String newPassword= "Password1";
+        AccountEntity account = accountRepository.getAccountEntityByUsername("HD11300001");
+        account.setPassword(account.hashPassword(newPassword));
+        accountRepository.save(account);
+        Assertions.assertThat(account).isNotNull();
+        Assertions.assertThat(bCryptPasswordEncoder.matches(newPassword, account.getPassword())).isTrue();
+    }
 
 
 
