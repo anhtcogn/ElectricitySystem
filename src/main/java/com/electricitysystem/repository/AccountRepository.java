@@ -10,7 +10,4 @@ import java.util.List;
 public interface AccountRepository extends JpaRepository<AccountEntity, Integer> {
     public AccountEntity getAccountEntityByUsername(String username);
 
-    public List<AccountEntity> getAccountEntitiesByRole(int role);
-
-    boolean existsAccountEntityByUsername(String username);
 }
