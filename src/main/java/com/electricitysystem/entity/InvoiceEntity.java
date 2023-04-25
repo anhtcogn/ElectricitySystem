@@ -27,7 +27,7 @@ public class InvoiceEntity {
     private String customerName;
     @Column(name = "electric_board_id")
     private Integer electricBoardId;
-    private String token;
+    private String token="";
     private String address;
     @Column(name = "last_time_pay")
     private String lastTimePay;

@@ -3,6 +3,9 @@ package com.electricitysystem.service;
 import com.electricitysystem.entity.CalculatorEntity;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 @Service
 public class CalculatorService {
     public double calculator(int totalNumber) {

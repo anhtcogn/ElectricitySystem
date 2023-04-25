@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -25,7 +26,6 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
 
     @Autowired
     private ElectricBoardRepository electricBoardRepository;
-
     @Autowired
     private InvoiceRepository invoiceRepository;
     @Autowired
@@ -35,17 +35,24 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
     @Override
     public ElectricBoardEntity create(ElectricBoardEntity electricBoard) {
         ElectricBoardEntity entity = new ElectricBoardEntity();
+
         entity.setUsername(electricBoard.getUsername());
         entity.setMeterCode(customerRepository.getByUsername(electricBoard.getUsername()).getMeterCode());
-        entity.setOldNumber(electricBoard.getOldNumber());
+        entity.setOldNumber(electricBoardRepository.findNearestElectricBoard(electricBoard.getUsername()).getOldNumber());
         entity.setNewNumber(electricBoard.getNewNumber());
-        entity.setTimeReadMeter(electricBoard.getTimeReadMeter());
         entity.setTimeUpdate(LocalDateTime.now());
-        entity.setPeriod(electricBoard.getPeriod());
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        entity.setTimeReadMeter(sdf.format(new LocalDate().toDate()));
+        int thisMon = new Date().getMonth() + 1;
+        String period = thisMon + "/" + "2023";
+        entity.setPeriod(period);
+
         electricBoardRepository.save(entity);
         entity.setTotalNumber(entity.getNewNumber() - entity.getOldNumber());
         entity.setTotalPayment(calculatorService.calculator(entity.getTotalNumber()));
         electricBoardRepository.save(entity);
+
         InvoiceEntity invoice = new InvoiceEntity();
         invoice.setId(entity.getId());
         invoice.setElectricNumber(entity.getTotalNumber());
@@ -54,9 +61,8 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
         invoice.setTotalPayment(entity.getTotalPayment());
         invoice.setStatus("UNPAID");
         invoice.setAddress(customerRepository.getByUsername(electricBoard.getUsername()).getAddress());
-        LocalDate nextWeek = new LocalDate().plusDays(7);
+        LocalDate nextWeek = new LocalDate().minusDays(2);
         Date date = nextWeek.toDate();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         invoice.setLastTimePay(sdf.format(date));
 
         invoice.setElectricNumber(entity.getTotalNumber());

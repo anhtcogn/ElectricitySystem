@@ -1,9 +1,11 @@
 package com.electricitysystem.entity;
 
 import javax.persistence.*;
+import javax.servlet.http.PushBuilder;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -41,6 +43,5 @@ public class ElectricBoardEntity {
     private String username;
     @Column(name = "total_payment")
     private Double totalPayment;
-//    @NotEmpty(message = "Ky hoa don khong duoc de trong")
     private String period;
 }
