@@ -5,7 +5,9 @@ import com.electricitysystem.service.ElectricBoardService;
 import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -16,16 +18,16 @@ public class ElectricBoardController {
     private ElectricBoardService electricBoardService;
 
     @PostMapping("/create")
-    public ElectricBoardEntity create(
-            @ModelAttribute ElectricBoardEntity electricBoard
-    ) {
-        return electricBoardService.create(electricBoard);
+    public String create(
+            @RequestParam("file") MultipartFile files) throws IOException {
+        electricBoardService.create(files);
+        return "import thanh cong";
     }
     @PostMapping("/update")
     public ElectricBoardEntity update(
             @ModelAttribute ElectricBoardEntity electricBoard
     ) {
-        return electricBoardService.create(electricBoard);
+        return electricBoardService.update(electricBoard);
     }
 
     @GetMapping("/getOneById")
