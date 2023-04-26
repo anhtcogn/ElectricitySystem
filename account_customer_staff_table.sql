@@ -5,13 +5,13 @@ INSERT INTO staff (`id`,`address`,`email`,`gender`,`username`,`name`,`phone_numb
 INSERT INTO staff (`id`,`address`,`email`,`gender`,`username`,`name`,`phone_number`) VALUES (4,'Hà Đông, Hà Nội','admin@gmail.com','1','admin123','Admin','0971261221');
 
 
-INSERT INTO customer (`meter_code`,`address`,`email`,`gender`,`name`,`phone_number`,`id`, `status`) VALUES ('PAC001','10 Trần Phú, Mộ Lao, Hà Đông','hoangvananh7201@gmail.com',1,'Hoàng Vân Anh','0961082342','HD11300001', 'ACTIVE');
-INSERT INTO customer (`meter_code`,`address`,`email`,`gender`,`name`,`phone_number`,`id`, `status`) VALUES ('PAC002','12 Nguyễn Văn Lộc, Mộ Lao, Hà Đông','hoangthuhien@gmail.com',1,'Hoàng Thu Hiền','0679823541','HD11300002', 'ACTIVE');
-INSERT INTO customer (`meter_code`,`address`,`email`,`gender`,`name`,`phone_number`,`id`, `status`) VALUES ('PAC003','82 Lê Lai, Hà Cầu, Hà Đông','nguyenvanquang@gmail.com',0,'Nguyễn Văn Quân','0967453276','HD11300003', 'ACTIVE');
-INSERT INTO customer (`meter_code`,`address`,`email`,`gender`,`name`,`phone_number`,`id`, `status`) VALUES ('PAC004','17 Thanh Bình, Vạn Phúc, Hà Đông','doanvanbach@gmail.com',0,'Đoàn Văn Bách','0367854312','HD11300004', 'ACTIVE');
-INSERT INTO customer (`meter_code`,`address`,`email`,`gender`,`name`,`phone_number`,`id`, `status`) VALUES ('PAC005','27 Lê Trọng Tấn, Quang Trung, Hà Đông','nguyenngocanh@gmail.com',1,'Nguyễn Ngọc Ánh','0946719823','HD11300005', 'ACTIVE');
-INSERT INTO customer (`meter_code`,`address`,`email`,`gender`,`name`,`phone_number`,`id`, `status`) VALUES ('PAC006','368 Quang Trung, Quang Trung, Hà Đông','tranngocanh@gmail.com',1,'Trần Thị Ngọc Anh','0786820123','HD11300006', 'ACTIVE');
-INSERT INTO customer (`meter_code`,`address`,`email`,`gender`,`name`,`phone_number`,`id`, `status`) VALUES ('PAC007','68 La Khê, Văn Khê, Hà Đông','phamducbinh@gmail.com',0,'Phạm Đức Bình','0986723198','HD11300007', 'ACTIVE');
+INSERT INTO customer (`meter_code`,`address`,`email`,`gender`,`name`,`phone_number`,`id`, `status`, `check_update`) VALUES ('PAC001','10 Trần Phú, Mộ Lao, Hà Đông','hoangvananh7201@gmail.com',1,'Hoàng Vân Anh','0961082342','HD11300001', 'ACTIVE', false);
+INSERT INTO customer (`meter_code`,`address`,`email`,`gender`,`name`,`phone_number`,`id`, `status`, `check_update`) VALUES ('PAC002','12 Nguyễn Văn Lộc, Mộ Lao, Hà Đông','hoangthuhien@gmail.com',1,'Hoàng Thu Hiền','0679823541','HD11300002', 'ACTIVE', false);
+INSERT INTO customer (`meter_code`,`address`,`email`,`gender`,`name`,`phone_number`,`id`, `status`, `check_update`) VALUES ('PAC003','82 Lê Lai, Hà Cầu, Hà Đông','nguyenvanquang@gmail.com',0,'Nguyễn Văn Quân','0967453276','HD11300003', 'ACTIVE', false);
+INSERT INTO customer (`meter_code`,`address`,`email`,`gender`,`name`,`phone_number`,`id`, `status`, `check_update`) VALUES ('PAC004','17 Thanh Bình, Vạn Phúc, Hà Đông','doanvanbach@gmail.com',0,'Đoàn Văn Bách','0367854312','HD11300004', 'ACTIVE', false);
+INSERT INTO customer (`meter_code`,`address`,`email`,`gender`,`name`,`phone_number`,`id`, `status`, `check_update`) VALUES ('PAC005','27 Lê Trọng Tấn, Quang Trung, Hà Đông','nguyenngocanh@gmail.com',1,'Nguyễn Ngọc Ánh','0946719823','HD11300005', 'ACTIVE', false);
+INSERT INTO customer (`meter_code`,`address`,`email`,`gender`,`name`,`phone_number`,`id`, `status`, `check_update`) VALUES ('PAC006','368 Quang Trung, Quang Trung, Hà Đông','tranngocanh@gmail.com',1,'Trần Thị Ngọc Anh','0786820123','HD11300006', 'ACTIVE', false);
+INSERT INTO customer (`meter_code`,`address`,`email`,`gender`,`name`,`phone_number`,`id`, `status`, `check_update`) VALUES ('PAC007','68 La Khê, Văn Khê, Hà Đông','phamducbinh@gmail.com',0,'Phạm Đức Bình','0986723198','HD11300007', 'ACTIVE', false);
 
 INSERT INTO account (`id`,`password`,`role`,`username`,`customer_id`,`staff_id`) VALUES (1,'$2a$12$lqvL7eCoNwE.Kwb47qaLJO0Y6mWzw9KOt8IxDxMib3vUpmnp39pJy',1,'HD11300001','HD11300001',NULL);
 INSERT INTO account (`id`,`password`,`role`,`username`,`customer_id`,`staff_id`) VALUES (2,'$2a$10$EtvJKcbeBsBDUMg49uR4sekm/NBhQt0j2X0NrZAywEbgMlDgafkHa',1,'HD11300002','HD11300002',NULL);

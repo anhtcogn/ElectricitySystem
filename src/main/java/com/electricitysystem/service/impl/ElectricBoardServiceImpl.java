@@ -1,5 +1,6 @@
 package com.electricitysystem.service.impl;
 
+import com.electricitysystem.entity.CustomerEntity;
 import com.electricitysystem.entity.ElectricBoardEntity;
 import com.electricitysystem.entity.InvoiceEntity;
 import com.electricitysystem.repository.CustomerRepository;
@@ -27,10 +28,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ElectricBoardServiceImpl implements ElectricBoardService {
@@ -113,6 +111,7 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
             entities.add(electricBoard);
         }
         electricBoardRepository.saveAll(entities);
+
         for (ElectricBoardEntity i:entities) {
             InvoiceEntity invoice = new InvoiceEntity();
             invoice.setId(i.getId());
@@ -128,6 +127,23 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
             invoice.setElectricNumber(i.getTotalNumber());
             invoice.setElectricBoardId(i.getId());
             invoiceRepository.save(invoice);
+        }
+
+        for (ElectricBoardEntity i:entities) {
+            ElectricBoardEntity electric1 = electricBoardRepository.findNearestElectricBoard(i.getUsername());
+
+            int thisMonth = DateTime.now().getMonthOfYear();
+            int thisYear = DateTime.now().getYear();
+            String period;
+            if (thisMonth < 10) {
+                period = "0"+ thisMonth + "-" + thisYear;
+            } else {
+                period = thisMonth + "-" + thisYear;
+            }
+            System.out.println(period);
+            CustomerEntity customer = customerRepository.getByUsername(i.getUsername());
+            customer.setCheckUpdate(Objects.equals(electric1.getPeriod(), period));
+            customerRepository.save(customer);
         }
     }
 

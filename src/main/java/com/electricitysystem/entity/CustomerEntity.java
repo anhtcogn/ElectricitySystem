@@ -25,6 +25,6 @@ public class CustomerEntity {
     private int gender;
     @Column(name = "meter_code", unique = true)
     private String meterCode;
-
     private String status = "ACTIVE";
+    private boolean checkUpdate = false;
 }
