@@ -140,7 +140,7 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
             } else {
                 period = thisMonth + "-" + thisYear;
             }
-            System.out.println(period);
+
             CustomerEntity customer = customerRepository.getByUsername(i.getUsername());
             customer.setCheckUpdate(Objects.equals(electric1.getPeriod(), period));
             customerRepository.save(customer);
