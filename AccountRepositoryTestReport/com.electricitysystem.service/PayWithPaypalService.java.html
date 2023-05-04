@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PayWithPaypalService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">InvoiceRepositoryTest Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.electricitysystem.service</a> &gt; <span class="el_source">PayWithPaypalService.java</span></div><h1>PayWithPaypalService.java</h1><pre class="source lang-java linenums">package com.electricitysystem.service;
+
+import com.paypal.api.payments.*;
+import com.paypal.base.rest.APIContext;
+import com.paypal.base.rest.PayPalRESTException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+<span class="fc" id="L15">public class PayWithPaypalService {</span>
+
+    @Autowired
+    private APIContext apiContext;
+
+    public Payment createPayment(
+            Double total,
+            String currency,
+            String method,
+            String intent,
+            String description,
+            String cancelUrl,
+            String successUrl) throws PayPalRESTException {
+
+<span class="nc" id="L29">        Amount amount = new Amount();</span>
+<span class="nc" id="L30">        amount.setCurrency(currency);</span>
+<span class="nc" id="L31">        total = new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue();</span>
+<span class="nc" id="L32">        amount.setTotal(String.format(&quot;%.2f&quot;, total));</span>
+
+<span class="nc" id="L34">        Transaction transaction = new Transaction();</span>
+<span class="nc" id="L35">        transaction.setDescription(description);</span>
+<span class="nc" id="L36">        transaction.setAmount(amount);</span>
+
+<span class="nc" id="L38">        List&lt;Transaction&gt; transactions = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L39">        transactions.add(transaction);</span>
+
+<span class="nc" id="L41">        Payer payer = new Payer();</span>
+<span class="nc" id="L42">        payer.setPaymentMethod(method.toString());</span>
+
+<span class="nc" id="L44">        Payment payment = new Payment();</span>
+<span class="nc" id="L45">        payment.setIntent(intent.toString());</span>
+<span class="nc" id="L46">        payment.setPayer(payer);</span>
+<span class="nc" id="L47">        payment.setTransactions(transactions);</span>
+<span class="nc" id="L48">        RedirectUrls redirectUrls = new RedirectUrls();</span>
+<span class="nc" id="L49">        redirectUrls.setCancelUrl(cancelUrl);</span>
+<span class="nc" id="L50">        redirectUrls.setReturnUrl(successUrl);</span>
+<span class="nc" id="L51">        payment.setRedirectUrls(redirectUrls);</span>
+
+<span class="nc" id="L53">        return payment.create(apiContext);</span>
+    }
+
+    public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException{
+<span class="nc" id="L57">        Payment payment = new Payment();</span>
+<span class="nc" id="L58">        payment.setId(paymentId);</span>
+<span class="nc" id="L59">        PaymentExecution paymentExecute = new PaymentExecution();</span>
+<span class="nc" id="L60">        paymentExecute.setPayerId(payerId);</span>
+<span class="nc" id="L61">        return payment.execute(apiContext, paymentExecute);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

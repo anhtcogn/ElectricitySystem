@@ -25,12 +25,6 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerEntity addCustomer(CustomerEntity customer) {
-
-        return customerRepository.save(customer);
-    }
-
-    @Override
     public List<CustomerEntity> findAll() {
         return customerRepository.findAll();
     }

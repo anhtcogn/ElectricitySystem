@@ -35,29 +35,6 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.getAccountEntityByUsername(username);
     }
 
-
-    @Override
-    public AccountEntity createAccount(AccountEntity account) {
-        account.setPassword(account.hashPassword(account.getPassword()));
-        accountRepository.save(account);
-        return null;
-    }
-
-
-    @Override
-    public CustomerEntity getCustomerbyAccount(AccountEntity account) {
-        if(account.getCustomer()!=null)
-            return account.getCustomer();
-        return null;
-    }
-
-    @Override
-    public StaffEntity getStaffbyAccount(AccountEntity account) {
-        if(account.getStaff()!=null)
-            return account.getStaff();
-        return null;
-    }
-
     @Override
     public AccountEntity login(AccountDto accountDto) {
         AccountEntity account =getAccountEntityByUserName(accountDto.getUsername());

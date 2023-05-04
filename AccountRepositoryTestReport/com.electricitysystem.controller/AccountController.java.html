@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AccountController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">InvoiceRepositoryTest Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.electricitysystem.controller</a> &gt; <span class="el_source">AccountController.java</span></div><h1>AccountController.java</h1><pre class="source lang-java linenums">package com.electricitysystem.controller;
+
+import com.electricitysystem.entity.CustomerEntity;
+import com.electricitysystem.service.CustomerService;
+import com.electricitysystem.service.impl.AccountDetails;
+import com.electricitysystem.dto.AccountDto;
+import com.electricitysystem.entity.AccountEntity;
+import com.electricitysystem.jwt.JwtResponse;
+import com.electricitysystem.jwt.JwtUtility;
+import com.electricitysystem.repository.AccountRepository;
+import com.electricitysystem.repository.CustomerRepository;
+import com.electricitysystem.service.AccountService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+@RestController
+<span class="fc" id="L29">public class AccountController {</span>
+    @Autowired
+    private JwtUtility jwtUtility;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private AccountRepository accountRepository;
+    @Autowired
+    private AccountService accountService;
+    @Autowired
+    private CustomerService customerService;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @PostMapping(value = &quot;/signin&quot;, consumes = {&quot;multipart/form-data&quot;})
+    public ResponseEntity&lt;?&gt; authenticateUser(@ModelAttribute AccountDto accountDto) {
+<span class="nc" id="L47">        String regexLength = &quot;^.{8,20}$&quot;;</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        if (accountDto.getUsername().trim() == null)</span>
+<span class="nc" id="L49">            return ResponseEntity.ok(&quot;Vui lòng nhập tên đăng nhập&quot;);</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        if (accountDto.getPassword().trim() == null)</span>
+<span class="nc" id="L51">            return ResponseEntity.ok(&quot;Vui lòng nhập mật khẩu&quot;);</span>
+<span class="nc" id="L52">        AccountEntity account = accountService.login(accountDto);</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        if (account == null)</span>
+<span class="nc" id="L54">            return ResponseEntity.ok(&quot;Thông tin đăng nhập không chính xác&quot;);</span>
+<span class="nc" id="L55">        String jwt = jwtUtility.generateJwtToken(account.getUsername());</span>
+<span class="nc" id="L56">        String status = &quot;admin&quot;;</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        if (!accountDto.getUsername().trim().equals(&quot;admin123&quot;)) {</span>
+<span class="nc" id="L58">            CustomerEntity customer = customerService.updateStatus(account.getUsername(), &quot;UNPAID&quot;);</span>
+<span class="nc" id="L59">            status = customer.getStatus();</span>
+        }
+
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        if ( account.getRole() == 0){</span>
+<span class="nc" id="L63">            return ResponseEntity.ok(</span>
+<span class="nc" id="L64">                    new JwtResponse(jwt,account.getId(),account.getUsername(), &quot;ROLE_ADMIN&quot;, account.getStaff().getId().toString(),</span>
+                            status));
+        }
+        else
+<span class="nc" id="L68">            return ResponseEntity.ok(</span>
+<span class="nc" id="L69">                    new JwtResponse(jwt,account.getId(),account.getUsername(), &quot;ROLE_USER&quot;, account.getCustomer().getUsername(), status));</span>
+    }
+    @GetMapping(value=&quot;/authenticate&quot;, produces = &quot;application/json&quot;)
+    public boolean authenticate(@RequestHeader(&quot;Authorization&quot;) String token) {
+<span class="nc" id="L73">        return jwtUtility.validateJwtToken(token);</span>
+    }
+
+    @PutMapping(value = &quot;/changepassword/{username}&quot;,  produces = &quot;application/json&quot;)
+    public String changePassword(@PathVariable String username,
+                                 @RequestParam(&quot;oldpassword&quot;)String oldpassword,@RequestParam(&quot;newpassword&quot;)String password){
+
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        if (oldpassword.trim() == null)</span>
+<span class="nc" id="L81">            return &quot;Vui lòng nhập mật khẩu cũ&quot;;</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        if (password.trim() ==null)</span>
+<span class="nc" id="L83">            return &quot;Vui lòng nhập mật khẩu mới&quot;;</span>
+        //validate password : ít nhất 1 số, 1 ký tự viết thường, 1 viết hoa, từ 8-20
+<span class="nc" id="L85">        String regexNumber = &quot;^(.*[0-9].*)$&quot;;</span>
+<span class="nc" id="L86">        String regexLowerCharacter = &quot;^(.*[a-z].*)$&quot;;</span>
+<span class="nc" id="L87">        String regexUpperCharacter = &quot;^(.*[A-Z].*)$&quot;;</span>
+<span class="nc" id="L88">        String regexSpecialChars = &quot;^(.*[@,#,$,%,.,,,!,*,&amp;,^,?].*$)&quot;;</span>
+<span class="nc" id="L89">        String regexLength = &quot;^.{8,20}$&quot;;</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">        if ( !isValidPassword(password, regexLength))</span>
+<span class="nc" id="L91">            return &quot;Mật khẩu phải có độ dài từ 8 đến 20 ký tự&quot;;</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        if ( !isValidPassword(password,regexUpperCharacter))</span>
+<span class="nc" id="L93">            return &quot;Mật khẩu phải có ít nhất một chữ hoa&quot;;</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        if ( !isValidPassword(password, regexNumber))</span>
+<span class="nc" id="L95">            return &quot;Mật khẩu phải có ít nhất một ký tự số&quot;;</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if ( !isValidPassword(password, regexLowerCharacter))</span>
+<span class="nc" id="L97">            return &quot;Mật khẩu phải có ít nhất một chữ thường&quot;;</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        if (isValidPassword(password, regexSpecialChars))</span>
+<span class="nc" id="L99">            return &quot;Mật khẩu không chứa các ký tự đặc biệt&quot;;</span>
+
+<span class="nc" id="L101">        AccountEntity account = accountRepository.getAccountEntityByUsername(username);</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        if ( account != null){</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">            if(!bCryptPasswordEncoder.matches(oldpassword, account.getPassword())){</span>
+<span class="nc" id="L104">                return  &quot;Mật khẩu cũ không đúng&quot;;</span>
+            }
+<span class="nc" id="L106">            account.setPassword(bCryptPasswordEncoder.encode(password));</span>
+<span class="nc" id="L107">            accountRepository.save(account);</span>
+<span class="nc" id="L108">            return &quot;Đổi mật khẩu thành công&quot;;</span>
+        }
+<span class="nc" id="L110">        return &quot;Không tìm thấy người dùng&quot;;</span>
+    }
+
+    private boolean isValidPassword(String password, String regex){
+<span class="nc" id="L114">        Pattern pattern = Pattern.compile(regex);</span>
+<span class="nc" id="L115">        Matcher matcher = pattern.matcher(password);</span>
+<span class="nc" id="L116">        return matcher.matches();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

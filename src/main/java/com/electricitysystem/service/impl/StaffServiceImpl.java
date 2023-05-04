@@ -10,10 +10,6 @@ import org.springframework.stereotype.Service;
 public class StaffServiceImpl implements StaffService {
     @Autowired
     private StaffRepository staffRepository;
-    @Override
-    public StaffEntity getStaffById(int id) {
-        return staffRepository.getStaffEntityById(id);
-    }
 
     @Override
     public StaffEntity getStaffByUsername(String username) {

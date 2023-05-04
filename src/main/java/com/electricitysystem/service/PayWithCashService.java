@@ -14,11 +14,6 @@ import java.time.LocalDateTime;
 
 @Service
 public class PayWithCashService {
-    @Autowired
-    private ElectricBoardRepository electricBoardRepository;
-
-    @Autowired
-    private CustomerRepository customerRepository;
 
     @Autowired
     private InvoiceRepository invoiceRepository;

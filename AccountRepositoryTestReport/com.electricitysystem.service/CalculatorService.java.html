@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CalculatorService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">InvoiceRepositoryTest Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.electricitysystem.service</a> &gt; <span class="el_source">CalculatorService.java</span></div><h1>CalculatorService.java</h1><pre class="source lang-java linenums">package com.electricitysystem.service;
+
+import com.electricitysystem.entity.CalculatorEntity;
+import org.springframework.stereotype.Service;
+
+@Service
+<span class="fc" id="L7">public class CalculatorService {</span>
+    public double calculator(int totalNumber) {
+        double totalAmount;
+<span class="nc" id="L10">        CalculatorEntity calculatorEntity = new CalculatorEntity();</span>
+
+<span class="nc bnc" id="L12" title="All 2 branches missed.">        if (totalNumber &lt;= 50) {</span>
+<span class="nc" id="L13">            calculatorEntity.setNumLevel1(totalNumber);</span>
+<span class="nc bnc" id="L14" title="All 2 branches missed.">        } else if (totalNumber &lt;= 100) {</span>
+<span class="nc" id="L15">            calculatorEntity.setNumLevel1(50);</span>
+<span class="nc" id="L16">            calculatorEntity.setNumLevel2(totalNumber - 50);</span>
+<span class="nc bnc" id="L17" title="All 2 branches missed.">        } else if (totalNumber &lt;= 200) {</span>
+<span class="nc" id="L18">            calculatorEntity.setNumLevel1(50);</span>
+<span class="nc" id="L19">            calculatorEntity.setNumLevel2(50);</span>
+<span class="nc" id="L20">            calculatorEntity.setNumLevel3(totalNumber - 100);</span>
+<span class="nc bnc" id="L21" title="All 2 branches missed.">        } else if (totalNumber &lt;= 300) {</span>
+<span class="nc" id="L22">            calculatorEntity.setNumLevel1(50);</span>
+<span class="nc" id="L23">            calculatorEntity.setNumLevel2(50);</span>
+<span class="nc" id="L24">            calculatorEntity.setNumLevel3(100);</span>
+<span class="nc" id="L25">            calculatorEntity.setNumLevel4(totalNumber - 200);</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">        } else if (totalNumber &lt;= 400) {</span>
+<span class="nc" id="L27">            calculatorEntity.setNumLevel1(50);</span>
+<span class="nc" id="L28">            calculatorEntity.setNumLevel2(50);</span>
+<span class="nc" id="L29">            calculatorEntity.setNumLevel3(100);</span>
+<span class="nc" id="L30">            calculatorEntity.setNumLevel4(100);</span>
+<span class="nc" id="L31">            calculatorEntity.setNumLevel5(totalNumber - 300);</span>
+        } else {
+<span class="nc" id="L33">            calculatorEntity.setNumLevel1(50);</span>
+<span class="nc" id="L34">            calculatorEntity.setNumLevel2(50);</span>
+<span class="nc" id="L35">            calculatorEntity.setNumLevel3(100);</span>
+<span class="nc" id="L36">            calculatorEntity.setNumLevel4(100);</span>
+<span class="nc" id="L37">            calculatorEntity.setNumLevel5(100);</span>
+<span class="nc" id="L38">            calculatorEntity.setNumLevel6(totalNumber - 400);</span>
+        }
+<span class="nc" id="L40">        totalAmount = calculatorEntity.getNumLevel1() * 1678 + calculatorEntity.getNumLevel2() * 1734</span>
+<span class="nc" id="L41">                + calculatorEntity.getNumLevel3() * 2014 + calculatorEntity.getNumLevel4() * 2536</span>
+<span class="nc" id="L42">                + calculatorEntity.getNumLevel5() * 2834 + calculatorEntity.getNumLevel6() * 2927;</span>
+
+        //caculatorRepository.save()
+
+<span class="nc" id="L46">        double vatAmount = totalAmount * 0.1;</span>
+<span class="nc" id="L47">        return totalAmount + vatAmount;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

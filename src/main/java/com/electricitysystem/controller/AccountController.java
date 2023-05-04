@@ -44,7 +44,6 @@ public class AccountController {
 
     @PostMapping(value = "/signin", consumes = {"multipart/form-data"})
     public ResponseEntity<?> authenticateUser(@ModelAttribute AccountDto accountDto) {
-        String regexLength = "^.{8,20}$";
         if (accountDto.getUsername().trim() == null)
             return ResponseEntity.ok("Vui lòng nhập tên đăng nhập");
         if (accountDto.getPassword().trim() == null)
@@ -67,10 +66,6 @@ public class AccountController {
         else
             return ResponseEntity.ok(
                     new JwtResponse(jwt,account.getId(),account.getUsername(), "ROLE_USER", account.getCustomer().getUsername(), status));
-    }
-    @GetMapping(value="/authenticate", produces = "application/json")
-    public boolean authenticate(@RequestHeader("Authorization") String token) {
-        return jwtUtility.validateJwtToken(token);
     }
 
     @PutMapping(value = "/changepassword/{username}",  produces = "application/json")

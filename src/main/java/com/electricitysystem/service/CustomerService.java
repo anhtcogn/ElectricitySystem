@@ -8,7 +8,6 @@ public interface CustomerService {
 
     CustomerEntity getCustomerByUsername(String username);
 
-    CustomerEntity addCustomer(CustomerEntity customer);
 
     List<CustomerEntity> findAll();
 

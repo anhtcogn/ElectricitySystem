@@ -10,11 +10,6 @@ import java.util.List;
 
 public interface AccountService extends UserDetailsService {
     AccountEntity getAccountEntityByUserName (String username);
-    AccountEntity createAccount(AccountEntity account);
-
-    CustomerEntity getCustomerbyAccount(AccountEntity account);
-
-    StaffEntity getStaffbyAccount(AccountEntity account);
 
     AccountEntity login(AccountDto accountDto);
 
