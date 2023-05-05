@@ -80,7 +80,7 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
 //    }
 
     @Override
-    public void create(@RequestParam("file") MultipartFile file) throws IOException {
+    public List<ElectricBoardEntity> create(@RequestParam("file") MultipartFile file) throws IOException {
         List<ElectricBoardEntity> entities = new ArrayList<>();
         XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
 
@@ -126,7 +126,7 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
         for (ElectricBoardEntity i:entities) {
             ElectricBoardEntity electric1 = electricBoardRepository.findNearestElectricBoard(i.getUsername());
 
-            int thisMonth = DateTime.now().getMonthOfYear();
+            int thisMonth = DateTime.now().getMonthOfYear() - 1;
             int thisYear = DateTime.now().getYear();
             String period;
             if (thisMonth < 10) {
@@ -134,15 +134,18 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
             } else {
                 period = thisMonth + "-" + thisYear;
             }
-
+            System.out.println(period);
             CustomerEntity customer = customerRepository.getByUsername(i.getUsername());
             customer.setCheckUpdate(Objects.equals(electric1.getPeriod(), period));
             customerRepository.save(customer);
         }
+        return electricBoardRepository.saveAll(entities);
     }
 
     @Override
     public ElectricBoardEntity update(ElectricBoardEntity electricBoard) {
+        ElectricBoardEntity entity = electricBoardRepository.findElectricBoardById(electricBoard.getId());
+        entity.setNewNumber(electricBoard.getNewNumber());
         return electricBoardRepository.save(electricBoard);
     }
 

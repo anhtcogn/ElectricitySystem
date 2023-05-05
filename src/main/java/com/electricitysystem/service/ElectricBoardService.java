@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ElectricBoardService {
 
-    void create(MultipartFile file) throws IOException;
+    List<ElectricBoardEntity> create(MultipartFile file) throws IOException;
     ElectricBoardEntity update(ElectricBoardEntity electricBoard);
 
     List<ElectricBoardEntity> getAllByCustomerUserName(String username);
