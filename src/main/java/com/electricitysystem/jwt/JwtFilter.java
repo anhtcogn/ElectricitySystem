@@ -26,7 +26,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private JwtUtility jwtUtility;
     @Autowired
     private AccountDetailServiceImpl accountDetailService;
-    @Autowired
+    @Autowired(required = false)
     private AccountRepository accountRepository;
 
     @Override

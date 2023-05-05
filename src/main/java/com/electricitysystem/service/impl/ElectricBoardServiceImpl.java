@@ -27,13 +27,13 @@ import java.util.*;
 @Service
 public class ElectricBoardServiceImpl implements ElectricBoardService {
 
-    @Autowired
+    @Autowired(required = false)
     private ElectricBoardRepository electricBoardRepository;
-    @Autowired
+    @Autowired(required = false)
     private InvoiceRepository invoiceRepository;
-    @Autowired
+    @Autowired(required = false)
     private CustomerRepository customerRepository;
-    @Autowired
+    @Autowired(required = false)
     protected CalculatorService calculatorService;
 //    @Override
 //    public ElectricBoardEntity create(ElectricBoardEntity electricBoard) {

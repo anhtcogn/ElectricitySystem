@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class InvoiceServiceImpl implements InvoiceService {
 
-    @Autowired
+    @Autowired(required = false)
     private InvoiceRepository invoiceRepository;
     @Override
     public List<InvoiceEntity> getAllByUsername(String username) {
