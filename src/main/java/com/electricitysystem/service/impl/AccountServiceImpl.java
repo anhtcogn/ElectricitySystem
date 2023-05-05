@@ -22,10 +22,10 @@ import java.util.Set;
 @Service
 public class AccountServiceImpl implements AccountService {
 
-    @Autowired
+    @Autowired(required = false)
     AccountRepository accountRepository;
 
-    @Autowired
+    @Autowired(required = false)
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override

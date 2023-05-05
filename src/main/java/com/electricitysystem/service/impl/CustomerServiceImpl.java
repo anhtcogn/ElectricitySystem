@@ -14,10 +14,10 @@ import java.util.List;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
-    @Autowired
+    @Autowired(required = false)
     CustomerRepository customerRepository;
 
-    @Autowired
+    @Autowired(required = false)
     InvoiceRepository invoiceRepository;
     @Override
     public CustomerEntity getCustomerByUsername(String username) {
