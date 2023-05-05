@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface ElectricBoardService {
 
-    void create(MultipartFile file) throws IOException;
-    ElectricBoardEntity update(ElectricBoardEntity electricBoard);
+    public void create(MultipartFile file) throws IOException;
+    public ElectricBoardEntity update(ElectricBoardEntity electricBoard);
 
-    List<ElectricBoardEntity> getAllByCustomerUserName(String username);
-    ElectricBoardEntity getOneById(Integer electricBoardId);
+    public List<ElectricBoardEntity> getAllByCustomerUserName(String username);
+    public ElectricBoardEntity getOneById(Integer electricBoardId);
 
 }

@@ -3,6 +3,7 @@ package com.electricitysystem.controller;
 import com.electricitysystem.entity.InvoiceEntity;
 import com.electricitysystem.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,34 +16,34 @@ public class InvoiceController {
     private InvoiceService invoiceService;
 
     @GetMapping("/getAllByUsername")
-    public List<InvoiceEntity> getAllByUsername(
+    public ResponseEntity<?> getAllByUsername(
             @RequestParam String username) {
-        return invoiceService.getAllByUsername(username);
+        return ResponseEntity.ok(invoiceService.getAllByUsername(username));
     }
 
     @GetMapping("/getByStatus")
-    public List<InvoiceEntity>  getByStatus(
+    public ResponseEntity<?>  getByStatus(
             @RequestParam String status
     ) {
-        return invoiceService.getAllByStatus(status);
+        return ResponseEntity.ok(invoiceService.getAllByStatus(status));
     }
     @GetMapping("/getAll")
-    public List<InvoiceEntity> getAll() {
-        return invoiceService.getAll();
+    public ResponseEntity<?> getAll() {
+        return ResponseEntity.ok(invoiceService.getAll());
     }
 
     @GetMapping("/getById")
-    public InvoiceEntity getById(
+    public ResponseEntity<?> getById(
             @RequestParam int id
     ) {
-        return invoiceService.getById(id);
+        return ResponseEntity.ok(invoiceService.getById(id));
     }
     @PostMapping("/updateStatus")
-    public InvoiceEntity updateStatus(
+    public ResponseEntity<?> updateStatus(
             @RequestParam int id,
             @RequestParam String status
     ) {
-        return invoiceService.updateStatus(id, status);
+        return ResponseEntity.ok(invoiceService.updateStatus(id, status));
     }
 
 }

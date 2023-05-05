@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -17,6 +18,7 @@ import java.util.Date;
 
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name = "electric_board")
 public class ElectricBoardEntity {
     @Id
@@ -44,4 +46,13 @@ public class ElectricBoardEntity {
     @Column(name = "total_payment")
     private Double totalPayment;
     private String period;
+
+    public ElectricBoardEntity(String meterCode, int oldNumber, int newNumber, String timeReadMeter, String username, String period) {
+        this.meterCode = meterCode;
+        this.oldNumber = oldNumber;
+        this.newNumber = newNumber;
+        this.timeReadMeter = timeReadMeter;
+        this.username = username;
+        this.period = period;
+    }
 }

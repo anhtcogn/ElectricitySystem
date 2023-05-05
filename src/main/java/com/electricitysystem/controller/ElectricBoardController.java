@@ -4,6 +4,7 @@ import com.electricitysystem.entity.ElectricBoardEntity;
 import com.electricitysystem.service.ElectricBoardService;
 import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,30 +19,30 @@ public class ElectricBoardController {
     private ElectricBoardService electricBoardService;
 
     @PostMapping("/create")
-    public String create(
+    public ResponseEntity<?> create(
             @RequestParam("file") MultipartFile files) throws IOException {
         electricBoardService.create(files);
-        return "import thanh cong";
+        return ResponseEntity.ok("Import file thành công");
     }
     @PostMapping("/update")
-    public ElectricBoardEntity update(
+    public ResponseEntity<?> update(
             @ModelAttribute ElectricBoardEntity electricBoard
     ) {
-        return electricBoardService.update(electricBoard);
+        return ResponseEntity.ok(electricBoardService.update(electricBoard));
     }
 
     @GetMapping("/getOneById")
-    public ElectricBoardEntity getOneById(
+    public ResponseEntity getOneById(
             @RequestParam int electricBoardId
     ) {
-        return electricBoardService.getOneById(electricBoardId);
+        return ResponseEntity.ok(electricBoardService.getOneById(electricBoardId));
     }
 
     @GetMapping("/getAllByUsername")
-    public List<ElectricBoardEntity> getAllByUsername(
+    public ResponseEntity<?> getAllByUsername(
             @RequestParam String username
     ) {
-        return electricBoardService.getAllByCustomerUserName(username);
+        return ResponseEntity.ok(electricBoardService.getAllByCustomerUserName(username));
     }
 
 }
