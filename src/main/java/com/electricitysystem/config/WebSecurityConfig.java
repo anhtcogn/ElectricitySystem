@@ -1,7 +1,9 @@
 package com.electricitysystem.config;
 
+import com.electricitysystem.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,12 +20,15 @@ import com.electricitysystem.service.impl.AccountDetailServiceImpl;
 
 @Configuration
 @EnableWebSecurity
+@ComponentScan(basePackages = "com.electricitysystem.service.impl")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
+    @Autowired(required = false)
     private AccountDetailServiceImpl accountService;
     @Autowired
     private JwtFilter jwtFilter;
+    @Autowired(required = false)
+    AccountRepository accountRepository;
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(accountService);

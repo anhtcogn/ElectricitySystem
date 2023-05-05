@@ -3,8 +3,10 @@ package com.electricitysystem.entity;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -14,6 +16,8 @@ import java.security.SecureRandom;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table (name = "account")
 public class AccountEntity implements Serializable {
     @Id

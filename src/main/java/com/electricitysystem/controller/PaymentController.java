@@ -11,6 +11,7 @@ import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -34,7 +35,7 @@ public class PaymentController {
     @Autowired
     private PayWithCashService payWithCashService;
     @PostMapping("/pay")
-    public String payment(@RequestParam int id) {
+    public ResponseEntity<?> payment(@RequestParam int id) {
         String token = "";
         try {
             ElectricBoardEntity electricBoard = electricBoardService.getOneById(id);
@@ -53,28 +54,28 @@ public class PaymentController {
                     token = s[2];
                     invoice.setToken(token);
                     invoiceRepository.save(invoice);
-                    return link.getHref();
+                    return ResponseEntity.ok(link.getHref());
                 }
             }
 
         } catch (PayPalRESTException e) {
             e.printStackTrace();
         }
-        return "payment pending";
+        return ResponseEntity.ok("payment pending");
     }
 
     @GetMapping(value = PAYPAL_CANCEL_URL)
-    public String cancelPay(
+    public ResponseEntity<?> cancelPay(
             @RequestParam("token") String token
     ) {
         InvoiceEntity invoice = invoiceService.getByToken(token);
         invoice.setPaymentDate(LocalDateTime.now());
         invoice.setStatus("UNPAID");
         invoiceRepository.save(invoice);
-        return "payment failed";
+        return ResponseEntity.ok("payment failed");
     }
     @GetMapping(value = PAYPAL_SUCCESS_URL)
-    public String successPay(
+    public ResponseEntity<?> successPay(
             @RequestParam("paymentId") String paymentId,
             @RequestParam("token") String token,
             @RequestParam("PayerID") String payerId) {
@@ -86,18 +87,18 @@ public class PaymentController {
                 invoice.setPaymentDate(LocalDateTime.now());
                 invoice.setStatus("PAID");
                 invoiceRepository.save(invoice);
-                return "payment success";
+                return ResponseEntity.ok("payment success");
             }
         } catch (PayPalRESTException e) {
             System.out.println(e.getMessage());
         }
-        return "payment success";
+        return ResponseEntity.ok("payment success");
     }
 
     @PostMapping("payWithCash")
-    public String payWithCash(
+    public ResponseEntity<?> payWithCash(
             @RequestParam int id
     ) {
-        return payWithCashService.payWithCash(id);
+        return ResponseEntity.ok(payWithCashService.payWithCash(id));
     }
 }

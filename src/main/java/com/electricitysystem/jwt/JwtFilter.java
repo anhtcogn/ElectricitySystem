@@ -22,11 +22,11 @@ import java.io.IOException;
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
-    @Autowired
+    @Autowired(required = false)
     private JwtUtility jwtUtility;
     @Autowired
     private AccountDetailServiceImpl accountDetailService;
-    @Autowired
+    @Autowired(required = false)
     private AccountRepository accountRepository;
 
     @Override

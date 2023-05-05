@@ -29,9 +29,7 @@ import java.util.stream.Collectors;
 public class AccountController {
     @Autowired
     private JwtUtility jwtUtility;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
+    @Autowired(required = false)
     private AccountRepository accountRepository;
     @Autowired
     private AccountService accountService;
@@ -39,11 +37,9 @@ public class AccountController {
     private CustomerService customerService;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-    @Autowired
-    private CustomerRepository customerRepository;
 
     @PostMapping(value = "/signin", consumes = {"multipart/form-data"})
-    public ResponseEntity<?> authenticateUser(@ModelAttribute AccountDto accountDto) {
+    public ResponseEntity<?> login(@ModelAttribute("account") AccountDto accountDto) {
         if (accountDto.getUsername().trim() == null)
             return ResponseEntity.ok("Vui lòng nhập tên đăng nhập");
         if (accountDto.getPassword().trim() == null)
@@ -53,9 +49,11 @@ public class AccountController {
             return ResponseEntity.ok("Thông tin đăng nhập không chính xác");
         String jwt = jwtUtility.generateJwtToken(account.getUsername());
         String status = "admin";
+        CustomerEntity customer = new CustomerEntity();
         if (!accountDto.getUsername().trim().equals("admin123")) {
-            CustomerEntity customer = customerService.updateStatus(account.getUsername(), "UNPAID");
-            status = customer.getStatus();
+            customer = customerService.updateStatus(account.getUsername(), "UNPAID");
+            if(customer != null)
+                status = customer.getStatus();
         }
 
         if ( account.getRole() == 0){
@@ -65,7 +63,7 @@ public class AccountController {
         }
         else
             return ResponseEntity.ok(
-                    new JwtResponse(jwt,account.getId(),account.getUsername(), "ROLE_USER", account.getCustomer().getUsername(), status));
+                    new JwtResponse(jwt,account.getId(),account.getUsername(), "ROLE_USER", account.getCustomer().getUsername(), customer.getStatus()));
     }
 
     @PutMapping(value = "/changepassword/{username}",  produces = "application/json")

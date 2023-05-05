@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class StaffServiceImpl implements StaffService {
-    @Autowired
+    @Autowired(required = false)
     private StaffRepository staffRepository;
 
     @Override

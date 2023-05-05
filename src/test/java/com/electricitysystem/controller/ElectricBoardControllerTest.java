@@ -1,61 +1,84 @@
 package com.electricitysystem.controller;
 
 import com.electricitysystem.entity.ElectricBoardEntity;
-import com.electricitysystem.repository.ElectricBoardRepository;
+import com.electricitysystem.service.CustomerService;
 import com.electricitysystem.service.ElectricBoardService;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Stream;
+import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-@WebMvcTest
-class ElectricBoardControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+@RunWith(MockitoJUnitRunner.class)
+@WebMvcTest(ElectricBoardController.class)
+public class ElectricBoardControllerTest {
 
-    @MockBean
+    @InjectMocks
+    private ElectricBoardController electricBoardController;
+
+    @Mock
     private ElectricBoardService electricBoardService;
 
-    @MockBean
-    private ElectricBoardRepository electricBoardRepository;
     @Test
-    void create() {
+    public void testCreateWithValidFile() throws IOException {
+        byte[] fileContent = "Test file content".getBytes();
+        MultipartFile file = new MockMultipartFile("file", "electric.xlsx", "text/plain", fileContent);
+        doNothing().when(electricBoardService).create(file);
+        String response = electricBoardController.create(file);
+        assertEquals("Import file thành công", response);
+    }
+
+    @Test(expected = IOException.class)
+    public void testCreateWithInvalidFile() throws Exception {
+        byte[] fileContent = "Test file content".getBytes();
+        MultipartFile file = new MockMultipartFile("file", "electric.xlsx", "text/plain", fileContent);
+        doThrow(new IOException()).when(electricBoardService).create(file);
+        String response = electricBoardController.create(file);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCreateWithNullFile() throws Exception{
+        doThrow(new IllegalArgumentException()).when(electricBoardService).create(null);
+        String response = electricBoardController.create(null);
     }
 
     @Test
-    void update() {
+    public void testUpdateWithValidInput_ReturnInformation() {
+        ElectricBoardEntity board = new ElectricBoardEntity("PAC001",1530,1686,
+                "04-05-2023", "HD11300001", "04-2023");
+        when(electricBoardService.update(any(ElectricBoardEntity.class)))
+                .thenReturn(board);
+
+        ElectricBoardEntity updateBoard = electricBoardController.update(board);
+        verify(electricBoardService, times(1)).update(board);
+        assertEquals(board, updateBoard);
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void testUpdateWithNullInput(){
+        doThrow(new IllegalArgumentException()).when(electricBoardService).update(null);
+        electricBoardController.update(null);
     }
 
-//    @Test
-//    public void getOneById() {
-//        Integer id = 1;
-//        when(electricBoardService.getOneById(id)).thenReturn(
-//                new ElectricBoardEntity(1, "PA0001", 1550, 1259, 291, "HD11300001",663053.6)
-//        );
-//        Assertions.assertEquals("HD11300001", electricBoardService.getOneById(id).getUsername());
-//    }
+    //test with invalid number with non number character
+    @Test
+    public void testUpdateWithMissingMeterCode_ReturnMessage(){
 
-//    @Test
-//    void getAllByUsername() throws Exception {
-//        when(electricBoardService.getAllByCustomerUserName(
-//                Mockito.anyString())).thenReturn(Arrays.asList(new ElectricBoardEntity(1, "PA0001", 1550, 1259, 291, "HD11300001",663053.6)));
-//        mockMvc.perform(get("/board/getAllByUsername?{username=}", "HD11300001")
-//                .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk());
-//
-//        verify(electricBoardService, times(1)).getAllByCustomerUserName(Mockito.anyString());
-//    }
+    }
+
+
+    @Test
+    public void getOneById() {
+    }
+
+    @Test
+    public void getAllByUsername() {
+    }
 }
