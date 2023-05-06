@@ -46,6 +46,8 @@ public class ElectricBoardEntity {
     @Column(name = "total_payment")
     private Double totalPayment;
     private String period;
+    @Column(name = "customer_name")
+    private String customerName;
 
     public ElectricBoardEntity(String meterCode, int oldNumber, int newNumber, String timeReadMeter, String username, String period) {
         this.meterCode = meterCode;

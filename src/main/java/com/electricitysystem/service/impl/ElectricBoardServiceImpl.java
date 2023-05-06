@@ -94,6 +94,7 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
             electricBoard.setPeriod(row.getCell(1).getStringCellValue());
             electricBoard.setUsername(row.getCell(2).getStringCellValue());
             electricBoard.setMeterCode(row.getCell(3).getStringCellValue());
+            electricBoard.setCustomerName(row.getCell(6).getStringCellValue());
             electricBoard.setOldNumber((int)(row.getCell(7).getNumericCellValue()));
             electricBoard.setNewNumber((int)(row.getCell(8).getNumericCellValue()));
             electricBoard.setTimeUpdate(LocalDateTime.now());
@@ -111,7 +112,7 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
             invoice.setId(i.getId());
             invoice.setElectricNumber(i.getTotalNumber());
             invoice.setUsername(i.getUsername());
-            invoice.setCustomerName(customerRepository.getByUsername(i.getUsername()).getName());
+            invoice.setCustomerName(i.getCustomerName());
             invoice.setTotalPayment(i.getTotalPayment());
             invoice.setStatus("UNPAID");
             invoice.setAddress(customerRepository.getByUsername(i.getUsername()).getAddress());
@@ -134,7 +135,6 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
             } else {
                 period = thisMonth + "-" + thisYear;
             }
-            System.out.println(period);
             CustomerEntity customer = customerRepository.getByUsername(i.getUsername());
             customer.setCheckUpdate(Objects.equals(electric1.getPeriod(), period));
             customerRepository.save(customer);
