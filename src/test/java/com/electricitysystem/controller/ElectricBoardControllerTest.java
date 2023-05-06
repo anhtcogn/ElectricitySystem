@@ -3,17 +3,22 @@ package com.electricitysystem.controller;
 import com.electricitysystem.entity.ElectricBoardEntity;
 import com.electricitysystem.service.CustomerService;
 import com.electricitysystem.service.ElectricBoardService;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,25 +38,38 @@ public class ElectricBoardControllerTest {
 
     @Test
     public void testCreateWithValidFile() throws IOException {
-        byte[] fileContent = "Test file content".getBytes();
-        MultipartFile file = new MockMultipartFile("file", "electric.xlsx", "text/plain", fileContent);
-        doNothing().when(electricBoardService).create(file);
-        ResponseEntity<?> response = electricBoardController.create(file);
-        assertEquals("Import file thành công", response.getBody());
+        List<ElectricBoardEntity> list = new ArrayList<>();
+        ElectricBoardEntity board = new ElectricBoardEntity("PAC001",1530,1686,
+                "04-05-2023", "HD11300001", "04-2023");
+        list.add(board);
+        when(electricBoardService.create(Mockito.any(MultipartFile.class)))
+                .thenReturn(list);
+
+        String path = new File("electric.xlsx").getAbsolutePath();
+        File file = new File(path);
+        FileInputStream inputStream = new FileInputStream(file);
+        MultipartFile multipartFile = new MockMultipartFile("file", file.getName(), MediaType.MULTIPART_FORM_DATA_VALUE, inputStream);
+
+        ResponseEntity<?> response = electricBoardController.create(multipartFile);
+        assertEquals(list, response.getBody());
     }
 
-    @Test(expected = IOException.class)
+    @Test
     public void testCreateWithInvalidFile() throws Exception {
         byte[] fileContent = "Test file content".getBytes();
         MultipartFile file = new MockMultipartFile("file", "electric.xlsx", "text/plain", fileContent);
         doThrow(new IOException()).when(electricBoardService).create(file);
-        ResponseEntity<?> response = electricBoardController.create(file);
+        assertThrows(IOException.class, () -> {
+            ResponseEntity<?> response = electricBoardController.create(file);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testCreateWithNullFile() throws Exception{
         doThrow(new IllegalArgumentException()).when(electricBoardService).create(null);
-        ResponseEntity<?> response = electricBoardController.create(null);
+        assertThrows(IllegalArgumentException.class, () -> {
+            ResponseEntity<?> response = electricBoardController.create(null);
+        });
     }
 
     @Test
@@ -65,10 +83,12 @@ public class ElectricBoardControllerTest {
         verify(electricBoardService, times(1)).update(board);
         assertEquals(board, response.getBody());
     }
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testUpdateWithNullInput(){
         doThrow(new IllegalArgumentException()).when(electricBoardService).update(null);
-        electricBoardController.update(null);
+        assertThrows(IllegalArgumentException.class, () -> {
+            electricBoardController.update(null);
+        });
     }
 
     //test with invalid number with non number character
@@ -183,7 +203,7 @@ public class ElectricBoardControllerTest {
     }
 
     @Test
-    public void testGetOneByIdWithNotExistId_ReturnElectricBoard() {
+    public void testGetOneByIdWithNotExistId_ReturnMessage() {
         ElectricBoardEntity board = new ElectricBoardEntity();
         board.setId(1);
         board.setMeterCode("PAC001");

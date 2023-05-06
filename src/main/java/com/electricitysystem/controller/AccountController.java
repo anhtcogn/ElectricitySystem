@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 @RestController
 public class AccountController {
-    @Autowired
+    @Autowired(required = false)
     private JwtUtility jwtUtility;
     @Autowired(required = false)
     private AccountRepository accountRepository;
@@ -40,9 +40,9 @@ public class AccountController {
 
     @PostMapping(value = "/signin", consumes = {"multipart/form-data"})
     public ResponseEntity<?> login(@ModelAttribute("account") AccountDto accountDto) {
-        if (accountDto.getUsername().trim() == null)
+        if (accountDto.getUsername().trim().equals(""))
             return ResponseEntity.ok("Vui lòng nhập tên đăng nhập");
-        if (accountDto.getPassword().trim() == null)
+        if (accountDto.getPassword().trim().equals(""))
             return ResponseEntity.ok("Vui lòng nhập mật khẩu");
         AccountEntity account = accountService.login(accountDto);
         if (account == null)
@@ -70,9 +70,9 @@ public class AccountController {
     public String changePassword(@PathVariable String username,
                                  @RequestParam("oldpassword")String oldpassword,@RequestParam("newpassword")String password){
 
-        if (oldpassword.trim() == null)
+        if (oldpassword.trim().equals(""))
             return "Vui lòng nhập mật khẩu cũ";
-        if (password.trim() ==null)
+        if (password.trim().equals(""))
             return "Vui lòng nhập mật khẩu mới";
         //validate password : ít nhất 1 số, 1 ký tự viết thường, 1 viết hoa, từ 8-20
         String regexNumber = "^(.*[0-9].*)$";

@@ -1,0 +1,151 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CustomerController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.electricitysystem.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: CustomerController (com.electricitysystem.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CustomerController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.electricitysystem.controller;
+&nbsp;
+&nbsp;import com.electricitysystem.dto.CustomerDto;
+&nbsp;import com.electricitysystem.entity.CustomerEntity;
+&nbsp;import com.electricitysystem.service.CustomerService;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;import org.w3c.dom.stylesheets.LinkStyle;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@RestController
+<b class="fc">&nbsp;public class CustomerController {</b>
+&nbsp;    @Autowired
+&nbsp;    CustomerService customerService;
+&nbsp;
+&nbsp;    @GetMapping(&quot;getListCustomersInfo&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; allCustomer(){
+<b class="fc">&nbsp;        List&lt;CustomerEntity&gt; list = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        list=customerService.findAll();</b>
+<b class="fc">&nbsp;        if (list.isEmpty())</b>
+<b class="fc">&nbsp;            return ResponseEntity.ok(&quot;Không có khách hàng nào&quot;);</b>
+<b class="fc">&nbsp;        else return ResponseEntity.ok(customerService.findAll());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(&quot;getCustomerInfo/{username}&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; findOneByUsername(@PathVariable String username){
+<b class="fc">&nbsp;        CustomerEntity customer = customerService.getCustomerByUsername(username);</b>
+<b class="fc">&nbsp;        if (customer==null)</b>
+<b class="fc">&nbsp;            return ResponseEntity.ok(&quot;Không tìm th?y khách hàng&quot;);</b>
+<b class="fc">&nbsp;        return ResponseEntity.ok(customerService.getCustomerByUsername(username));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-06 22:07</div>
+</div>
+</body>
+</html>

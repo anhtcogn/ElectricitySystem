@@ -1,0 +1,215 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PaymentController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.electricitysystem.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: PaymentController (com.electricitysystem.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PaymentController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (37/37)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.electricitysystem.controller;
+&nbsp;
+&nbsp;import com.electricitysystem.entity.ElectricBoardEntity;
+&nbsp;import com.electricitysystem.entity.InvoiceEntity;
+&nbsp;import com.electricitysystem.repository.InvoiceRepository;
+&nbsp;import com.electricitysystem.service.ElectricBoardService;
+&nbsp;import com.electricitysystem.service.InvoiceService;
+&nbsp;import com.electricitysystem.service.PayWithCashService;
+&nbsp;import com.electricitysystem.service.PayWithPaypalService;
+&nbsp;import com.paypal.api.payments.Links;
+&nbsp;import com.paypal.api.payments.Payment;
+&nbsp;import com.paypal.base.rest.PayPalRESTException;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.time.LocalDateTime;
+&nbsp;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@RequestMapping(&quot;/&quot;)
+<b class="fc">&nbsp;public class PaymentController {</b>
+&nbsp;    public static final String PAYPAL_SUCCESS_URL = &quot;pay/success&quot;;
+&nbsp;    public static final String PAYPAL_CANCEL_URL = &quot;pay/cancel&quot;;
+&nbsp;
+&nbsp;    @Autowired(required = false)
+&nbsp;    private InvoiceRepository invoiceRepository;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private InvoiceService invoiceService;
+&nbsp;    @Autowired(required = false)
+&nbsp;    private PayWithPaypalService payWithPaypalService;
+&nbsp;    @Autowired
+&nbsp;    private ElectricBoardService electricBoardService;
+&nbsp;    @Autowired(required = false)
+&nbsp;    private PayWithCashService payWithCashService;
+&nbsp;    @PostMapping(&quot;/pay&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; payment(@RequestParam int id) {
+<b class="fc">&nbsp;        String token = &quot;&quot;;</b>
+&nbsp;        try {
+<b class="fc">&nbsp;            ElectricBoardEntity electricBoard = electricBoardService.getOneById(id);</b>
+<b class="fc">&nbsp;            if(electricBoard!=null) {</b>
+<b class="fc">&nbsp;                Payment payment = payWithPaypalService.createPayment(electricBoard.getTotalPayment() / 23447, &quot;USD&quot;, &quot;paypal&quot;,</b>
+&nbsp;                        &quot;sale&quot;, &quot;thanh toan tien dien&quot;
+&nbsp;                        , &quot;http://localhost:9090/&quot; + PAYPAL_CANCEL_URL,
+&nbsp;                        &quot;http://localhost:9090/&quot; + PAYPAL_SUCCESS_URL);
+<b class="fc">&nbsp;                System.out.println(payment);</b>
+<b class="fc">&nbsp;                InvoiceEntity invoice = invoiceService.getById(id);</b>
+<b class="fc">&nbsp;                invoice.setStatus(&quot;PAYMENT PENDING&quot;);</b>
+&nbsp;//            invoiceRepository.save(invoice);
+&nbsp;
+<b class="fc">&nbsp;                for (Links link : payment.getLinks()) {</b>
+<b class="fc">&nbsp;                    if (link.getRel().equals(&quot;approval_url&quot;)) {</b>
+<b class="fc">&nbsp;                        String[] s = link.getHref().split(&quot;=&quot;);</b>
+<b class="fc">&nbsp;                        token = s[2];</b>
+<b class="fc">&nbsp;                        invoice.setToken(token);</b>
+<b class="fc">&nbsp;                        invoiceRepository.save(invoice);</b>
+<b class="fc">&nbsp;                        return ResponseEntity.ok(link.getHref());</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                }</b>
+&nbsp;            }
+<b class="fc">&nbsp;        } catch (PayPalRESTException e) {</b>
+<b class="fc">&nbsp;            e.printStackTrace();</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return ResponseEntity.ok(&quot;payment pending&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(value = PAYPAL_CANCEL_URL)
+&nbsp;    public ResponseEntity&lt;?&gt; cancelPay(
+&nbsp;            @RequestParam(&quot;token&quot;) String token) {
+<b class="fc">&nbsp;        InvoiceEntity invoice = invoiceService.getByToken(token);</b>
+<b class="fc">&nbsp;        invoice.setPaymentDate(LocalDateTime.now());</b>
+<b class="fc">&nbsp;        invoice.setStatus(&quot;UNPAID&quot;);</b>
+<b class="fc">&nbsp;        invoiceRepository.save(invoice);</b>
+<b class="fc">&nbsp;        return ResponseEntity.ok(&quot;payment failed&quot;);</b>
+&nbsp;    }
+&nbsp;    @GetMapping(value = PAYPAL_SUCCESS_URL)
+&nbsp;    public ResponseEntity&lt;?&gt; successPay(
+&nbsp;            @RequestParam(&quot;paymentId&quot;) String paymentId,
+&nbsp;            @RequestParam(&quot;token&quot;) String token,
+&nbsp;            @RequestParam(&quot;PayerID&quot;) String payerId) {
+&nbsp;        try {
+<b class="fc">&nbsp;            Payment payment = payWithPaypalService.executePayment(paymentId, payerId);</b>
+<b class="fc">&nbsp;            System.out.println(payment.toJSON());</b>
+<b class="fc">&nbsp;            if (payment.getState().equals(&quot;approved&quot;)) {</b>
+<b class="fc">&nbsp;                InvoiceEntity invoice = invoiceService.getByToken(token);</b>
+<b class="fc">&nbsp;                invoice.setPaymentDate(LocalDateTime.now());</b>
+<b class="fc">&nbsp;                invoice.setStatus(&quot;PAID&quot;);</b>
+<b class="fc">&nbsp;                invoiceRepository.save(invoice);</b>
+<b class="fc">&nbsp;                return ResponseEntity.ok(&quot;payment success&quot;);</b>
+&nbsp;            }
+<b class="fc">&nbsp;        } catch (PayPalRESTException e) {</b>
+<b class="fc">&nbsp;            System.out.println(e.getMessage());}</b>
+<b class="fc">&nbsp;        return ResponseEntity.ok(&quot;payment success&quot;);}</b>
+&nbsp;    @PostMapping(&quot;payWithCash&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; payWithCash(
+&nbsp;            @RequestParam int id
+&nbsp;    ) {
+<b class="fc">&nbsp;        return ResponseEntity.ok(payWithCashService.payWithCash(id));}</b>
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-06 22:07</div>
+</div>
+</body>
+</html>

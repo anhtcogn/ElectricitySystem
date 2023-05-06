@@ -23,41 +23,42 @@ public class PaymentController {
     public static final String PAYPAL_SUCCESS_URL = "pay/success";
     public static final String PAYPAL_CANCEL_URL = "pay/cancel";
 
-    @Autowired
+    @Autowired(required = false)
     private InvoiceRepository invoiceRepository;
 
     @Autowired
     private InvoiceService invoiceService;
-    @Autowired
+    @Autowired(required = false)
     private PayWithPaypalService payWithPaypalService;
     @Autowired
     private ElectricBoardService electricBoardService;
-    @Autowired
+    @Autowired(required = false)
     private PayWithCashService payWithCashService;
     @PostMapping("/pay")
     public ResponseEntity<?> payment(@RequestParam int id) {
         String token = "";
         try {
             ElectricBoardEntity electricBoard = electricBoardService.getOneById(id);
-            Payment payment = payWithPaypalService.createPayment(electricBoard.getTotalPayment() / 23447, "USD", "paypal",
-                    "sale", "thanh toan tien dien"
-                    , "http://localhost:9090/" + PAYPAL_CANCEL_URL,
-                    "http://localhost:9090/" + PAYPAL_SUCCESS_URL);
-            System.out.println(payment);
-            InvoiceEntity invoice = invoiceService.getById(id);
-            invoice.setStatus("PAYMENT PENDING");
+            if(electricBoard!=null) {
+                Payment payment = payWithPaypalService.createPayment(electricBoard.getTotalPayment() / 23447, "USD", "paypal",
+                        "sale", "thanh toan tien dien"
+                        , "http://localhost:9090/" + PAYPAL_CANCEL_URL,
+                        "http://localhost:9090/" + PAYPAL_SUCCESS_URL);
+                System.out.println(payment);
+                InvoiceEntity invoice = invoiceService.getById(id);
+                invoice.setStatus("PAYMENT PENDING");
 //            invoiceRepository.save(invoice);
 
-            for(Links link:payment.getLinks()) {
-                if(link.getRel().equals("approval_url")) {
-                    String[] s = link.getHref().split("=");
-                    token = s[2];
-                    invoice.setToken(token);
-                    invoiceRepository.save(invoice);
-                    return ResponseEntity.ok(link.getHref());
+                for (Links link : payment.getLinks()) {
+                    if (link.getRel().equals("approval_url")) {
+                        String[] s = link.getHref().split("=");
+                        token = s[2];
+                        invoice.setToken(token);
+                        invoiceRepository.save(invoice);
+                        return ResponseEntity.ok(link.getHref());
+                    }
                 }
             }
-
         } catch (PayPalRESTException e) {
             e.printStackTrace();
         }
@@ -66,8 +67,7 @@ public class PaymentController {
 
     @GetMapping(value = PAYPAL_CANCEL_URL)
     public ResponseEntity<?> cancelPay(
-            @RequestParam("token") String token
-    ) {
+            @RequestParam("token") String token) {
         InvoiceEntity invoice = invoiceService.getByToken(token);
         invoice.setPaymentDate(LocalDateTime.now());
         invoice.setStatus("UNPAID");
@@ -90,15 +90,11 @@ public class PaymentController {
                 return ResponseEntity.ok("payment success");
             }
         } catch (PayPalRESTException e) {
-            System.out.println(e.getMessage());
-        }
-        return ResponseEntity.ok("payment success");
-    }
-
+            System.out.println(e.getMessage());}
+        return ResponseEntity.ok("payment success");}
     @PostMapping("payWithCash")
     public ResponseEntity<?> payWithCash(
             @RequestParam int id
     ) {
-        return ResponseEntity.ok(payWithCashService.payWithCash(id));
-    }
+        return ResponseEntity.ok(payWithCashService.payWithCash(id));}
 }

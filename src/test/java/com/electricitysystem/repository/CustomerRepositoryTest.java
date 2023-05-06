@@ -32,7 +32,7 @@ public class CustomerRepositoryTest {
     public void testGetCustomerByUserNameWithNotExitedCustomer_ReturnNull(){
         String username = "notexited";
         CustomerEntity customer = customerRepository.getByUsername(username);
-        Assertions.assertThat(customer).isNotNull();
+        Assertions.assertThat(customer).isNull();
     }
 
     @Test

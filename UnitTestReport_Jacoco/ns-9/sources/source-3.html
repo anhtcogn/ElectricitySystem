@@ -1,0 +1,169 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > AccountServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.electricitysystem.service.impl</a>
+</div>
+
+<h1>Coverage Summary for Class: AccountServiceImpl (com.electricitysystem.service.impl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AccountServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (1/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    9.1%
+  </span>
+  <span class="absValue">
+    (1/11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.electricitysystem.service.impl;
+&nbsp;
+&nbsp;import com.electricitysystem.dto.AccountDto;
+&nbsp;import com.electricitysystem.entity.AccountEntity;
+&nbsp;import com.electricitysystem.entity.CustomerEntity;
+&nbsp;import com.electricitysystem.entity.StaffEntity;
+&nbsp;import com.electricitysystem.repository.AccountRepository;
+&nbsp;import com.electricitysystem.repository.CustomerRepository;
+&nbsp;import com.electricitysystem.service.AccountService;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.security.core.GrantedAuthority;
+&nbsp;import org.springframework.security.core.userdetails.User;
+&nbsp;import org.springframework.security.core.userdetails.UserDetails;
+&nbsp;import org.springframework.security.core.userdetails.UsernameNotFoundException;
+&nbsp;import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class AccountServiceImpl implements AccountService {</b>
+&nbsp;
+&nbsp;    @Autowired(required = false)
+&nbsp;    AccountRepository accountRepository;
+&nbsp;
+&nbsp;    @Autowired(required = false)
+&nbsp;    BCryptPasswordEncoder bCryptPasswordEncoder;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public AccountEntity getAccountEntityByUserName(String username) {
+<b class="nc">&nbsp;        return accountRepository.getAccountEntityByUsername(username);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public AccountEntity login(AccountDto accountDto) {
+<b class="nc">&nbsp;        AccountEntity account =getAccountEntityByUserName(accountDto.getUsername());</b>
+<b class="nc">&nbsp;        if (bCryptPasswordEncoder.matches(accountDto.getPassword(), account.getPassword()))</b>
+<b class="nc">&nbsp;            return account;</b>
+<b class="nc">&nbsp;        else return null;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+<b class="nc">&nbsp;        AccountEntity account = this.getAccountEntityByUserName(username);</b>
+<b class="nc">&nbsp;        if (account ==  null)</b>
+<b class="nc">&nbsp;            throw  new UsernameNotFoundException(username);</b>
+<b class="nc">&nbsp;        Set&lt;GrantedAuthority&gt; roles = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;        return new User(account.getUsername(), account.getPassword(), roles);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-06 22:07</div>
+</div>
+</body>
+</html>

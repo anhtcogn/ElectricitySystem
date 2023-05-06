@@ -1,0 +1,152 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ElectricBoardController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.electricitysystem.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: ElectricBoardController (com.electricitysystem.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ElectricBoardController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.electricitysystem.controller;
+&nbsp;
+&nbsp;import com.electricitysystem.entity.ElectricBoardEntity;
+&nbsp;import com.electricitysystem.service.ElectricBoardService;
+&nbsp;import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.MediaType;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;import org.springframework.web.multipart.MultipartFile;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@RequestMapping(&quot;/board&quot;)
+<b class="fc">&nbsp;public class ElectricBoardController {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private ElectricBoardService electricBoardService;
+&nbsp;
+&nbsp;    @PostMapping(value = &quot;/create&quot;,consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+&nbsp;            produces = MediaType.APPLICATION_JSON_VALUE )
+&nbsp;    public ResponseEntity&lt;?&gt; create(
+&nbsp;            @RequestParam(&quot;file&quot;) MultipartFile files) throws IOException {
+<b class="fc">&nbsp;        return ResponseEntity.ok(electricBoardService.create(files));</b>
+&nbsp;    }
+&nbsp;    @PostMapping(&quot;/update&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; update(
+&nbsp;            @ModelAttribute ElectricBoardEntity electricBoard
+&nbsp;    ) {
+<b class="fc">&nbsp;        return ResponseEntity.ok(electricBoardService.update(electricBoard));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(&quot;/getOneById&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; getOneById(
+&nbsp;            @RequestParam int electricBoardId
+&nbsp;    ) {
+<b class="fc">&nbsp;        return ResponseEntity.ok(electricBoardService.getOneById(electricBoardId));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(&quot;/getAllByUsername&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; getAllByUsername(
+&nbsp;            @RequestParam String username
+&nbsp;    ) {
+<b class="fc">&nbsp;        return ResponseEntity.ok(electricBoardService.getAllByCustomerUserName(username));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-06 22:07</div>
+</div>
+</body>
+</html>

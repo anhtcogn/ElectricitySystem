@@ -1,0 +1,167 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CalculatorService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.electricitysystem.service</a>
+</div>
+
+<h1>Coverage Summary for Class: CalculatorService (com.electricitysystem.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CalculatorService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    3%
+  </span>
+  <span class="absValue">
+    (1/33)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.electricitysystem.service;
+&nbsp;
+&nbsp;import com.electricitysystem.entity.CalculatorEntity;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.text.DecimalFormat;
+&nbsp;import java.text.NumberFormat;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class CalculatorService {</b>
+&nbsp;    public double calculator(int totalNumber) {
+&nbsp;        double totalAmount;
+<b class="nc">&nbsp;        CalculatorEntity calculatorEntity = new CalculatorEntity();</b>
+&nbsp;
+<b class="nc">&nbsp;        if (totalNumber &lt;= 50) {</b>
+<b class="nc">&nbsp;            calculatorEntity.setNumLevel1(totalNumber);</b>
+<b class="nc">&nbsp;        } else if (totalNumber &lt;= 100) {</b>
+<b class="nc">&nbsp;            calculatorEntity.setNumLevel1(50);</b>
+<b class="nc">&nbsp;            calculatorEntity.setNumLevel2(totalNumber - 50);</b>
+<b class="nc">&nbsp;        } else if (totalNumber &lt;= 200) {</b>
+<b class="nc">&nbsp;            calculatorEntity.setNumLevel1(50);</b>
+<b class="nc">&nbsp;            calculatorEntity.setNumLevel2(50);</b>
+<b class="nc">&nbsp;            calculatorEntity.setNumLevel3(totalNumber - 100);</b>
+<b class="nc">&nbsp;        } else if (totalNumber &lt;= 300) {</b>
+<b class="nc">&nbsp;            calculatorEntity.setNumLevel1(50);</b>
+<b class="nc">&nbsp;            calculatorEntity.setNumLevel2(50);</b>
+<b class="nc">&nbsp;            calculatorEntity.setNumLevel3(100);</b>
+<b class="nc">&nbsp;            calculatorEntity.setNumLevel4(totalNumber - 200);</b>
+<b class="nc">&nbsp;        } else if (totalNumber &lt;= 400) {</b>
+<b class="nc">&nbsp;            calculatorEntity.setNumLevel1(50);</b>
+<b class="nc">&nbsp;            calculatorEntity.setNumLevel2(50);</b>
+<b class="nc">&nbsp;            calculatorEntity.setNumLevel3(100);</b>
+<b class="nc">&nbsp;            calculatorEntity.setNumLevel4(100);</b>
+<b class="nc">&nbsp;            calculatorEntity.setNumLevel5(totalNumber - 300);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            calculatorEntity.setNumLevel1(50);</b>
+<b class="nc">&nbsp;            calculatorEntity.setNumLevel2(50);</b>
+<b class="nc">&nbsp;            calculatorEntity.setNumLevel3(100);</b>
+<b class="nc">&nbsp;            calculatorEntity.setNumLevel4(100);</b>
+<b class="nc">&nbsp;            calculatorEntity.setNumLevel5(100);</b>
+<b class="nc">&nbsp;            calculatorEntity.setNumLevel6(totalNumber - 400);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        totalAmount = calculatorEntity.getNumLevel1() * 1678 + calculatorEntity.getNumLevel2() * 1734</b>
+<b class="nc">&nbsp;                + calculatorEntity.getNumLevel3() * 2014 + calculatorEntity.getNumLevel4() * 2536</b>
+<b class="nc">&nbsp;                + calculatorEntity.getNumLevel5() * 2834 + calculatorEntity.getNumLevel6() * 2927;</b>
+&nbsp;
+&nbsp;        //caculatorRepository.save()
+&nbsp;
+<b class="nc">&nbsp;        double vatAmount = totalAmount * 0.1;</b>
+<b class="nc">&nbsp;        return totalAmount + vatAmount;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-06 22:07</div>
+</div>
+</body>
+</html>

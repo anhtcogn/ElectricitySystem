@@ -1,0 +1,226 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > AccountController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.electricitysystem.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: AccountController (com.electricitysystem.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AccountController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (30/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (50/50)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.electricitysystem.controller;
+&nbsp;
+&nbsp;import com.electricitysystem.entity.CustomerEntity;
+&nbsp;import com.electricitysystem.service.CustomerService;
+&nbsp;import com.electricitysystem.service.impl.AccountDetails;
+&nbsp;import com.electricitysystem.dto.AccountDto;
+&nbsp;import com.electricitysystem.entity.AccountEntity;
+&nbsp;import com.electricitysystem.jwt.JwtResponse;
+&nbsp;import com.electricitysystem.jwt.JwtUtility;
+&nbsp;import com.electricitysystem.repository.AccountRepository;
+&nbsp;import com.electricitysystem.repository.CustomerRepository;
+&nbsp;import com.electricitysystem.service.AccountService;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.security.authentication.AuthenticationManager;
+&nbsp;import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+&nbsp;import org.springframework.security.core.Authentication;
+&nbsp;import org.springframework.security.core.context.SecurityContextHolder;
+&nbsp;import org.springframework.security.core.GrantedAuthority;
+&nbsp;import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;@RestController
+<b class="fc">&nbsp;public class AccountController {</b>
+&nbsp;    @Autowired(required = false)
+&nbsp;    private JwtUtility jwtUtility;
+&nbsp;    @Autowired(required = false)
+&nbsp;    private AccountRepository accountRepository;
+&nbsp;    @Autowired
+&nbsp;    private AccountService accountService;
+&nbsp;    @Autowired
+&nbsp;    private CustomerService customerService;
+&nbsp;    @Autowired
+&nbsp;    private BCryptPasswordEncoder bCryptPasswordEncoder;
+&nbsp;
+&nbsp;    @PostMapping(value = &quot;/signin&quot;, consumes = {&quot;multipart/form-data&quot;})
+&nbsp;    public ResponseEntity&lt;?&gt; login(@ModelAttribute(&quot;account&quot;) AccountDto accountDto) {
+<b class="fc">&nbsp;        if (accountDto.getUsername().trim().equals(&quot;&quot;))</b>
+<b class="fc">&nbsp;            return ResponseEntity.ok(&quot;Vui lòng nh?p tên ??ng nh?p&quot;);</b>
+<b class="fc">&nbsp;        if (accountDto.getPassword().trim().equals(&quot;&quot;))</b>
+<b class="fc">&nbsp;            return ResponseEntity.ok(&quot;Vui lòng nh?p m?t kh?u&quot;);</b>
+<b class="fc">&nbsp;        AccountEntity account = accountService.login(accountDto);</b>
+<b class="fc">&nbsp;        if (account == null)</b>
+<b class="fc">&nbsp;            return ResponseEntity.ok(&quot;Thông tin ??ng nh?p không chính xác&quot;);</b>
+<b class="fc">&nbsp;        String jwt = jwtUtility.generateJwtToken(account.getUsername());</b>
+<b class="fc">&nbsp;        String status = &quot;admin&quot;;</b>
+<b class="fc">&nbsp;        CustomerEntity customer = new CustomerEntity();</b>
+<b class="fc">&nbsp;        if (!accountDto.getUsername().trim().equals(&quot;admin123&quot;)) {</b>
+<b class="fc">&nbsp;            customer = customerService.updateStatus(account.getUsername(), &quot;UNPAID&quot;);</b>
+<b class="fc">&nbsp;            if(customer != null)</b>
+<b class="fc">&nbsp;                status = customer.getStatus();</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if ( account.getRole() == 0){</b>
+<b class="fc">&nbsp;            return ResponseEntity.ok(</b>
+<b class="fc">&nbsp;                    new JwtResponse(jwt,account.getId(),account.getUsername(), &quot;ROLE_ADMIN&quot;, account.getStaff().getId().toString(),</b>
+&nbsp;                            status));
+&nbsp;        }
+&nbsp;        else
+<b class="fc">&nbsp;            return ResponseEntity.ok(</b>
+<b class="fc">&nbsp;                    new JwtResponse(jwt,account.getId(),account.getUsername(), &quot;ROLE_USER&quot;, account.getCustomer().getUsername(), customer.getStatus()));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PutMapping(value = &quot;/changepassword/{username}&quot;,  produces = &quot;application/json&quot;)
+&nbsp;    public String changePassword(@PathVariable String username,
+&nbsp;                                 @RequestParam(&quot;oldpassword&quot;)String oldpassword,@RequestParam(&quot;newpassword&quot;)String password){
+&nbsp;
+<b class="fc">&nbsp;        if (oldpassword.trim().equals(&quot;&quot;))</b>
+<b class="fc">&nbsp;            return &quot;Vui lòng nh?p m?t kh?u c?&quot;;</b>
+<b class="fc">&nbsp;        if (password.trim().equals(&quot;&quot;))</b>
+<b class="fc">&nbsp;            return &quot;Vui lòng nh?p m?t kh?u m?i&quot;;</b>
+&nbsp;        //validate password : ít nh?t 1 s?, 1 ký t? vi?t th??ng, 1 vi?t hoa, t? 8-20
+<b class="fc">&nbsp;        String regexNumber = &quot;^(.*[0-9].*)$&quot;;</b>
+<b class="fc">&nbsp;        String regexLowerCharacter = &quot;^(.*[a-z].*)$&quot;;</b>
+<b class="fc">&nbsp;        String regexUpperCharacter = &quot;^(.*[A-Z].*)$&quot;;</b>
+<b class="fc">&nbsp;        String regexSpecialChars = &quot;^(.*[@,#,$,%,.,,,!,*,&amp;,^,?].*$)&quot;;</b>
+<b class="fc">&nbsp;        String regexLength = &quot;^.{8,20}$&quot;;</b>
+<b class="fc">&nbsp;        if ( !isValidPassword(password, regexLength))</b>
+<b class="fc">&nbsp;            return &quot;M?t kh?u ph?i có ?? dài t? 8 ??n 20 ký t?&quot;;</b>
+<b class="fc">&nbsp;        if ( !isValidPassword(password,regexUpperCharacter))</b>
+<b class="fc">&nbsp;            return &quot;M?t kh?u ph?i có ít nh?t m?t ch? hoa&quot;;</b>
+<b class="fc">&nbsp;        if ( !isValidPassword(password, regexNumber))</b>
+<b class="fc">&nbsp;            return &quot;M?t kh?u ph?i có ít nh?t m?t ký t? s?&quot;;</b>
+<b class="fc">&nbsp;        if ( !isValidPassword(password, regexLowerCharacter))</b>
+<b class="fc">&nbsp;            return &quot;M?t kh?u ph?i có ít nh?t m?t ch? th??ng&quot;;</b>
+<b class="fc">&nbsp;        if (isValidPassword(password, regexSpecialChars))</b>
+<b class="fc">&nbsp;            return &quot;M?t kh?u không ch?a các ký t? ??c bi?t&quot;;</b>
+&nbsp;
+<b class="fc">&nbsp;        AccountEntity account = accountRepository.getAccountEntityByUsername(username);</b>
+<b class="fc">&nbsp;        if ( account != null){</b>
+<b class="fc">&nbsp;            if(!bCryptPasswordEncoder.matches(oldpassword, account.getPassword())){</b>
+<b class="fc">&nbsp;                return  &quot;M?t kh?u c? không ?úng&quot;;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            account.setPassword(bCryptPasswordEncoder.encode(password));</b>
+<b class="fc">&nbsp;            accountRepository.save(account);</b>
+<b class="fc">&nbsp;            return &quot;??i m?t kh?u thành công&quot;;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return &quot;Không tìm th?y ng??i dùng&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean isValidPassword(String password, String regex){
+<b class="fc">&nbsp;        Pattern pattern = Pattern.compile(regex);</b>
+<b class="fc">&nbsp;        Matcher matcher = pattern.matcher(password);</b>
+<b class="fc">&nbsp;        return matcher.matches();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-06 22:07</div>
+</div>
+</body>
+</html>

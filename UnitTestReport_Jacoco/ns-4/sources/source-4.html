@@ -1,0 +1,153 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > InvoiceController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.electricitysystem.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: InvoiceController (com.electricitysystem.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">InvoiceController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.electricitysystem.controller;
+&nbsp;
+&nbsp;import com.electricitysystem.entity.InvoiceEntity;
+&nbsp;import com.electricitysystem.service.InvoiceService;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@RequestMapping(&quot;/invoice&quot;)
+<b class="fc">&nbsp;public class InvoiceController {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private InvoiceService invoiceService;
+&nbsp;
+&nbsp;    @GetMapping(&quot;/getAllByUsername&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; getAllByUsername(
+&nbsp;            @RequestParam String username) {
+<b class="fc">&nbsp;        return ResponseEntity.ok(invoiceService.getAllByUsername(username));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(&quot;/getByStatus&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt;  getByStatus(
+&nbsp;            @RequestParam String status
+&nbsp;    ) {
+<b class="fc">&nbsp;        return ResponseEntity.ok(invoiceService.getAllByStatus(status));</b>
+&nbsp;    }
+&nbsp;    @GetMapping(&quot;/getAll&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; getAll() {
+<b class="fc">&nbsp;        return ResponseEntity.ok(invoiceService.getAll());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(&quot;/getById&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; getById(
+&nbsp;            @RequestParam int id
+&nbsp;    ) {
+<b class="fc">&nbsp;        return ResponseEntity.ok(invoiceService.getById(id));</b>
+&nbsp;    }
+&nbsp;    @PostMapping(&quot;/updateStatus&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; updateStatus(
+&nbsp;            @RequestParam int id,
+&nbsp;            @RequestParam String status
+&nbsp;    ) {
+<b class="fc">&nbsp;        return ResponseEntity.ok(invoiceService.updateStatus(id, status));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-06 22:07</div>
+</div>
+</body>
+</html>

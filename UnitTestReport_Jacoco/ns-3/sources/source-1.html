@@ -1,0 +1,158 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PaypalConfig</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.electricitysystem.config</a>
+</div>
+
+<h1>Coverage Summary for Class: PaypalConfig (com.electricitysystem.config)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PaypalConfig</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">PaypalConfig$$EnhancerBySpringCGLIB$$c4028fe1</td>
+  </tr>
+  <tr>
+    <td class="name">PaypalConfig$$EnhancerBySpringCGLIB$$c4028fe1$$FastClassBySpringCGLIB$$6ae7b3e0</td>
+  </tr>
+  <tr>
+    <td class="name">PaypalConfig$$FastClassBySpringCGLIB$$48b0c1a6</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.electricitysystem.config;
+&nbsp;
+&nbsp;import com.paypal.base.rest.APIContext;
+&nbsp;import com.paypal.base.rest.OAuthTokenCredential;
+&nbsp;import com.paypal.base.rest.PayPalRESTException;
+&nbsp;import org.springframework.beans.factory.annotation.Value;
+&nbsp;import org.springframework.context.annotation.Configuration;
+&nbsp;import org.springframework.context.annotation.Bean;
+&nbsp;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;@Configuration
+<b class="fc">&nbsp;public class PaypalConfig {</b>
+&nbsp;
+&nbsp;    @Value(&quot;${paypal.client.id}&quot;)
+&nbsp;    private String clientId;
+&nbsp;    @Value(&quot;${paypal.client.secret}&quot;)
+&nbsp;    private String clientSecret;
+&nbsp;    @Value(&quot;${paypal.mode}&quot;)
+&nbsp;    private String mode;
+&nbsp;
+&nbsp;    public Map paypalConfig() {
+<b class="fc">&nbsp;        Map configMap = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;        configMap.put(&quot;mode&quot;, mode);</b>
+<b class="fc">&nbsp;        return configMap;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Bean
+&nbsp;    public OAuthTokenCredential oAuthTokenCredential() {
+<b class="fc">&nbsp;        return new OAuthTokenCredential(clientId, clientSecret, paypalConfig());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Bean
+&nbsp;    public APIContext apiContext() throws PayPalRESTException {
+<b class="fc">&nbsp;        APIContext context = new APIContext(oAuthTokenCredential().getAccessToken());</b>
+<b class="fc">&nbsp;        context.setConfigurationMap(paypalConfig());</b>
+<b class="fc">&nbsp;        return context;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-06 22:07</div>
+</div>
+</body>
+</html>

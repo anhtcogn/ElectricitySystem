@@ -1,7 +1,10 @@
 package com.electricitysystem.entity;
 
 import javax.persistence.*;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
@@ -9,6 +12,8 @@ import java.time.LocalDateTime;
 import java.util.Date;
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "invoice")
 public class InvoiceEntity {
     @Id
