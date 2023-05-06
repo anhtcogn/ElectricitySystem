@@ -35,49 +35,6 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
     private CustomerRepository customerRepository;
     @Autowired(required = false)
     protected CalculatorService calculatorService;
-//    @Override
-//    public ElectricBoardEntity create(ElectricBoardEntity electricBoard) {
-//        ElectricBoardEntity entity = new ElectricBoardEntity();
-//
-//        entity.setUsername(electricBoard.getUsername());
-//        entity.setMeterCode(customerRepository.getByUsername(electricBoard.getUsername()).getMeterCode());
-//        ElectricBoardEntity entity1 = electricBoardRepository.findNearestElectricBoard(electricBoard.getUsername());
-//        if (entity1 != null) {
-//            entity.setOldNumber(entity1.getOldNumber());
-//        }
-//        else entity.setOldNumber(0);
-//        entity.setNewNumber(electricBoard.getNewNumber());
-//        entity.setTimeUpdate(LocalDateTime.now());
-//
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-//        entity.setTimeReadMeter(sdf.format(new LocalDate().toDate()));
-//        int thisMon = new Date().getMonth() + 1;
-//        String period = thisMon + "/" + "2023";
-//        entity.setPeriod(period);
-//
-//        electricBoardRepository.save(entity);
-//        entity.setTotalNumber(entity.getNewNumber() - entity.getOldNumber());
-//        entity.setTotalPayment(calculatorService.calculator(entity.getTotalNumber()));
-//        electricBoardRepository.save(entity);
-//
-//        InvoiceEntity invoice = new InvoiceEntity();
-//        invoice.setId(entity.getId());
-//        invoice.setElectricNumber(entity.getTotalNumber());
-//        invoice.setUsername(entity.getUsername());
-//        invoice.setCustomerName(customerRepository.getByUsername(electricBoard.getUsername()).getName());
-//        invoice.setTotalPayment(entity.getTotalPayment());
-//        invoice.setStatus("UNPAID");
-//        invoice.setAddress(customerRepository.getByUsername(electricBoard.getUsername()).getAddress());
-//        LocalDate nextWeek = new LocalDate().minusDays(2);
-//        Date date = nextWeek.toDate();
-//        invoice.setLastTimePay(sdf.format(date));
-//
-//        invoice.setElectricNumber(entity.getTotalNumber());
-//        invoice.setElectricBoardId(entity.getId());
-//        invoiceRepository.save(invoice);
-//
-//        return electricBoardRepository.save(entity);
-//    }
 
     @Override
     public List<ElectricBoardEntity> create(@RequestParam("file") MultipartFile file) throws IOException {
