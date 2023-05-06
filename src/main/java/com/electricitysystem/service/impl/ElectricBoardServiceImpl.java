@@ -94,6 +94,7 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
             electricBoard.setPeriod(row.getCell(1).getStringCellValue());
             electricBoard.setUsername(row.getCell(2).getStringCellValue());
             electricBoard.setMeterCode(row.getCell(3).getStringCellValue());
+            electricBoard.setAddress(row.getCell(4).getStringCellValue());
             electricBoard.setCustomerName(row.getCell(6).getStringCellValue());
             electricBoard.setOldNumber((int)(row.getCell(7).getNumericCellValue()));
             electricBoard.setNewNumber((int)(row.getCell(8).getNumericCellValue()));
@@ -115,7 +116,7 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
             invoice.setCustomerName(i.getCustomerName());
             invoice.setTotalPayment(i.getTotalPayment());
             invoice.setStatus("UNPAID");
-            invoice.setAddress(customerRepository.getByUsername(i.getUsername()).getAddress());
+            invoice.setAddress(i.getAddress());
             LocalDate nextWeek = new LocalDate().plusDays(7);
             Date date = nextWeek.toDate();
             invoice.setLastTimePay(sdf.format(date));
