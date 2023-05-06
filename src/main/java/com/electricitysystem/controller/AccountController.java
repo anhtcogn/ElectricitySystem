@@ -39,10 +39,10 @@ public class AccountController {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @PostMapping(value = "/signin", consumes = {"multipart/form-data"})
-    public ResponseEntity<?> login(@ModelAttribute("account") AccountDto accountDto) {
-        if (accountDto.getUsername().trim().equals(""))
+    public ResponseEntity<?> login(@ModelAttribute AccountDto accountDto) {
+        if (accountDto.getUsername().isBlank())
             return ResponseEntity.ok("Vui lòng nhập tên đăng nhập");
-        if (accountDto.getPassword().trim().equals(""))
+        if (accountDto.getPassword().isBlank())
             return ResponseEntity.ok("Vui lòng nhập mật khẩu");
         AccountEntity account = accountService.login(accountDto);
         if (account == null)
