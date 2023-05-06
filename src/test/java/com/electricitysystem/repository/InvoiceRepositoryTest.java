@@ -1,7 +1,7 @@
 package com.electricitysystem.repository;
 
 import com.electricitysystem.entity.InvoiceEntity;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -28,79 +28,79 @@ public class InvoiceRepositoryTest {
     void testFindAllByUsernameWithNotNullExpected_ReturnCorrectSize(){
         String username = "HD11300001";
         List<InvoiceEntity> list = invoiceRepository.findAllByUsername(username);
-        Assertions.assertNotNull(list);
-        Assertions.assertEquals(list.size(), 1);
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list.size()).isEqualTo(1);
         for(InvoiceEntity i : list)
-            Assertions.assertEquals(i.getUsername(), username);
+            Assertions.assertThat(i.getUsername()).isEqualTo(username);
     }
 
     @Test
     void testFindAllByUsernameWithNullExpected_ReturnZero(){
-        String username = "HD11300002";
+        String username = "HD1131000";
         List<InvoiceEntity> list = invoiceRepository.findAllByUsername(username);
-        Assertions.assertEquals(list.size(),0);
+        Assertions.assertThat(list.size()).isEqualTo(0);
     }
 
     @Test
     void testFindAllByUsernameWithNotExistedUsername_ReturnZero(){
         String username = "notexisted";
         List<InvoiceEntity> list = invoiceRepository.findAllByUsername(username);
-        Assertions.assertEquals(list.size(),0);
+        Assertions.assertThat(list.size()).isEqualTo(0);
     }
 
     @Test
     void testGetAllByStatusWithNotNullExpected_ReturnCorrectSize() {
         String status = "UNPAID";
         List<InvoiceEntity> list = invoiceRepository.getAllByStatus(status);
-        Assertions.assertNotNull(list);
-        Assertions.assertEquals(list.size(), 1);
+        Assertions.assertThat(list).isNotNull();
+        Assertions.assertThat(list.size()).isEqualTo(3);
         for(InvoiceEntity i : list)
-            Assertions.assertEquals(i.getStatus(), status);
+            Assertions.assertThat(i.getStatus()).isEqualTo(status);
     }
 
     @Test
     void testGetAllByStatusWithNullExpected_ReturnZero() {
         String status = "PAID";
         List<InvoiceEntity> list = invoiceRepository.getAllByStatus(status);
-        Assertions.assertEquals(list.size(),0);
+        Assertions.assertThat(list.size()).isEqualTo(0);
     }
 
     @Test
     void testGetAllByStatusWithNotExistedStatus_ReturnZero() {
         String status = "NOTEXISTED";
         List<InvoiceEntity> list = invoiceRepository.getAllByStatus(status);
-        Assertions.assertEquals(list.size(),0);
+        Assertions.assertThat(list.size()).isEqualTo(0);
     }
 
     @Test
     void testGetByIdWithExistedId_ReturnCorrectObject() {
         int id = 1;
         InvoiceEntity invoice = invoiceRepository.getById(id);
-        Assertions.assertNotNull(invoice);
-        Assertions.assertEquals(invoice.getId(),id);
+        Assertions.assertThat(invoice).isNotNull();
+        Assertions.assertThat(invoice.getId()).isEqualTo(id);
     }
 
     @Test
     void testGetByIdWithNotExistedId_ReturnNull() {
         int id = 100;
         InvoiceEntity invoice = invoiceRepository.getById(id);
-        Assertions.assertNull(invoice);
+        Assertions.assertThat(invoice).isNull();
     }
 
     @Test
     void testFindByTokenWithExistedToken_ReturnCorrectObject() {
         //add token
-        String token = "stringtoken";
+        String token = "EC-0Y889948HL5202537";
         InvoiceEntity invoice = invoiceRepository.findByToken(token);
-        Assertions.assertNotNull(invoice);
-        Assertions.assertEquals(invoice.getToken(),token);
+        Assertions.assertThat(invoice).isNotNull();
+        Assertions.assertThat(invoice.getToken()).isEqualTo(token);
     }
 
     @Test
     void testGetByIdWithNotExistedToken_ReturnNull() {
         String token = "notexistedtoken";
         InvoiceEntity invoice = invoiceRepository.findByToken(token);
-        Assertions.assertNull(invoice);
+        Assertions.assertThat(invoice).isNull();
     }
 
     @Test
@@ -108,24 +108,24 @@ public class InvoiceRepositoryTest {
         String username = "HD11300001";
         String status = "UNPAID";
         InvoiceEntity invoice = invoiceRepository.findByUsernameAndStatus(username, status);
-        Assertions.assertNotNull(invoice);
-        Assertions.assertEquals(invoice.getUsername(),  username);
-        Assertions.assertEquals(invoice.getStatus(),  status);
+        Assertions.assertThat(invoice).isNotNull();
+        Assertions.assertThat(invoice.getUsername()).isEqualTo(username);
+        Assertions.assertThat(invoice.getStatus()).isEqualTo(status);
     }
 
     @Test
-    void testFindByUsernameAndStatusWithIncorrectUsername_ReturnCorrectObject() {
+    void testFindByUsernameAndStatusWithIncorrectUsername_ReturnNull() {
         String username = "wrongUsername";
         String status = "UNPAID";
         InvoiceEntity invoice = invoiceRepository.findByUsernameAndStatus(username, status);
-        Assertions.assertNull(invoice);
+        Assertions.assertThat(invoice).isNull();
     }
 
     @Test
-    void testFindByUsernameAndStatusWithIncorrectStatus_ReturnCorrectObject() {
+    void testFindByUsernameAndStatusWithIncorrectStatus_ReturnNull() {
         String username = "HD11300001";
         String status = "Incorrect";
         InvoiceEntity invoice = invoiceRepository.findByUsernameAndStatus(username, status);
-        Assertions.assertNull(invoice);
+        Assertions.assertThat(invoice).isNull();
     }
 }
