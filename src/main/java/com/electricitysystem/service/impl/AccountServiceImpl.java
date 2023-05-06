@@ -36,6 +36,8 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountEntity login(AccountDto accountDto) {
         AccountEntity account =getAccountEntityByUserName(accountDto.getUsername());
+        if(account == null)
+            return null;
         if (bCryptPasswordEncoder.matches(accountDto.getPassword(), account.getPassword()))
             return account;
         else return null;
