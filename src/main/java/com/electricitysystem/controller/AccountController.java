@@ -38,8 +38,8 @@ public class AccountController {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @PostMapping(value = "/signin", consumes = {"multipart/form-data"})
-    public ResponseEntity<?> login(@ModelAttribute AccountDto accountDto) {
+    @PostMapping(value = "/signin", produces = "application/json")
+    public ResponseEntity<?> login(@RequestBody AccountDto accountDto) {
         if (accountDto.getUsername().isBlank())
             return ResponseEntity.ok("Vui lòng nhập tên đăng nhập");
         if (accountDto.getPassword().isBlank())
