@@ -21,29 +21,29 @@ public class ElectricBoardController {
 
     @PostMapping(value = "/create",consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE )
-    public List<ElectricBoardEntity> create(
+    public ResponseEntity<?> create(
             @RequestParam("file") MultipartFile files) throws IOException {
-        return electricBoardService.create(files);
+        return ResponseEntity.ok(electricBoardService.create(files));
     }
     @PostMapping("/update")
-    public ElectricBoardEntity update(
+    public ResponseEntity<?> update(
             @ModelAttribute ElectricBoardEntity electricBoard
     ) {
-        return electricBoardService.update(electricBoard);
+        return ResponseEntity.ok(electricBoardService.update(electricBoard));
     }
 
     @GetMapping("/getOneById")
-    public ElectricBoardEntity getOneById(
+    public ResponseEntity<?> getOneById(
             @RequestParam int electricBoardId
     ) {
-        return electricBoardService.getOneById(electricBoardId);
+        return ResponseEntity.ok(electricBoardService.getOneById(electricBoardId));
     }
 
     @GetMapping("/getAllByUsername")
-    public List<ElectricBoardEntity> getAllByUsername(
+    public ResponseEntity<?> getAllByUsername(
             @RequestParam String username
     ) {
-        return electricBoardService.getAllByCustomerUserName(username);
+        return ResponseEntity.ok(electricBoardService.getAllByCustomerUserName(username));
     }
 
 }
