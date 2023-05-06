@@ -35,4 +35,27 @@ public class CustomerRepositoryTest {
         Assertions.assertThat(customer).isNotNull();
     }
 
+    @Test
+    public void testUpdateStatusByUserNameSuccess_ReturnCustomer(){
+        String username = "HD11300001";
+        CustomerEntity customer = customerRepository.getByUsername(username);
+        customer.setStatus("CHANGE");
+        customerRepository.save(customer);
+        Assertions.assertThat(customer).isNotNull();
+        Assertions.assertThat(customer.getStatus()).isEqualTo("CHANGE");
+    }
+
+    @Test
+    public void testUpdateCheckByUserNameSuccessWithNot_ReturnCustomer(){
+        String username = "HD11300001";
+        CustomerEntity customer = customerRepository.getByUsername(username);
+        customer.setCheckUpdate(true);
+        customerRepository.save(customer);
+        Assertions.assertThat(customer).isNotNull();
+        Assertions.assertThat(customer.isCheckUpdate()).isTrue();
+    }
+
+
+
+
 }

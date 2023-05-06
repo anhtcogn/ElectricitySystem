@@ -38,8 +38,8 @@ public class ElectricBoardRepositoryTest {
         electricBoard.setPeriod("period");
         electricBoardRepository.save(electricBoard);
 
-        Assertions.assertThat(electricBoardRepository.count()).isEqualTo(list_size+1);
         Assertions.assertThat(electricBoard.getId()).isNotNull();
+        Assertions.assertThat(electricBoardRepository.findElectricBoardById(electricBoard.getId())).isNotNull();
         Assertions.assertThat(electricBoard.getTimeUpdate()).isNotNull();
         Assertions.assertThat(electricBoard.getMeterCode()).isEqualTo("metercode");
         Assertions.assertThat(electricBoard.getOldNumber()).isEqualTo(0);
@@ -57,15 +57,14 @@ public class ElectricBoardRepositoryTest {
         electricBoard.setMeterCode("changmetercode");
         electricBoardRepository.save(electricBoard);
 
-        Assertions.assertThat(electricBoard.getMeterCode()).isEqualTo("changemetercode");
+        Assertions.assertThat(electricBoard.getMeterCode()).isEqualTo("changmetercode");
     }
 
     @Test
     public void testDeleteElectricBoard(){
-        Long list_size = electricBoardRepository.count();
         ElectricBoardEntity electricBoard = electricBoardRepository.findElectricBoardById(1);
         electricBoardRepository.delete(electricBoard);
-        Assertions.assertThat(electricBoardRepository.count()).isEqualTo(list_size-1);
+        Assertions.assertThat(electricBoardRepository.findElectricBoardById(1)).isNull();
     }
 
 
@@ -81,7 +80,7 @@ public class ElectricBoardRepositoryTest {
 
     @Test
     void testFindAllByUsernameWithNullExpectedResult_ReturnNull() {
-        String username = "HD11300002";
+        String username = "HD11310000";
         List<ElectricBoardEntity> list = electricBoardRepository.findAllByUsername(username);
         Assertions.assertThat(list.size()).isEqualTo(0);
     }
