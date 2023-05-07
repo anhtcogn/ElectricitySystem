@@ -14,4 +14,6 @@ public interface ElectricBoardService {
     List<ElectricBoardEntity> getAllByCustomerUserName(String username);
     ElectricBoardEntity getOneById(Integer electricBoardId);
 
+    List<ElectricBoardEntity> getAllByPeriod(String period);
+
 }

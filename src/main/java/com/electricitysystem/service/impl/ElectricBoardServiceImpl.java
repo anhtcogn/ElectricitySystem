@@ -162,4 +162,9 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
     public ElectricBoardEntity getOneById(Integer electricBoardId) {
         return electricBoardRepository.findElectricBoardById(electricBoardId);
     }
+
+    @Override
+    public List<ElectricBoardEntity> getAllByPeriod(String period) {
+        return electricBoardRepository.findAllByPeriod(period);
+    }
 }
