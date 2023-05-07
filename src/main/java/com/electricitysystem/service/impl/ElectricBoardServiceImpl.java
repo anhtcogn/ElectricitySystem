@@ -150,7 +150,7 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
     private void updateNewNumber(XSSFRow row, int newNumber, ElectricBoardEntity e) {
         if (newNumber == 0) {
             e.setTotalNumber(0);
-            e.setTotalPayment(0.0);
+            e.setTotalPayment(0L);
         } else {
             int totalNumber = (int) (row.getCell(8).getNumericCellValue()) -
                     (int) (row.getCell(7).getNumericCellValue());
@@ -170,5 +170,10 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
     @Override
     public ElectricBoardEntity getOneById(Integer electricBoardId) {
         return electricBoardRepository.findElectricBoardById(electricBoardId);
+    }
+
+    @Override
+    public List<ElectricBoardEntity> getAllByPeriod(String period) {
+        return electricBoardRepository.findAllByPeriod(period);
     }
 }

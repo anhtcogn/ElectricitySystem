@@ -1,6 +1,7 @@
 package com.electricitysystem.controller;
 
 import com.electricitysystem.entity.ElectricBoardEntity;
+import com.electricitysystem.repository.ElectricBoardRepository;
 import com.electricitysystem.service.ElectricBoardService;
 import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ public class ElectricBoardController {
 
     @Autowired
     private ElectricBoardService electricBoardService;
+
 
     @PostMapping(value = "/create",consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE )
@@ -47,4 +49,8 @@ public class ElectricBoardController {
         return ResponseEntity.ok(electricBoardService.getAllByCustomerUserName(username));
     }
 
+    @GetMapping("/getAllBoard")
+    public ResponseEntity<?> getAllBoard(){
+        return ResponseEntity.ok(electricBoardService.getAllByPeriod("04-2023"));
+    }
 }

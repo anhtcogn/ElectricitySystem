@@ -21,7 +21,7 @@ public class InvoiceEntity {
     @Column(name = "payment_date")
     private LocalDateTime paymentDate;
     @Column(name = "total_payment")
-    private double totalPayment;
+    private long totalPayment;
     @Column(name = "electric_number")
     private int electricNumber;
     @Column(name = "status")

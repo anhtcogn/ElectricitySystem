@@ -44,7 +44,7 @@ public class ElectricBoardEntity {
     @Column(name = "username")
     private String username;
     @Column(name = "total_payment")
-    private Double totalPayment;
+    private long totalPayment;
     private String period;
     @Column(name = "customer_name")
     private String customerName;

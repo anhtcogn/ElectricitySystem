@@ -8,7 +8,7 @@ import java.text.NumberFormat;
 
 @Service
 public class CalculatorService {
-    public double calculator(int totalNumber) {
+    public long calculator(int totalNumber) {
         double totalAmount;
         CalculatorEntity calculatorEntity = new CalculatorEntity();
 
@@ -40,13 +40,16 @@ public class CalculatorService {
             calculatorEntity.setNumLevel5(100);
             calculatorEntity.setNumLevel6(totalNumber - 400);
         }
-        totalAmount = calculatorEntity.getNumLevel1() * 1678 + calculatorEntity.getNumLevel2() * 1734
-                + calculatorEntity.getNumLevel3() * 2014 + calculatorEntity.getNumLevel4() * 2536
-                + calculatorEntity.getNumLevel5() * 2834 + calculatorEntity.getNumLevel6() * 2927;
+        totalAmount = calculatorEntity.getNumLevel1() * 1728 + calculatorEntity.getNumLevel2() * 1786
+                + calculatorEntity.getNumLevel3() * 2074 + calculatorEntity.getNumLevel4() * 2612
+                + calculatorEntity.getNumLevel5() * 2919 + calculatorEntity.getNumLevel6() * 3015;
 
         //caculatorRepository.save()
 
+        long total = Math.round(totalAmount);
+
         double vatAmount = totalAmount * 0.1;
-        return totalAmount + vatAmount;
+        long vat = Math.round(vatAmount);
+        return vat+total;
     }
 }
