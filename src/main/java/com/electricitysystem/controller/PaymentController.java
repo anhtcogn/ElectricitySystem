@@ -40,7 +40,7 @@ public class PaymentController {
         try {
             ElectricBoardEntity electricBoard = electricBoardService.getOneById(id);
             if(electricBoard!=null) {
-                Payment payment = payWithPaypalService.createPayment(electricBoard.getTotalPayment() / 23447, "USD", "paypal",
+                Payment payment = payWithPaypalService.createPayment(Double.valueOf (electricBoard.getTotalPayment())/ 23447, "USD", "paypal",
                         "sale", "thanh toan tien dien"
                         , "http://localhost:9090/" + PAYPAL_CANCEL_URL,
                         "http://localhost:9090/" + PAYPAL_SUCCESS_URL);

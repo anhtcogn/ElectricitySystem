@@ -67,7 +67,7 @@ public class PaymentControllerTest {
     public void testPaymentSuccess_ReturnHref() throws PayPalRESTException {
         ElectricBoardEntity electricBoard = new ElectricBoardEntity();
         electricBoard.setId(1);
-        electricBoard.setTotalPayment(1000000.0);
+        electricBoard.setTotalPayment(1000000);
         when(electricBoardService.getOneById(1)).thenReturn(electricBoard);
 
         Payment payment = new Payment();
@@ -75,7 +75,7 @@ public class PaymentControllerTest {
         Links approvalLink = new Links("https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-80840661GV282352V","approval_url");
         links.add(approvalLink);
         payment.setLinks(links);
-        when(payWithPaypalService.createPayment(electricBoard.getTotalPayment() / 23447, "USD", "paypal",
+        when(payWithPaypalService.createPayment(Double.valueOf(electricBoard.getTotalPayment()) / 23447, "USD", "paypal",
                 "sale", "thanh toan tien dien"
                 , "http://localhost:9090/" + PAYPAL_CANCEL_URL,
                 "http://localhost:9090/" + PAYPAL_SUCCESS_URL))
@@ -111,7 +111,7 @@ public class PaymentControllerTest {
     public void testPaymentFailWithPayPalRestException() throws PayPalRESTException {
         ElectricBoardEntity electricBoard = new ElectricBoardEntity();
         electricBoard.setId(1);
-        electricBoard.setTotalPayment(1000000.0);
+        electricBoard.setTotalPayment(1000000);
         when(electricBoardService.getOneById(1)).thenReturn(electricBoard);
 
         Payment payment = new Payment();
@@ -119,7 +119,7 @@ public class PaymentControllerTest {
         Links approvalLink = new Links("https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-80840661GV282352V","approval_url");
         links.add(approvalLink);
         payment.setLinks(links);
-        when(payWithPaypalService.createPayment(electricBoard.getTotalPayment() / 23447, "USD", "paypal",
+        when(payWithPaypalService.createPayment(Double.valueOf(electricBoard.getTotalPayment()) / 23447, "USD", "paypal",
                 "sale", "thanh toan tien dien"
                 , "http://localhost:9090/" + PAYPAL_CANCEL_URL,
                 "http://localhost:9090/" + PAYPAL_SUCCESS_URL))
@@ -133,11 +133,11 @@ public class PaymentControllerTest {
     public void testPaymentFailWithEmptyLinks_ReturnHref() throws PayPalRESTException {
         ElectricBoardEntity electricBoard = new ElectricBoardEntity();
         electricBoard.setId(1);
-        electricBoard.setTotalPayment(1000000.0);
+        electricBoard.setTotalPayment(1000000);
         when(electricBoardService.getOneById(1)).thenReturn(electricBoard);
 
         List<Links> links = new ArrayList<>();
-        when(payWithPaypalService.createPayment(electricBoard.getTotalPayment() / 23447, "USD", "paypal",
+        when(payWithPaypalService.createPayment(Double.valueOf(electricBoard.getTotalPayment()) / 23447, "USD", "paypal",
                 "sale", "thanh toan tien dien"
                 , "http://localhost:9090/" + PAYPAL_CANCEL_URL,
                 "http://localhost:9090/" + PAYPAL_SUCCESS_URL))
@@ -158,14 +158,14 @@ public class PaymentControllerTest {
     public void testPaymentFailWithNotFoundRel_ReturnHref() throws PayPalRESTException {
         ElectricBoardEntity electricBoard = new ElectricBoardEntity();
         electricBoard.setId(1);
-        electricBoard.setTotalPayment(1000000.0);
+        electricBoard.setTotalPayment(1000000);
         when(electricBoardService.getOneById(1)).thenReturn(electricBoard);
 
         List<Links> links = new ArrayList<>();
         Links approvalLink = new Links("https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-80840661GV282352V","approval");
         links.add(approvalLink);
         mockPayment.setLinks(links);
-        when(payWithPaypalService.createPayment(electricBoard.getTotalPayment() / 23447, "USD", "paypal",
+        when(payWithPaypalService.createPayment(Double.valueOf(electricBoard.getTotalPayment()) / 23447, "USD", "paypal",
                 "sale", "thanh toan tien dien"
                 , "http://localhost:9090/" + PAYPAL_CANCEL_URL,
                 "http://localhost:9090/" + PAYPAL_SUCCESS_URL))

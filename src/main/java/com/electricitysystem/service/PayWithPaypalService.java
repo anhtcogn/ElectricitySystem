@@ -18,7 +18,7 @@ public class PayWithPaypalService {
     private APIContext apiContext;
 
     public Payment createPayment(
-            Long total,
+            Double total,
             String currency,
             String method,
             String intent,
@@ -28,7 +28,7 @@ public class PayWithPaypalService {
 
         Amount amount = new Amount();
         amount.setCurrency(currency);
-        total = (long) new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        total = new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue();
         amount.setTotal(String.format("%.2f", total));
 
         Transaction transaction = new Transaction();

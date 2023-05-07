@@ -34,7 +34,7 @@ public class ElectricBoardRepositoryTest {
         electricBoard.setTotalNumber(100);
         electricBoard.setTimeReadMeter("time");
         electricBoard.setUsername("HD11300001");
-        electricBoard.setTotalPayment(10000.00);
+        electricBoard.setTotalPayment(10000);
         electricBoard.setPeriod("period");
         electricBoardRepository.save(electricBoard);
 
