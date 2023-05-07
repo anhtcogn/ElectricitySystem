@@ -39,7 +39,7 @@ public class ElectricBoardControllerTest {
     @Test
     public void testCreateWithValidFile() throws IOException {
         List<ElectricBoardEntity> list = new ArrayList<>();
-        ElectricBoardEntity board = new ElectricBoardEntity("PAC001",1530,1686,
+        ElectricBoardEntity board = new ElectricBoardEntity(1,"PAC001",1530,1686,
                 "04-05-2023", "HD11300001", "04-2023");
         list.add(board);
         when(electricBoardService.create(Mockito.any(MultipartFile.class)))
@@ -74,113 +74,36 @@ public class ElectricBoardControllerTest {
 
     @Test
     public void testUpdateWithValidInput_ReturnInformation() {
-        ElectricBoardEntity board = new ElectricBoardEntity("PAC001",1530,1686,
+        int id = 1;
+        int newNumber = 1686;
+        ElectricBoardEntity board = new ElectricBoardEntity(1,"PAC001",1530,1686,
                 "04-05-2023", "HD11300001", "04-2023");
-        when(electricBoardService.update(any(ElectricBoardEntity.class)))
+        when(electricBoardService.update(1, 1686))
                 .thenReturn(board);
 
-        ResponseEntity<?> response = electricBoardController.update(board);
-        verify(electricBoardService, times(1)).update(board);
+        ResponseEntity<?> response = electricBoardController.update(id, newNumber);
+        verify(electricBoardService, times(1)).update(id, newNumber);
         assertEquals(board, response.getBody());
-    }
-    @Test
-    public void testUpdateWithNullInput(){
-        doThrow(new IllegalArgumentException()).when(electricBoardService).update(null);
-        assertThrows(IllegalArgumentException.class, () -> {
-            electricBoardController.update(null);
-        });
-    }
-
-    //test with invalid number with non number character
-    @Test
-    public void testUpdateWithMissingMeterCode_ReturnMessage(){
-        ElectricBoardEntity board = new ElectricBoardEntity(null,1530,1686,
-                "04-05-2023", "HD11300001", "04-2023");
-        when(electricBoardService.update(any(ElectricBoardEntity.class)))
-                .thenReturn(board);
-
-        ResponseEntity<?> response = electricBoardController.update(board);
-        verify(electricBoardService, times(1)).update(board);
-        assertEquals("Vui lòng nhập mã công tơ điện", response.getBody());
     }
 
     @Test
     public void testUpdateWithMissingNewNumber_ReturnMessage(){
-        ElectricBoardEntity board = new ElectricBoardEntity();
-        board.setMeterCode("PAC001");
-        board.setOldNumber(1686);
-        board.setTimeReadMeter("04-05-2023");
-        board.setUsername("HD11300001");
-        board.setPeriod("04-2023");
-        when(electricBoardService.update(any(ElectricBoardEntity.class)))
-                .thenReturn(board);
+        int id = 1, newNumber = 0;
+        when(electricBoardService.update(id, newNumber))
+                .thenReturn(null);
 
-        ResponseEntity<?> response = electricBoardController.update(board);
-        verify(electricBoardService, times(1)).update(board);
+        ResponseEntity<?> response = electricBoardController.update(id, 0);
         assertEquals("Vui lòng nhập số công tơ điện tháng này", response.getBody());
     }
 
     @Test
-    public void testUpdateWithMissingTimeRead_ReturnMessage(){
-        ElectricBoardEntity board = new ElectricBoardEntity();
-        board.setMeterCode("PAC001");
-        board.setOldNumber(1586);
-        board.setNewNumber(1698);
-        board.setUsername("HD11300001");
-        board.setPeriod("04-2023");
-        when(electricBoardService.update(any(ElectricBoardEntity.class)))
-                .thenReturn(board);
-
-        ResponseEntity<?> response = electricBoardController.update(board);
-        verify(electricBoardService, times(1)).update(board);
-        assertEquals("Vui lòng nhập thời gian lấy số công tơ điện", response.getBody());
-    }
-
-    @Test
-    public void testUpdateWithMissingCustomerId_ReturnMessage(){
-        ElectricBoardEntity board = new ElectricBoardEntity();
-        board.setMeterCode("PAC001");
-        board.setOldNumber(1586);
-        board.setNewNumber(1698);
-        board.setTimeReadMeter("04-05-2023");
-        board.setPeriod("04-2023");
-        when(electricBoardService.update(any(ElectricBoardEntity.class)))
-                .thenReturn(board);
-
-        ResponseEntity<?> response = electricBoardController.update(board);
-        verify(electricBoardService, times(1)).update(board);
-        assertEquals("Vui lòng nhập mã khách hàng", response.getBody());
-    }
-
-    @Test
-    public void testUpdateWithMissingPeriod_ReturnMessage(){
-        ElectricBoardEntity board = new ElectricBoardEntity();
-        board.setMeterCode("PAC001");
-        board.setOldNumber(1586);
-        board.setNewNumber(1698);
-        board.setTimeReadMeter("04-05-2023");
-        board.setUsername("HD11300001");
-        when(electricBoardService.update(any(ElectricBoardEntity.class)))
-                .thenReturn(board);
-        ResponseEntity<?> response = electricBoardController.update(board);
-        verify(electricBoardService, times(1)).update(board);
-        assertEquals("Vui lòng nhập kỳ hạn", response.getBody());
-    }
-
-    @Test
     public void testUpdateWithInvalidInput_OldNumberBiggerThanNewNumber_ReturnMessage(){
-        ElectricBoardEntity board = new ElectricBoardEntity();
-        board.setMeterCode("PAC001");
-        board.setOldNumber(1686);
-        board.setNewNumber(1000);
-        board.setTimeReadMeter("04-05-2023");
-        board.setUsername("HD11300001");
-        board.setPeriod("04-2023");
+        int id = 1, newNumber = 1000;
 
-        when(electricBoardService.update(any(ElectricBoardEntity.class)))
-                .thenReturn(board);
-        ResponseEntity<?> response = electricBoardController.update(board);
-        verify(electricBoardService, times(1)).update(board);
+        when(electricBoardService.update(id, newNumber))
+                .thenReturn(null);
+        ResponseEntity<?> response = electricBoardController.update(id, newNumber);
+        verify(electricBoardService, times(1)).update(id, newNumber);
         assertEquals("Số công tơ điện mới phải lớn hơn số công tơ điện cũ", response.getBody());
     }
 
@@ -206,14 +129,8 @@ public class ElectricBoardControllerTest {
     public void testGetOneByIdWithNotExistId_ReturnMessage() {
         ElectricBoardEntity board = new ElectricBoardEntity();
         board.setId(1);
-        board.setMeterCode("PAC001");
-        board.setOldNumber(1686);
-        board.setNewNumber(1000);
-        board.setTimeReadMeter("04-05-2023");
-        board.setUsername("HD11300001");
-        board.setPeriod("04-2023");
         when(electricBoardService.getOneById(board.getId()))
-                .thenReturn(board);
+                .thenReturn(null);
 
         ResponseEntity<?> response = electricBoardController.getOneById(100);
         assertEquals("Không tìm thấy bảng số điện", response.getBody());
@@ -222,7 +139,7 @@ public class ElectricBoardControllerTest {
     @Test
     public void testGetAllByUsernameSuccessWithNotNullResult_ReturnListResult() {
         List<ElectricBoardEntity> list = new ArrayList<>();
-        list.add(new ElectricBoardEntity("PAC001",1530,1686,
+        list.add(new ElectricBoardEntity(1, "PAC001",1530,1686,
                 "04-05-2023", "HD11300001", "04-2023"));
 
         when(electricBoardService.getAllByCustomerUserName("HD11300001"))
@@ -236,7 +153,7 @@ public class ElectricBoardControllerTest {
     @Test
     public void testGetAllByUsernameSuccessWithNullResult_ReturnMessage() {
         List<ElectricBoardEntity> list = new ArrayList<>();
-        list.add(new ElectricBoardEntity("PAC001",1530,1686,
+        list.add(new ElectricBoardEntity(1, "PAC001",1530,1686,
                 "04-05-2023", "HD11300001", "04-2023"));
 
         when(electricBoardService.getAllByCustomerUserName("HD11300002"))

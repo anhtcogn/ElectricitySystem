@@ -219,7 +219,6 @@ public class PaymentControllerTest {
         assertEquals( "Not found payment", response.getBody());
     }
 
-    //http://localhost:9090/pay/success?paymentId=PAYID-MRLCXCI4VB85826W14638726&token=EC-1H441396HC3924138&PayerID=8SVHKPHUUZL7E
     @Test
     public void testSuccessPaySuccess_ReturnMessage() throws PayPalRESTException {
         String paymentId = "PAYID-MRLCXCI4VB85826W14638726";

@@ -110,7 +110,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        list=customerService.findAll();</b>
 <b class="fc">&nbsp;        if (list.isEmpty())</b>
 <b class="fc">&nbsp;            return ResponseEntity.ok(&quot;Không có khách hàng nào&quot;);</b>
-<b class="fc">&nbsp;        else return ResponseEntity.ok(customerService.findAll());</b>
+<b class="fc">&nbsp;        else return ResponseEntity.ok(list);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @GetMapping(&quot;getCustomerInfo/{username}&quot;)
@@ -118,7 +118,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        CustomerEntity customer = customerService.getCustomerByUsername(username);</b>
 <b class="fc">&nbsp;        if (customer==null)</b>
 <b class="fc">&nbsp;            return ResponseEntity.ok(&quot;Không tìm th?y khách hàng&quot;);</b>
-<b class="fc">&nbsp;        return ResponseEntity.ok(customerService.getCustomerByUsername(username));</b>
+<b class="fc">&nbsp;        return ResponseEntity.ok(customer);</b>
+&nbsp;
 &nbsp;    }
 &nbsp;
 &nbsp;}
@@ -145,7 +146,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-06 22:07</div>
+    <div style="float:right;">generated on 2023-05-07 16:17</div>
 </div>
 </body>
 </html>

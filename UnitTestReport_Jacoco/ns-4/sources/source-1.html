@@ -127,10 +127,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    private BCryptPasswordEncoder bCryptPasswordEncoder;
 &nbsp;
 &nbsp;    @PostMapping(value = &quot;/signin&quot;, consumes = {&quot;multipart/form-data&quot;})
-&nbsp;    public ResponseEntity&lt;?&gt; login(@ModelAttribute(&quot;account&quot;) AccountDto accountDto) {
-<b class="fc">&nbsp;        if (accountDto.getUsername().trim().equals(&quot;&quot;))</b>
+&nbsp;    public ResponseEntity&lt;?&gt; login(@ModelAttribute AccountDto accountDto) {
+<b class="fc">&nbsp;        if (accountDto.getUsername().isBlank())</b>
 <b class="fc">&nbsp;            return ResponseEntity.ok(&quot;Vui lòng nh?p tên ??ng nh?p&quot;);</b>
-<b class="fc">&nbsp;        if (accountDto.getPassword().trim().equals(&quot;&quot;))</b>
+<b class="fc">&nbsp;        if (accountDto.getPassword().isBlank())</b>
 <b class="fc">&nbsp;            return ResponseEntity.ok(&quot;Vui lòng nh?p m?t kh?u&quot;);</b>
 <b class="fc">&nbsp;        AccountEntity account = accountService.login(accountDto);</b>
 <b class="fc">&nbsp;        if (account == null)</b>
@@ -220,7 +220,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-06 22:07</div>
+    <div style="float:right;">generated on 2023-05-07 16:17</div>
 </div>
 </body>
 </html>

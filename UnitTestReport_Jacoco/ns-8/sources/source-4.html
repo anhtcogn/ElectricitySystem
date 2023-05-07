@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > ElectricBoardService</title>
+  <title>Coverage Report > CustomerService</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,25 +21,16 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.electricitysystem.service</a>
 </div>
 
-<h1>Coverage Summary for Class: ElectricBoardService (com.electricitysystem.service)</h1>
+<h1>Coverage Summary for Class: CustomerService (com.electricitysystem.service)</h1>
 
 <table class="coverageStats">
-
 <tr>
   <th class="name">Class</th>
 </tr>
-  <tr>
-    <td class="name">ElectricBoardService$MockitoMock$XJbIaiyZ</td>
-  </tr>
-  <tr>
-    <td class="name">ElectricBoardService$MockitoMock$XJbIaiyZ$auxiliary$5AmWlwXa</td>
-  </tr>
-  <tr>
-    <td class="name">ElectricBoardService$MockitoMock$XJbIaiyZ$auxiliary$cjBaSYLB</td>
-  </tr>
 <tr>
-  <td class="name"><strong>Total</strong></td>
+  <td class="name">CustomerService</td>
 </tr>
+
 </table>
 
 <br/>
@@ -49,20 +40,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.electricitysystem.service;
 &nbsp;
-&nbsp;import com.electricitysystem.entity.ElectricBoardEntity;
-&nbsp;import org.springframework.web.multipart.MultipartFile;
+&nbsp;import com.electricitysystem.entity.CustomerEntity;
 &nbsp;
-&nbsp;import java.io.IOException;
 &nbsp;import java.util.List;
 &nbsp;
-&nbsp;public interface ElectricBoardService {
+&nbsp;public interface CustomerService {
 &nbsp;
-&nbsp;    List&lt;ElectricBoardEntity&gt; create(MultipartFile file) throws IOException;
-&nbsp;    ElectricBoardEntity update(ElectricBoardEntity electricBoard);
+&nbsp;    CustomerEntity getCustomerByUsername(String username);
 &nbsp;
-&nbsp;    List&lt;ElectricBoardEntity&gt; getAllByCustomerUserName(String username);
-&nbsp;    ElectricBoardEntity getOneById(Integer electricBoardId);
 &nbsp;
+&nbsp;    List&lt;CustomerEntity&gt; findAll();
+&nbsp;
+&nbsp;    CustomerEntity updateStatus(String username, String status);
 &nbsp;}
 </code>
 </pre>
@@ -87,7 +76,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-06 22:07</div>
+    <div style="float:right;">generated on 2023-05-07 16:17</div>
 </div>
 </body>
 </html>

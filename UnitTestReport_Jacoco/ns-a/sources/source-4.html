@@ -51,7 +51,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;@Repository
 &nbsp;public interface ElectricBoardRepository extends JpaRepository&lt;ElectricBoardEntity, Integer&gt; {
 &nbsp;    List&lt;ElectricBoardEntity&gt; findAllByUsername(String customerCode);
+&nbsp;    List&lt;ElectricBoardEntity&gt; findAllByPeriod(String period);
 &nbsp;    ElectricBoardEntity findElectricBoardById(Integer electricBoardId);
+&nbsp;    ElectricBoardEntity findByPeriodAndUsername(String period, String username);
 &nbsp;    @Query(value = &quot;select * from electric_board as e where e.username=:username order by time_update desc limit 1&quot;, nativeQuery = true)
 &nbsp;    ElectricBoardEntity findNearestElectricBoard(
 &nbsp;            @Param(&quot;username&quot;) String username
@@ -81,7 +83,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-06 22:07</div>
+    <div style="float:right;">generated on 2023-05-07 16:17</div>
 </div>
 </body>
 </html>

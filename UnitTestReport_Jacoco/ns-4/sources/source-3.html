@@ -101,11 +101,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;            @RequestParam(&quot;file&quot;) MultipartFile files) throws IOException {
 <b class="fc">&nbsp;        return ResponseEntity.ok(electricBoardService.create(files));</b>
 &nbsp;    }
-&nbsp;    @PostMapping(&quot;/update&quot;)
+&nbsp;    @PostMapping(&quot;/update/{id}&quot;)
 &nbsp;    public ResponseEntity&lt;?&gt; update(
-&nbsp;            @ModelAttribute ElectricBoardEntity electricBoard
+&nbsp;            @PathVariable(&quot;id&quot;) int id,
+&nbsp;            @RequestParam int newNumber
 &nbsp;    ) {
-<b class="fc">&nbsp;        return ResponseEntity.ok(electricBoardService.update(electricBoard));</b>
+<b class="fc">&nbsp;        return ResponseEntity.ok(electricBoardService.update(id, newNumber));</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @GetMapping(&quot;/getOneById&quot;)
@@ -146,7 +147,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-06 22:07</div>
+    <div style="float:right;">generated on 2023-05-07 16:17</div>
 </div>
 </body>
 </html>

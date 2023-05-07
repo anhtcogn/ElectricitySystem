@@ -66,15 +66,15 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/4)
+    (0/6)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    9.1%
+    7.7%
   </span>
   <span class="absValue">
-    (1/11)
+    (1/13)
   </span>
 </td>
 </tr>
@@ -124,6 +124,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    @Override
 &nbsp;    public AccountEntity login(AccountDto accountDto) {
 <b class="nc">&nbsp;        AccountEntity account =getAccountEntityByUserName(accountDto.getUsername());</b>
+<b class="nc">&nbsp;        if(account == null)</b>
+<b class="nc">&nbsp;            return null;</b>
 <b class="nc">&nbsp;        if (bCryptPasswordEncoder.matches(accountDto.getPassword(), account.getPassword()))</b>
 <b class="nc">&nbsp;            return account;</b>
 <b class="nc">&nbsp;        else return null;</b>
@@ -163,7 +165,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-06 22:07</div>
+    <div style="float:right;">generated on 2023-05-07 16:17</div>
 </div>
 </body>
 </html>

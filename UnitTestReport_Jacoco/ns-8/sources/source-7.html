@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > AccountService</title>
+  <title>Coverage Report > StaffService</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,25 +21,16 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.electricitysystem.service</a>
 </div>
 
-<h1>Coverage Summary for Class: AccountService (com.electricitysystem.service)</h1>
+<h1>Coverage Summary for Class: StaffService (com.electricitysystem.service)</h1>
 
 <table class="coverageStats">
-
 <tr>
   <th class="name">Class</th>
 </tr>
-  <tr>
-    <td class="name">AccountService$MockitoMock$is72Unsl</td>
-  </tr>
-  <tr>
-    <td class="name">AccountService$MockitoMock$is72Unsl$auxiliary$FVSC0pod</td>
-  </tr>
-  <tr>
-    <td class="name">AccountService$MockitoMock$is72Unsl$auxiliary$vcpMDx4r</td>
-  </tr>
 <tr>
-  <td class="name"><strong>Total</strong></td>
+  <td class="name">StaffService</td>
 </tr>
+
 </table>
 
 <br/>
@@ -49,20 +40,14 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.electricitysystem.service;
 &nbsp;
-&nbsp;import com.electricitysystem.dto.AccountDto;
-&nbsp;import com.electricitysystem.entity.AccountEntity;
-&nbsp;import com.electricitysystem.entity.CustomerEntity;
 &nbsp;import com.electricitysystem.entity.StaffEntity;
-&nbsp;import org.springframework.security.core.userdetails.UserDetailsService;
 &nbsp;
-&nbsp;import java.util.List;
+&nbsp;public interface StaffService {
 &nbsp;
-&nbsp;public interface AccountService extends UserDetailsService {
-&nbsp;    AccountEntity getAccountEntityByUserName (String username);
 &nbsp;
-&nbsp;    AccountEntity login(AccountDto accountDto);
-&nbsp;
+&nbsp;    StaffEntity getStaffByUsername(String username);
 &nbsp;}
+&nbsp;
 </code>
 </pre>
 </div>
@@ -86,7 +71,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-06 22:07</div>
+    <div style="float:right;">generated on 2023-05-07 16:17</div>
 </div>
 </body>
 </html>

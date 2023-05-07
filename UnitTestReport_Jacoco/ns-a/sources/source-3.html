@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > StaffRepository</title>
+  <title>Coverage Report > InvoiceRepository</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,14 +21,14 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">com.electricitysystem.repository</a>
 </div>
 
-<h1>Coverage Summary for Class: StaffRepository (com.electricitysystem.repository)</h1>
+<h1>Coverage Summary for Class: InvoiceRepository (com.electricitysystem.repository)</h1>
 
 <table class="coverageStats">
 <tr>
   <th class="name">Class</th>
 </tr>
 <tr>
-  <td class="name">StaffRepository</td>
+  <td class="name">InvoiceRepository</td>
 </tr>
 
 </table>
@@ -40,17 +40,24 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.electricitysystem.repository;
 &nbsp;
-&nbsp;import com.electricitysystem.entity.StaffEntity;
+&nbsp;import com.electricitysystem.entity.InvoiceEntity;
 &nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+&nbsp;import org.springframework.data.jpa.repository.Query;
+&nbsp;import org.springframework.data.repository.query.Param;
 &nbsp;import org.springframework.stereotype.Repository;
 &nbsp;
 &nbsp;import java.util.List;
 &nbsp;
 &nbsp;@Repository
-&nbsp;public interface StaffRepository extends JpaRepository&lt;StaffEntity, Integer&gt; {
-&nbsp;    StaffEntity getStaffEntityById(int id);
+&nbsp;public interface InvoiceRepository extends JpaRepository&lt;InvoiceEntity, Integer&gt; {
+&nbsp;    List&lt;InvoiceEntity&gt; findAllByUsername(String username);
+&nbsp;    List&lt;InvoiceEntity&gt; getAllByStatus(String status);
 &nbsp;
-&nbsp;    StaffEntity getStaffEntityByUsername(String username);
+&nbsp;    @Query(value = &quot;select * from invoice where id= :id&quot;, nativeQuery = true)
+&nbsp;    InvoiceEntity getById(@Param(&quot;id&quot;) Integer id);
+&nbsp;    InvoiceEntity findByToken(String token);
+&nbsp;
+&nbsp;    InvoiceEntity findByUsernameAndStatus(String username, String status);
 &nbsp;}
 </code>
 </pre>
@@ -75,7 +82,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-06 22:07</div>
+    <div style="float:right;">generated on 2023-05-07 16:17</div>
 </div>
 </body>
 </html>
