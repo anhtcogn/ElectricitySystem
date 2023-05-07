@@ -139,10 +139,10 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
         int totalNumber = electricBoard.getNewNumber() - electricBoard.getOldNumber();
         double totalPayment = calculatorService.calculator(totalNumber);
         electricBoard.setTotalNumber(totalNumber);
-        electricBoard.setTotalPayment(totalPayment);
+        electricBoard.setTotalPayment(Math.round(totalPayment));
         InvoiceEntity invoice = invoiceRepository.getById(id);
         invoice.setElectricNumber(electricBoard.getTotalNumber());
-        invoice.setTotalPayment(totalPayment);
+        invoice.setTotalPayment(Math.round(totalPayment));
         invoiceRepository.save(invoice);
         return electricBoardRepository.save(electricBoard);
     }
