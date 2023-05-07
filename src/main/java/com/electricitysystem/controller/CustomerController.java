@@ -22,7 +22,7 @@ public class CustomerController {
         list=customerService.findAll();
         if (list.isEmpty())
             return ResponseEntity.ok("Không có khách hàng nào");
-        else return ResponseEntity.ok(customerService.findAll());
+        else return ResponseEntity.ok(list);
     }
 
     @GetMapping("getCustomerInfo/{username}")
@@ -30,7 +30,7 @@ public class CustomerController {
         CustomerEntity customer = customerService.getCustomerByUsername(username);
         if (customer==null)
             return ResponseEntity.ok("Không tìm thấy khách hàng");
-        return ResponseEntity.ok(customerService.getCustomerByUsername(username));
+        return ResponseEntity.ok(customer);
     }
 
 }

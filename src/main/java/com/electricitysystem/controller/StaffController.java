@@ -17,6 +17,6 @@ public class StaffController {
         StaffEntity staff = staffService.getStaffByUsername(username);
         if (staff==null)
             return ResponseEntity.ok("Không tìm thấy nhân viên");
-        return ResponseEntity.ok(staffService.getStaffByUsername(username));
+        return ResponseEntity.ok(staff);
     }
 }
