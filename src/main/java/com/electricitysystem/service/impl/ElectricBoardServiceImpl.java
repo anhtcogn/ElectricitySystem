@@ -38,74 +38,120 @@ public class ElectricBoardServiceImpl implements ElectricBoardService {
 
     @Override
     public List<ElectricBoardEntity> create(@RequestParam("file") MultipartFile file) throws IOException {
-        List<ElectricBoardEntity> entities = new ArrayList<>();
+
+        int thisMonth = DateTime.now().getMonthOfYear() - 1;
+        int thisYear = DateTime.now().getYear();
+        String cPeriod;
+        if (thisMonth < 10) {
+            cPeriod = "0" + thisMonth + "-" + thisYear;
+        } else {
+            cPeriod = thisMonth + "-" + thisYear;
+        }
+        List<ElectricBoardEntity> entities;
+        List<ElectricBoardEntity> eEntities = electricBoardRepository.findAllByPeriod(cPeriod);
+        if (eEntities.size() > 0) {
+            entities = eEntities;
+        } else {
+            entities = new ArrayList<>();
+        }
         XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
 
         // Read data form excel file sheet1.
         XSSFSheet worksheet = workbook.getSheetAt(0);
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
-        for (int index = 1; index < worksheet.getPhysicalNumberOfRows(); index++) {
-            XSSFRow row = worksheet.getRow(index);
-            ElectricBoardEntity electricBoard = new ElectricBoardEntity();
-            electricBoard.setPeriod(row.getCell(1).getStringCellValue());
-            electricBoard.setUsername(row.getCell(2).getStringCellValue());
-            electricBoard.setMeterCode(row.getCell(3).getStringCellValue());
-            electricBoard.setAddress(row.getCell(4).getStringCellValue());
-            electricBoard.setCustomerName(row.getCell(6).getStringCellValue());
-            electricBoard.setOldNumber((int)(row.getCell(7).getNumericCellValue()));
-            electricBoard.setNewNumber((int)(row.getCell(8).getNumericCellValue()));
-            electricBoard.setTimeUpdate(LocalDateTime.now());
-            electricBoard.setTimeReadMeter(sdf.format(new LocalDate().toDate()));
-            int totalNumber = (int)(row.getCell(8).getNumericCellValue()) -
-                    (int)(row.getCell(7).getNumericCellValue());
-            electricBoard.setTotalNumber(totalNumber);
-            electricBoard.setTotalPayment(calculatorService.calculator(totalNumber));
-            entities.add(electricBoard);
-        }
-        electricBoardRepository.saveAll(entities);
+        if (eEntities.size() > 0) {
+            for (int index = 1; index < worksheet.getPhysicalNumberOfRows(); index++) {
+                XSSFRow row = worksheet.getRow(index);
+                int newNumber = (int) (row.getCell(8).getNumericCellValue());
+                String username = row.getCell(2).getStringCellValue();
+                ElectricBoardEntity cEntity = electricBoardRepository.findByPeriodAndUsername(cPeriod, username);
+                updateNewNumber(row, newNumber, cEntity);
+                InvoiceEntity uInvoice = invoiceRepository.getById(cEntity.getId());
+                uInvoice.setElectricNumber(cEntity.getTotalNumber());
+                uInvoice.setTotalPayment(cEntity.getTotalPayment());
+                invoiceRepository.save(uInvoice);
+                if (cEntity.getTotalNumber() == 0) {
+                    continue;
+                }
+                CustomerEntity customer = customerRepository.getByUsername(cEntity.getUsername());
+                customer.setCheckUpdate(Objects.equals(cEntity.getPeriod(), cPeriod));
+                customerRepository.save(customer);
 
-        for (ElectricBoardEntity i:entities) {
-            InvoiceEntity invoice = new InvoiceEntity();
-            invoice.setId(i.getId());
-            invoice.setElectricNumber(i.getTotalNumber());
-            invoice.setUsername(i.getUsername());
-            invoice.setCustomerName(i.getCustomerName());
-            invoice.setTotalPayment(i.getTotalPayment());
-            invoice.setStatus("UNPAID");
-            invoice.setAddress(i.getAddress());
-            LocalDate nextWeek = new LocalDate().plusDays(7);
-            Date date = nextWeek.toDate();
-            invoice.setLastTimePay(sdf.format(date));
-            invoice.setElectricNumber(i.getTotalNumber());
-            invoice.setElectricBoardId(i.getId());
-            invoiceRepository.save(invoice);
-        }
-
-        for (ElectricBoardEntity i:entities) {
-            ElectricBoardEntity electric1 = electricBoardRepository.findNearestElectricBoard(i.getUsername());
-
-            int thisMonth = DateTime.now().getMonthOfYear() - 1;
-            int thisYear = DateTime.now().getYear();
-            String period;
-            if (thisMonth < 10) {
-                period = "0"+ thisMonth + "-" + thisYear;
-            } else {
-                period = thisMonth + "-" + thisYear;
             }
-            CustomerEntity customer = customerRepository.getByUsername(i.getUsername());
-            customer.setCheckUpdate(Objects.equals(electric1.getPeriod(), period));
-            customerRepository.save(customer);
+        } else {
+            for (int index = 1; index < worksheet.getPhysicalNumberOfRows(); index++) {
+                XSSFRow row = worksheet.getRow(index);
+
+                ElectricBoardEntity electricBoard = new ElectricBoardEntity();
+                String period = row.getCell(1).getStringCellValue();
+                String username = row.getCell(2).getStringCellValue();
+                electricBoard.setPeriod(period);
+                electricBoard.setUsername(username);
+                electricBoard.setMeterCode(row.getCell(3).getStringCellValue());
+                electricBoard.setAddress(row.getCell(4).getStringCellValue());
+                electricBoard.setCustomerName(row.getCell(6).getStringCellValue());
+                electricBoard.setOldNumber((int) (row.getCell(7).getNumericCellValue()));
+                int newNumber = (int) (row.getCell(8).getNumericCellValue());
+                electricBoard.setNewNumber(newNumber);
+                electricBoard.setTimeUpdate(LocalDateTime.now());
+                electricBoard.setTimeReadMeter(sdf.format(new LocalDate().toDate()));
+
+                updateNewNumber(row, newNumber, electricBoard);
+
+                entities.add(electricBoard);
+            }
+            electricBoardRepository.saveAll(entities);
+
+            for (ElectricBoardEntity i : entities) {
+                InvoiceEntity invoice = new InvoiceEntity();
+                invoice.setId(i.getId());
+                invoice.setElectricNumber(i.getTotalNumber());
+                invoice.setUsername(i.getUsername());
+                invoice.setCustomerName(i.getCustomerName());
+                invoice.setTotalPayment(i.getTotalPayment());
+                invoice.setStatus("UNPAID");
+                invoice.setAddress(i.getAddress());
+                LocalDate nextWeek = new LocalDate().plusDays(7);
+                Date date = nextWeek.toDate();
+                invoice.setLastTimePay(sdf.format(date));
+                invoice.setElectricNumber(i.getTotalNumber());
+                invoice.setElectricBoardId(i.getId());
+                invoiceRepository.save(invoice);
+
+                if (i.getTotalNumber() == 0) {
+                    continue;
+                }
+                CustomerEntity customer = customerRepository.getByUsername(i.getUsername());
+                customer.setCheckUpdate(Objects.equals(i.getPeriod(), cPeriod));
+                customerRepository.save(customer);
+            }
+
         }
         return electricBoardRepository.saveAll(entities);
     }
 
     @Override
-    public ElectricBoardEntity update(ElectricBoardEntity electricBoard) {
-        ElectricBoardEntity entity = electricBoardRepository.findElectricBoardById(electricBoard.getId());
-        entity.setNewNumber(electricBoard.getNewNumber());
+    public ElectricBoardEntity update(Integer id, int newNumber) {
+        ElectricBoardEntity electricBoard = electricBoardRepository.findElectricBoardById(id);
+        electricBoard.setNewNumber(newNumber);
         return electricBoardRepository.save(electricBoard);
     }
+
+    private void updateNewNumber(XSSFRow row, int newNumber, ElectricBoardEntity e) {
+        if (newNumber == 0) {
+            e.setTotalNumber(0);
+            e.setTotalPayment(0.0);
+        } else {
+            int totalNumber = (int) (row.getCell(8).getNumericCellValue()) -
+                    (int) (row.getCell(7).getNumericCellValue());
+            e.setNewNumber(newNumber);
+            e.setTotalNumber(totalNumber);
+            e.setTotalPayment(calculatorService.calculator(totalNumber));
+        }
+        electricBoardRepository.save(e);
+    }
+
 
     @Override
     public List<ElectricBoardEntity> getAllByCustomerUserName(String username) {

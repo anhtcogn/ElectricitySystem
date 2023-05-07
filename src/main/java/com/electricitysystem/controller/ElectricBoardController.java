@@ -25,11 +25,12 @@ public class ElectricBoardController {
             @RequestParam("file") MultipartFile files) throws IOException {
         return ResponseEntity.ok(electricBoardService.create(files));
     }
-    @PostMapping("/update")
+    @PostMapping("/update/{id}")
     public ResponseEntity<?> update(
-            @ModelAttribute ElectricBoardEntity electricBoard
+            @PathVariable("id") int id,
+            @RequestParam int newNumber
     ) {
-        return ResponseEntity.ok(electricBoardService.update(electricBoard));
+        return ResponseEntity.ok(electricBoardService.update(id, newNumber));
     }
 
     @GetMapping("/getOneById")

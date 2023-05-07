@@ -20,6 +20,6 @@ public class PayWithCashService {
 
     public String payWithCash(int id) {
         InvoiceEntity invoice = invoiceRepository.getById(id);
-        return "Vui long den diem thanh toan gan nhat de dong tien dien.";
+        return "Vui lòng đến điểm thanh toán gần nhất để đóng tiền điện.";
     }
 }

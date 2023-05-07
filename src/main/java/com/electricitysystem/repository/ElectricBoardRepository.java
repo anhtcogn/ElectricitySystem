@@ -11,7 +11,9 @@ import java.util.List;
 @Repository
 public interface ElectricBoardRepository extends JpaRepository<ElectricBoardEntity, Integer> {
     List<ElectricBoardEntity> findAllByUsername(String customerCode);
+    List<ElectricBoardEntity> findAllByPeriod(String period);
     ElectricBoardEntity findElectricBoardById(Integer electricBoardId);
+    ElectricBoardEntity findByPeriodAndUsername(String period, String username);
     @Query(value = "select * from electric_board as e where e.username=:username order by time_update desc limit 1", nativeQuery = true)
     ElectricBoardEntity findNearestElectricBoard(
             @Param("username") String username

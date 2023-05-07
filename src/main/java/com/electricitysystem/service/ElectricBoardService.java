@@ -9,7 +9,7 @@ import java.util.List;
 public interface ElectricBoardService {
 
     List<ElectricBoardEntity> create(MultipartFile file) throws IOException;
-    ElectricBoardEntity update(ElectricBoardEntity electricBoard);
+    ElectricBoardEntity update(Integer id, int newNumber);
 
     List<ElectricBoardEntity> getAllByCustomerUserName(String username);
     ElectricBoardEntity getOneById(Integer electricBoardId);
